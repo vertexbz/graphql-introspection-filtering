@@ -1,0 +1,51 @@
+{
+  "name": "graphql-introspection-filtering",
+  "version": "1.0.0",
+  "description": "Filter graphql schema introspection result to hide restricted fields and types",
+  "main": "dist/index.js",
+  "scripts": {
+    "clean": "rimraf dist",
+    "build": "npm run clean && babel src --ignore src/__tests__ --out-dir dist -s && flow-copy-source src dist",
+    "lint": "eslint src --ext .js --cache",
+    "prepare": "npm run build",
+    "test": "jest --config .jestrc.json"
+  },
+  "author": "Adam Makświej <adam.makswiej@gmail.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vertexbz/graphql-introspection-filtering.git"
+  },
+  "license": "MIT",
+  "dependencies": {},
+  "peerDependencies": {
+    "graphql": "^14.0.0",
+    "graphql-tools": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.2.2",
+    "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "@babel/preset-env": "^7.2.3",
+    "@babel/preset-flow": "^7.0.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "eslint": "^5.11.1",
+    "eslint-plugin-flowtype": "^3.2.0",
+    "eslint-plugin-jest": "^22.1.2",
+    "eslint-plugin-no-only-tests": "^2.1.0",
+    "flow-bin": "^0.89.0",
+    "flow-copy-source": "^2.0.2",
+    "graphql": "^14.0.0",
+    "graphql-tools": "^4.0.0",
+    "jest": "^23.6.0"
+  },
+  "keywords": [
+    "graphql",
+    "schema",
+    "introspection",
+    "filtering",
+    "filter",
+    "directive"
+  ]
+}

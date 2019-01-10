@@ -1,0 +1,18 @@
+{
+  "collectCoverageFrom": [
+    "src/**/*.js"
+  ],
+  "testMatch": [
+    "<rootDir>/src/**/__tests__/**/*.js",
+    "<rootDir>/src/**/?(*.)(spec|test).js"
+  ],
+  "transform": {
+    "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
+  },
+  "transformIgnorePatterns": [
+    "[/\\\\]node_modules[/\\\\].+\\.js$"
+  ],
+  "moduleFileExtensions": [
+    "js"
+  ]
+}
