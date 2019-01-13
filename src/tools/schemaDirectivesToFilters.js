@@ -8,13 +8,13 @@ export default (schemaDirectives: SchemaDirectiveVisitorsType): FiltersType => {
 
     for (const visitor of ((Object.values(schemaDirectives): any): Array<FilteringSchemaDirectiveVisitorInterface>)) {
         if (typeof visitor.visitTypeIntrospection === 'function') {
-            appendVisitor(result, 'type', visitor.visitTypeIntrospection);
+            appendVisitor(result, 'type', visitor.visitTypeIntrospection.bind(visitor));
         }
         if (typeof visitor.visitFieldIntrospection === 'function') {
-            appendVisitor(result, 'field', visitor.visitFieldIntrospection);
+            appendVisitor(result, 'field', visitor.visitFieldIntrospection.bind(visitor));
         }
         if (typeof visitor.visitDirectiveIntrospection === 'function') {
-            appendVisitor(result, 'directive', visitor.visitDirectiveIntrospection);
+            appendVisitor(result, 'directive', visitor.visitDirectiveIntrospection.bind(visitor));
         }
     }
 

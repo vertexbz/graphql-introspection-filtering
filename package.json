@@ -1,6 +1,6 @@
 {
   "name": "graphql-introspection-filtering",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Filter graphql schema introspection result to hide restricted fields and types",
   "main": "dist/index.js",
   "scripts": {
