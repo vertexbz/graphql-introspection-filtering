@@ -1,9 +1,13 @@
 // @flow
 import { TypeMetaFieldDef, __Schema, __Type } from 'graphql/type/introspection';
-import enhanceResolver from './tools/enhanceResolver';
+import enhanceListResolver from './tools/enhanceListResolver';
+import enhanceRootResolver from './tools/enhanceRootResolver';
 import schemaFilter from './tools/schemaFilter';
 
-enhanceResolver(TypeMetaFieldDef, schemaFilter('type'));
-enhanceResolver(__Schema.getFields().types, schemaFilter('type'));
-enhanceResolver(__Type.getFields().fields, schemaFilter('field'));
-enhanceResolver(__Schema.getFields().directives, schemaFilter('directive'));
+enhanceListResolver(TypeMetaFieldDef, schemaFilter('type'));
+enhanceListResolver(__Schema.getFields().types, schemaFilter('type'));
+enhanceListResolver(__Type.getFields().fields, schemaFilter('field'));
+enhanceListResolver(__Schema.getFields().directives, schemaFilter('directive'));
+
+enhanceRootResolver(__Schema.getFields().mutationType, 'Mutation');
+enhanceRootResolver(__Schema.getFields().subscriptionType, 'Subscription');
