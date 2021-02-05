@@ -177,30 +177,3 @@ class AuthenticationDirective extends SchemaDirectiveVisitor {
     }
 }
 ```
-
-# TODO
-* test subscriptions and empty objects
-* empty root objects (unions, interfaces)
-
-* split visit intorspection type to object/enum/union/interface/input
-* ability to remove self (Directive) from a field/type/enum/etc.
-* instantiate class
-* split list enhancer field/type/..?
-
-* custom scalars?
-* query, mutation, subscription, variable, fragment??
-* cleanup unused children
-* cleanup children of filtered parent
-
-* test gql 15
-* update docs
-* unit tests
-* test if visitors get all data
-* directive test dummy?
-* ability to manipulate ast???
-* check for privates before snapshot
-* mutate description??
-
-# DONE
-* inputs, arguments (integration tests)
-
