@@ -1,12 +1,13 @@
-// @flow
 import appendVisitor from './appendVisitor';
 
-import type { SchemaDirectiveVisitorsType, FiltersType, FilteringSchemaDirectiveVisitorInterface } from '../types';
+import type { SchemaFilterAndVisitorDirectives, FiltersType } from '../types';
 
-export default (schemaDirectives: SchemaDirectiveVisitorsType): FiltersType => {
+export default <TSource, TContext, TArgs = { [key: string]: any }>(
+    schemaDirectives: SchemaFilterAndVisitorDirectives
+): FiltersType<TSource, TContext, TArgs> => {
     const result = {};
 
-    for (const visitor of ((Object.values(schemaDirectives): any): Array<FilteringSchemaDirectiveVisitorInterface>)) {
+    for (const visitor of (Object.values(schemaDirectives) as any[])) {
         if (typeof visitor.visitTypeIntrospection === 'function') {
             appendVisitor(result, 'type', visitor.visitTypeIntrospection.bind(visitor));
         }

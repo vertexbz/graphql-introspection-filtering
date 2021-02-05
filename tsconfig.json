@@ -1,0 +1,43 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": ["dom", "es2015"],
+
+    "typeRoots": [
+      "./node_modules/@types",
+      "./typings"
+    ],
+
+    "strict": true,
+    "sourceMap": true,
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declarationDir": "dist",
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "importHelpers": false,
+    "plugins": [
+      {
+        "name": "typescript-tslint-plugin",
+        "alwaysShowRuleFailuresAsWarnings": false
+      }
+    ],
+    "paths": {
+      "*": [
+        "node_modules/*",
+        "typings/*"
+      ]
+    }
+  },
+  "include": [
+    "./src/**/*",
+    "./typings/**/*"
+  ],
+  "compileOnSave": false
+}

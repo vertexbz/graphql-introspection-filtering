@@ -1,10 +1,15 @@
 {
+  "root": true,
+  "parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/typescript",
     "plugin:jest/recommended"
   ],
   "rules": {
-    "no-unused-vars": ["error", { "vars": "all", "ignoreRestSiblings": true }],
+    "no-unused-vars": 0,
+    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "_+", "vars": "all", "ignoreRestSiblings": true }],
 
     "quotes": [
       "warn",
@@ -85,58 +90,16 @@
     ],
     "no-underscore-dangle": 0,
 
-    "flowtype/boolean-style": [
-      "warn",
-      "boolean"
-    ],
-    "flowtype/define-flow-type": "warn",
-    "flowtype/delimiter-dangle": [
-      "warn",
-      "never"
-    ],
-    "flowtype/generic-spacing": [
-      "warn",
-      "never"
-    ],
-    "flowtype/no-primitive-constructor-types": "warn",
-    "flowtype/no-types-missing-file-annotation": "warn",
-    "flowtype/no-weak-types": ["warn", { "any": false }],
-    "flowtype/object-type-delimiter": [
-      "warn",
-      "comma"
-    ],
-    "flowtype/require-parameter-type": "warn",
-    "flowtype/require-return-type": "warn",
-    "flowtype/require-valid-file-annotation": 2,
-    "flowtype/semi": [
-      "warn",
-      "always"
-    ],
-    "flowtype/space-after-type-colon": [
-      "warn",
-      "always"
-    ],
-    "flowtype/space-before-generic-bracket": [
-      "warn",
-      "never"
-    ],
-    "flowtype/space-before-type-colon": [
-      "warn",
-      "never"
-    ],
-    "flowtype/type-id-match": [
-      "warn",
-      "^[A-Z][A-Za-z0-9]+(Interface|Type|Sig)$"
-    ],
-    "flowtype/union-intersection-spacing": [
-      "warn",
-      "always"
-    ],
-    "flowtype/use-flow-type": "warn",
-    "flowtype/valid-syntax": "warn",
-
     "space-infix-ops": ["warn", {"int32Hint": false}],
-    "no-only-tests/no-only-tests" : "warn"
+    "no-only-tests/no-only-tests" : "warn",
+
+    "import/no-cycle": "error",
+    "import/no-unassigned-import": "error",
+
+    "@typescript-eslint/explicit-module-boundary-types": 0,
+    "@typescript-eslint/ban-ts-comment": 0,
+    "@typescript-eslint/no-explicit-any": 0,
+    "@typescript-eslint/consistent-type-imports": "error"
   },
   "env": {
     "browser": false,
@@ -147,22 +110,31 @@
   },
   "plugins": [
     "no-only-tests",
-    "flowtype",
+    "import",
+    "@typescript-eslint",
     "jest"
   ],
-  "settings": {
-    "flowtype": {
-      "onlyFilesWithFlowAnnotation": true
-    }
-  },
-  "parser": "babel-eslint",
   "parserOptions": {
+    "project": "./tsconfig.json",
     "ecmaVersion": 6,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": false,
       "modules": true,
       "experimentalObjectRestSpread": true
+    }
+  },
+  "settings": {
+    "import/parsers": {
+      "@typescript-eslint/parser": [
+        ".ts",
+        ".tsx"
+      ]
+    },
+    "import/resolver": {
+      "typescript": {
+        "project": "./tsconfig.json"
+      }
     }
   }
 }

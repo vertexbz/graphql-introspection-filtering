@@ -1,10 +1,10 @@
 .idea
-.babelrc
+/tsconfig.json
 .eslintcache
 .eslintrc
-.flowconfig
 .gitignore
-coverage
-node_modules
-src
-yarn.lock
+/coverage
+/node_modules
+/src
+/yarn.lock
+/tests

@@ -8,6 +8,8 @@ schema nodes will be returned with introspection result
 If any of dependent types is missing it won't be possible to rebuild graph on
 client side i.e. graphql playground is unable to build interactive documentation. 
 
+**Tested with GraphQL 14.0.0 - ...**
+
 ## Installation
 ```bash
 yarn add graphql-introspection-filtering
@@ -88,14 +90,11 @@ type Query {
 ```js
 import makeFilteredSchema, { schemaDirectivesToFilters } from 'graphql-introspection-filtering';
 
-const schema = makeFilteredSchema(
-   makeExecutableSchema({
-       typeDefs,
-       resolvers,
-       schemaDirectives
-   }),
-   schemaDirectivesToFilters(schemaDirectives)
-);
+const schema = makeFilteredSchema({
+   typeDefs,
+   resolvers,
+   schemaDirectives
+});
 ```
 
 #### AuthenticationDirective 
@@ -174,3 +173,15 @@ class AuthenticationDirective extends SchemaDirectiveVisitor {
     }
 }
 ```
+
+# TODO
+* inputs, arguments (integration tests)
+* test subscriptions and empty objects
+* empty root objects
+* test gql 15
+
+* ability to remove self (Directive) from a field/type/enum/etc.
+* instantiate class
+* split list enhancer field/type/..? 
+* update docs
+* unit tests
