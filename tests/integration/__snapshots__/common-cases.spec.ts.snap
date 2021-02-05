@@ -7,6 +7,33 @@ Object {
       Object {
         "args": Array [
           Object {
+            "defaultValue": "ADMIN",
+            "description": "",
+            "name": "requires",
+            "type": Object {
+              "kind": "ENUM",
+              "name": "Role",
+              "ofType": null,
+            },
+          },
+        ],
+        "description": "",
+        "locations": Array [
+          "OBJECT",
+          "FIELD_DEFINITION",
+          "ENUM",
+          "ENUM_VALUE",
+          "INTERFACE",
+          "UNION",
+          "INPUT_OBJECT",
+          "INPUT_FIELD_DEFINITION",
+          "ARGUMENT_DEFINITION",
+        ],
+        "name": "auth",
+      },
+      Object {
+        "args": Array [
+          Object {
             "defaultValue": null,
             "description": "Skipped when true.",
             "name": "if",

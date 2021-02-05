@@ -42,7 +42,10 @@ class AuthDirective extends SchemaDirectiveVisitor {
         info: GraphQLResolveInfo
     ): Promise<boolean> {
         await new Promise((res) => setTimeout(res, 10));
-        return field.name !== 'auth';
+        if (field.name !== 'auth') {
+            return true;
+        }
+        return roles.includes('ADMIN');
     }
 
     public static visitArgsIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
