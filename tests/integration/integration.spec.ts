@@ -34,6 +34,7 @@ test('integration', async () => {
     });
 
     const introspectionResult = await graphql(schema, introspectionQuery);
+    expect(introspectionResult.errors).toBeFalsy();
     expect(introspectionResult.data).toMatchSnapshot();
     expect(JSON.stringify(introspectionResult.data)).not.toMatch(/private/i);
 

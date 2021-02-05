@@ -5,7 +5,7 @@ import type { SchemaFilterAndVisitorDirectives, FiltersType } from '../types';
 export default <TSource, TContext, TArgs = { [key: string]: any }>(
     schemaDirectives: SchemaFilterAndVisitorDirectives
 ): FiltersType<TSource, TContext, TArgs> => {
-    const result = {};
+    const result = {} as FiltersType<TSource, TContext, TArgs>;
 
     for (const visitor of (Object.values(schemaDirectives) as any[])) {
         if (typeof visitor.visitTypeIntrospection === 'function') {
@@ -16,6 +16,18 @@ export default <TSource, TContext, TArgs = { [key: string]: any }>(
         }
         if (typeof visitor.visitDirectiveIntrospection === 'function') {
             appendVisitor(result, 'directive', visitor.visitDirectiveIntrospection.bind(visitor));
+        }
+        if (typeof visitor.visitArgsIntrospection === 'function') {
+            appendVisitor(result, 'args', visitor.visitArgsIntrospection.bind(visitor));
+        }
+        if (typeof visitor.visitEnumValuesIntrospection === 'function') {
+            appendVisitor(result, 'enumValues', visitor.visitEnumValuesIntrospection.bind(visitor));
+        }
+        if (typeof visitor.visitInputFieldsIntrospection === 'function') {
+            appendVisitor(result, 'inputFields', visitor.visitInputFieldsIntrospection.bind(visitor));
+        }
+        if (typeof visitor.visitPossibleTypesIntrospection === 'function') {
+            appendVisitor(result, 'possibleTypes', visitor.visitPossibleTypesIntrospection.bind(visitor));
         }
     }
 

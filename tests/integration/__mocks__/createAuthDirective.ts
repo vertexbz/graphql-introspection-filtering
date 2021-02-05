@@ -41,13 +41,53 @@ class AuthDirective extends SchemaDirectiveVisitor {
         context: TContext,
         info: GraphQLResolveInfo
     ): Promise<boolean> {
-        await new Promise((res) => setTimeout(res, 100));
+        await new Promise((res) => setTimeout(res, 10));
         return field.name !== 'auth';
     }
 
+    public static visitArgsIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
+        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
+        root: TSource,
+        args: TArgs,
+        context: TContext,
+        info: GraphQLResolveInfo
+    ): Promise<boolean> {
+        return this.isAccessible(field, context);
+    }
+
+    public static visitEnumValuesIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
+        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
+        root: TSource,
+        args: TArgs,
+        context: TContext,
+        info: GraphQLResolveInfo
+    ): Promise<boolean> {
+        return this.isAccessible(field, context);
+    }
+
+    public static visitInputFieldsIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
+        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
+        root: TSource,
+        args: TArgs,
+        context: TContext,
+        info: GraphQLResolveInfo
+    ): Promise<boolean> {
+        return this.isAccessible(field, context);
+    }
+
+    public static visitPossibleTypesIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
+        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
+        root: TSource,
+        args: TArgs,
+        context: TContext,
+        info: GraphQLResolveInfo
+    ): Promise<boolean> {
+        return this.isAccessible(field, context);
+    }
+
     public static async isAccessible(field: any, context: any) {
-        await new Promise((res) => setTimeout(res, 100));
-        for (const directive of field.astNode.directives) {
+        await new Promise((res) => setTimeout(res, 10));
+        for (const directive of field.astNode?.directives || []) {
             const name = directive.name.value;
             if (name === 'auth') {
                 const arg = directive.arguments[0]?.value.value || 'ADMIN';

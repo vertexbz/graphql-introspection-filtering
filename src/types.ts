@@ -11,18 +11,18 @@ export type SchemaFilterSig<TSource, TContext, TArgs = { [key: string]: any }> =
     info: GraphQLResolveInfo
 ) => Promise<boolean> | boolean
 
-export type FilterType = 'field' | 'type' | 'directive';
+export type FilterType = 'field' | 'type' | 'directive' | 'args' | 'enumValues' | 'inputFields' | 'possibleTypes';
 
-export type FiltersType<TSource, TContext, TArgs = { [key: string]: any }> = {
-    field?: Array<SchemaFilterSig<TSource, TContext, TArgs>>,
-    type?: Array<SchemaFilterSig<TSource, TContext, TArgs>>,
-    directive?: Array<SchemaFilterSig<TSource, TContext, TArgs>>
-};
+export type FiltersType<TSource, TContext, TArgs = { [key: string]: any }> = Record<FilterType, SchemaFilterSig<TSource, TContext, TArgs>[]>;
 
 export class SchemaFilterDirective {
     public static visitTypeIntrospection: SchemaFilterSig<any, any>|undefined;
     public static visitFieldIntrospection: SchemaFilterSig<any, any>|undefined;
     public static visitDirectiveIntrospection: SchemaFilterSig<any, any>|undefined;
+    public static visitArgsIntrospection: SchemaFilterSig<any, any>|undefined;
+    public static visitEnumValuesIntrospection: SchemaFilterSig<any, any>|undefined;
+    public static visitInputFieldsIntrospection: SchemaFilterSig<any, any>|undefined;
+    public static visitPossibleTypesIntrospection: SchemaFilterSig<any, any>|undefined;
 }
 
 export type SchemaFilterAndVisitorDirectives = Record<any, SchemaFilterDirective | SchemaDirectiveVisitor>;
