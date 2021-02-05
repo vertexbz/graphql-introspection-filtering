@@ -65,7 +65,7 @@ type PublicType {
 }
 type User {
     name: String!
-    role: String! @auth(requires: USER)
+    roleProtected: String! @auth(requires: USER)
     roleForAdmin: String! @auth(requires: ADMIN)
 }
 type Book @auth(requires: ADMIN) {
@@ -85,9 +85,9 @@ input InPublic {
     param2: String
     param2private: String @auth(requires: ADMIN)
 }
-input InUser @auth(requires: USER) {
-    param1user: String
-    param2user: String
+input InProtected @auth(requires: USER) {
+    param1protected: String
+    param2protected: String
 }
 input InPrivate @auth(requires: ADMIN) {
     param1private: String
@@ -107,16 +107,16 @@ type Query {
     empty: Empty!
     uPublic: [Public!]!
     uPrivate: [Private!]! @auth(requires: ADMIN)
-    meAuth: User! @auth(requires: USER)
+    meProtected: User! @auth(requires: USER)
     books: [Book!]! @auth(requires: ADMIN)
 
     args1(argPublic: String!): Int!
-    args2(argUser: String! @auth(requires: USER)): Int!
+    args2(argProtected: String! @auth(requires: USER)): Int!
     args3(argPrivate: String! @auth(requires: ADMIN)): Int!
     args4(argPublic: String!, argPrivate: String! @auth(requires: ADMIN)): Int!
     args5(argPublic: String!, argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
     args6(argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
-    args7(argUser: String! @auth(requires: USER), argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
+    args7(argProtected: String! @auth(requires: USER), argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
 }
 `;
 export default (me: any, roles: string[]) =>  makeFilteredSchema({
