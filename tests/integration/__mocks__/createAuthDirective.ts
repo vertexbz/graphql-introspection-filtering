@@ -1,12 +1,15 @@
 import { SchemaDirectiveVisitor } from "graphql-tools";
 import {
+    GraphQLArgument,
     GraphQLEnumType,
+    GraphQLEnumValue,
     GraphQLField,
     GraphQLInputField,
     GraphQLInputObjectType,
     GraphQLInterfaceType,
     GraphQLObjectType,
-    GraphQLResolveInfo, GraphQLUnionType
+    GraphQLResolveInfo,
+    GraphQLUnionType
 } from "graphql";
 
 export default (roles: string[]) =>
@@ -81,5 +84,20 @@ class AuthDirective extends SchemaDirectiveVisitor {
 
     visitUnion(union: GraphQLUnionType): GraphQLUnionType | void | null {
         return super.visitUnion(union);
+    }
+
+    visitEnumValue(value: GraphQLEnumValue, details: { enumType: GraphQLEnumType }): GraphQLEnumValue | void | null {
+        return super.visitEnumValue(value, details);
+    }
+
+    visitArgumentDefinition(
+        argument: GraphQLArgument,
+        details: { field: GraphQLField<any, any>; objectType: GraphQLObjectType | GraphQLInterfaceType }
+    ): GraphQLArgument | void | null {
+        return super.visitArgumentDefinition(argument, details);
+    }
+
+    visitInputObject(object: GraphQLInputObjectType): GraphQLInputObjectType | void | null {
+        return super.visitInputObject(object);
     }
 }

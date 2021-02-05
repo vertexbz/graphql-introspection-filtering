@@ -1,5 +1,5 @@
 import { graphql, introspectionQuery, } from "graphql";
-import makeFilteredSchema from "../src";
+import makeFilteredSchema from "../../src";
 import createAuthDirective from "./__mocks__/createAuthDirective";
 import typeDefs from "./__mocks__/schema";
 

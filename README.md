@@ -12,18 +12,22 @@ client side i.e. graphql playground is unable to build interactive documentation
 
 ## Installation
 ```bash
+npm install --save graphql-introspection-filtering
+```
+or
+```bash
 yarn add graphql-introspection-filtering
 ```
 
 ## Usage
 
 ### Make filtered schema
-Most important thing is to wrap executable graphql schema with `makeFilteredSchema` too add filters
+You need to create your executable schema with `makeFilteredSchema` instead of usual `makeExecutableSchema`
 ```
-const schema = makeFilteredSchema(executableSchema, filters);
+const schema = makeFilteredSchema(schemaConfig[, builder]);
 ```
-- `executableSchema` - Executable schema created with `makeExecutableSchema`
-- `filters` - Filters definition
+- `schemaConfig` - schema configuration like for `makeExecutableSchema`
+- `builder` - builder function (default: `makeExecutableSchema`)
 
 ### Filters definition
 Object that holds a set of schema node filters
@@ -177,11 +181,20 @@ class AuthenticationDirective extends SchemaDirectiveVisitor {
 # TODO
 * inputs, arguments (integration tests)
 * test subscriptions and empty objects
-* empty root objects
-* test gql 15
+* empty root objects (unions, interfaces)
+* interface types and filtered types
 
 * ability to remove self (Directive) from a field/type/enum/etc.
 * instantiate class
-* split list enhancer field/type/..? 
+* split list enhancer field/type/..?
+
+* custom scalars?
+* query, mutation, subscription, variable, fragment??
+* cleanup unused children
+* cleanup children of filtered parent
+
+* test gql 15
 * update docs
 * unit tests
+* directive test dummy?
+* ability to manipulate ast???
