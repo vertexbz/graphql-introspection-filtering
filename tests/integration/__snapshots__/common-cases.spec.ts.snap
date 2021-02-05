@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`integration 1`] = `
+exports[`Common cases 1`] = `
 Object {
   "__schema": Object {
     "directives": Array [

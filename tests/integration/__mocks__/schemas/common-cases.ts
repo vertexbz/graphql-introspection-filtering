@@ -1,5 +1,9 @@
+import "../../../../src/register";
+import makeFilteredSchema from "../../../../src/tools/makeFilteredSchema";
+import createAuthDirective from "../createAuthDirective";
+
 // language=GraphQL
-export default `
+const typeDefs = `
 directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
 enum Role @auth(requires: USER) {
     ADMIN
@@ -105,7 +109,7 @@ type Query {
     uPrivate: [Private!]! @auth(requires: ADMIN)
     meAuth: User! @auth(requires: USER)
     books: [Book!]! @auth(requires: ADMIN)
-    
+
     args1(argPublic: String!): Int!
     args2(argUser: String! @auth(requires: USER)): Int!
     args3(argPrivate: String! @auth(requires: ADMIN)): Int!
@@ -115,3 +119,29 @@ type Query {
     args7(argUser: String! @auth(requires: USER), argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
 }
 `;
+export default (me: any, roles: string[]) =>  makeFilteredSchema({
+    typeDefs,
+    resolvers: {
+        Query: {
+            me: () => me
+        },
+        Public: {
+            __resolveType: () => 'Empty'
+        },
+        Private: {
+            __resolveType: () => 'Empty'
+        },
+        IPublic: {
+            __resolveType: () => 'OPublic'
+        },
+        IPrivate: {
+            __resolveType: () => 'OPrivate'
+        },
+        IEmpty: {
+            __resolveType: () => 'OPrivate'
+        }
+    },
+    schemaDirectives: {
+        auth: createAuthDirective(roles)
+    }
+});
