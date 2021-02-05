@@ -198,3 +198,4 @@ class AuthenticationDirective extends SchemaDirectiveVisitor {
 * unit tests
 * directive test dummy?
 * ability to manipulate ast???
+* check for privates before snapshot

@@ -106,6 +106,22 @@ Object {
             "deprecationReason": null,
             "description": "",
             "isDeprecated": false,
+            "name": "tPublic",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "OBJECT",
+                "name": "PublicType",
+                "ofType": null,
+              },
+            },
+          },
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
             "name": "iPublic",
             "type": Object {
               "kind": "NON_NULL",
@@ -189,6 +205,222 @@ Object {
               },
             },
           },
+          Object {
+            "args": Array [
+              Object {
+                "defaultValue": null,
+                "description": "",
+                "name": "argPublic",
+                "type": Object {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": Object {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null,
+                  },
+                },
+              },
+            ],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "args1",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+          Object {
+            "args": Array [
+              Object {
+                "defaultValue": null,
+                "description": "",
+                "name": "argUser",
+                "type": Object {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": Object {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null,
+                  },
+                },
+              },
+            ],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "args2",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "args3",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+          Object {
+            "args": Array [
+              Object {
+                "defaultValue": null,
+                "description": "",
+                "name": "argPublic",
+                "type": Object {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": Object {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null,
+                  },
+                },
+              },
+            ],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "args4",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+          Object {
+            "args": Array [
+              Object {
+                "defaultValue": null,
+                "description": "",
+                "name": "argPublic",
+                "type": Object {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": Object {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null,
+                  },
+                },
+              },
+            ],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "args5",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+          Object {
+            "args": Array [
+              Object {
+                "defaultValue": null,
+                "description": "",
+                "name": "argLast",
+                "type": Object {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": Object {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null,
+                  },
+                },
+              },
+            ],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "args6",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+          Object {
+            "args": Array [
+              Object {
+                "defaultValue": null,
+                "description": "",
+                "name": "argUser",
+                "type": Object {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": Object {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null,
+                  },
+                },
+              },
+              Object {
+                "defaultValue": null,
+                "description": "",
+                "name": "argLast",
+                "type": Object {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": Object {
+                    "kind": "SCALAR",
+                    "name": "String",
+                    "ofType": null,
+                  },
+                },
+              },
+            ],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "args7",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
         ],
         "inputFields": null,
         "interfaces": Array [],
@@ -247,6 +479,33 @@ Object {
         "interfaces": null,
         "kind": "SCALAR",
         "name": "String",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": Array [
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "value",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null,
+              },
+            },
+          },
+        ],
+        "inputFields": null,
+        "interfaces": Array [],
+        "kind": "OBJECT",
+        "name": "PublicType",
         "possibleTypes": null,
       },
       Object {
@@ -682,6 +941,56 @@ In some cases, you need to provide options to alter GraphQL's execution behavior
       },
       Object {
         "description": "",
+        "enumValues": Array [
+          Object {
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "PUBLIC",
+          },
+          Object {
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "PUBLIC2",
+          },
+        ],
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "kind": "ENUM",
+        "name": "EnumPublic",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": Array [
+          Object {
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "PUBLIC",
+          },
+        ],
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "kind": "ENUM",
+        "name": "EnumPartial",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": Array [],
+        "fields": null,
+        "inputFields": null,
+        "interfaces": null,
+        "kind": "ENUM",
+        "name": "EnumEmpty",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
         "enumValues": null,
         "fields": Array [
           Object {
@@ -727,6 +1036,78 @@ In some cases, you need to provide options to alter GraphQL's execution behavior
         ],
         "kind": "OBJECT",
         "name": "OPublic",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": null,
+        "inputFields": Array [
+          Object {
+            "defaultValue": null,
+            "description": "",
+            "name": "param1",
+            "type": Object {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null,
+            },
+          },
+          Object {
+            "defaultValue": null,
+            "description": "",
+            "name": "param2",
+            "type": Object {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null,
+            },
+          },
+        ],
+        "interfaces": null,
+        "kind": "INPUT_OBJECT",
+        "name": "InPublic",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": null,
+        "inputFields": Array [
+          Object {
+            "defaultValue": null,
+            "description": "",
+            "name": "param1user",
+            "type": Object {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null,
+            },
+          },
+          Object {
+            "defaultValue": null,
+            "description": "",
+            "name": "param2user",
+            "type": Object {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null,
+            },
+          },
+        ],
+        "interfaces": null,
+        "kind": "INPUT_OBJECT",
+        "name": "InUser",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": null,
+        "inputFields": Array [],
+        "interfaces": null,
+        "kind": "INPUT_OBJECT",
+        "name": "InEmpty",
         "possibleTypes": null,
       },
     ],
