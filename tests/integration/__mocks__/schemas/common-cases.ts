@@ -118,12 +118,33 @@ type Query {
     args6(argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
     args7(argProtected: String! @auth(requires: USER), argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
 }
+
+type Mutation {
+    mutate: String!
+}
+
+type Subscription {
+    subscribe: Int!
+}
 `;
-export default (me: any, roles: string[]) =>  makeFilteredSchema({
+export default (me: any, mutate: any, subscribe: any[], roles: string[]) =>  makeFilteredSchema({
     typeDefs,
     resolvers: {
         Query: {
             me: () => me
+        },
+        Mutation: {
+            mutate: () => mutate
+        },
+        Subscription: {
+            subscribe: {
+                subscribe: async function *() {
+                    for (const value of subscribe) {
+                        await new Promise((res) => setTimeout(res, 10));
+                        yield { subscribe: value };
+                    }
+                },
+            }
         },
         Public: {
             __resolveType: () => 'Empty'

@@ -102,11 +102,15 @@ Object {
         "name": "deprecated",
       },
     ],
-    "mutationType": null,
+    "mutationType": Object {
+      "name": "Mutation",
+    },
     "queryType": Object {
       "name": "Query",
     },
-    "subscriptionType": null,
+    "subscriptionType": Object {
+      "name": "Subscription",
+    },
     "types": Array [
       Object {
         "description": "",
@@ -1067,6 +1071,60 @@ Object {
         "interfaces": Array [],
         "kind": "OBJECT",
         "name": "Book",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": Array [
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "mutate",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null,
+              },
+            },
+          },
+        ],
+        "inputFields": null,
+        "interfaces": Array [],
+        "kind": "OBJECT",
+        "name": "Mutation",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": Array [
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "subscribe",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+        ],
+        "inputFields": null,
+        "interfaces": Array [],
+        "kind": "OBJECT",
+        "name": "Subscription",
         "possibleTypes": null,
       },
       Object {
@@ -2389,11 +2447,15 @@ Object {
         "name": "deprecated",
       },
     ],
-    "mutationType": null,
+    "mutationType": Object {
+      "name": "Mutation",
+    },
     "queryType": Object {
       "name": "Query",
     },
-    "subscriptionType": null,
+    "subscriptionType": Object {
+      "name": "Subscription",
+    },
     "types": Array [
       Object {
         "description": "",
@@ -2921,6 +2983,60 @@ Object {
         "interfaces": null,
         "kind": "SCALAR",
         "name": "Boolean",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": Array [
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "mutate",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null,
+              },
+            },
+          },
+        ],
+        "inputFields": null,
+        "interfaces": Array [],
+        "kind": "OBJECT",
+        "name": "Mutation",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": Array [
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "subscribe",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+        ],
+        "inputFields": null,
+        "interfaces": Array [],
+        "kind": "OBJECT",
+        "name": "Subscription",
         "possibleTypes": null,
       },
       Object {
@@ -3943,11 +4059,15 @@ Object {
         "name": "deprecated",
       },
     ],
-    "mutationType": null,
+    "mutationType": Object {
+      "name": "Mutation",
+    },
     "queryType": Object {
       "name": "Query",
     },
-    "subscriptionType": null,
+    "subscriptionType": Object {
+      "name": "Subscription",
+    },
     "types": Array [
       Object {
         "description": "",
@@ -4536,6 +4656,60 @@ Object {
         "interfaces": null,
         "kind": "SCALAR",
         "name": "Boolean",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": Array [
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "mutate",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null,
+              },
+            },
+          },
+        ],
+        "inputFields": null,
+        "interfaces": Array [],
+        "kind": "OBJECT",
+        "name": "Mutation",
+        "possibleTypes": null,
+      },
+      Object {
+        "description": "",
+        "enumValues": null,
+        "fields": Array [
+          Object {
+            "args": Array [],
+            "deprecationReason": null,
+            "description": "",
+            "isDeprecated": false,
+            "name": "subscribe",
+            "type": Object {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": Object {
+                "kind": "SCALAR",
+                "name": "Int",
+                "ofType": null,
+              },
+            },
+          },
+        ],
+        "inputFields": null,
+        "interfaces": Array [],
+        "kind": "OBJECT",
+        "name": "Subscription",
         "possibleTypes": null,
       },
       Object {
