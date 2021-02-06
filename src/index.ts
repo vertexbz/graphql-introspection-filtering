@@ -1,5 +1,5 @@
 // eslint-disable-next-line  import/no-unassigned-import
 import './register';
-export { default } from './tools/makeFilteredSchema';
+export { default, default as makeExecutableSchema } from './tools/makeExecutableSchema';
 
-// export type { SchemaFilterDirectiveInterface } from './types';
+export type { IntrospectionDirectiveVisitor, IntrospectionVisitor } from './types';

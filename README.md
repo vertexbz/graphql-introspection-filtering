@@ -6,7 +6,7 @@ schema nodes will be returned with introspection result
 
 > **NOTE:** For successful introspection all dependent types must be returned.
 If any of dependent types is missing it won't be possible to rebuild graph on
-client side i.e. graphql playground is unable to build interactive documentation. 
+client side i.e. graphql playground is unable to build an interactive documentation. 
 
 **Tested with GraphQL 14.0.0 - ...**
 
@@ -22,49 +22,23 @@ yarn add graphql-introspection-filtering
 ## Usage
 
 ### Make filtered schema
-You need to create your executable schema with `makeFilteredSchema` instead of usual `makeExecutableSchema`
+You need to create your executable schema with `makeExecutableSchema` provided by `graphql-introspection-filtering`
 ```
-const schema = makeFilteredSchema(schemaConfig[, builder]);
-```
-- `schemaConfig` - schema configuration like for `makeExecutableSchema`
-- `builder` - builder function (default: `makeExecutableSchema`)
+import makeExecutableSchema from 'graphql-introspection-filtering';
 
-### Filters definition
-Object that holds a set of schema node filters
+const schema = makeExecutableSchema(schemaConfig[, builder]);
+```
 
-```
-const filters = {
-    field: [],
-    type: [],
-    directive: []
-};
-```
-- `field` - (optional) Array of _filter functions_ to filter fields
-- `type` - (optional) Array of _filter functions_ to filter types
-- `directive` - (optional) Array of _filter functions_ to filter directives
+- `schemaConfig` - schema configuration like for original `makeExecutableSchema`
+- `builder` - builder function (default: original `makeExecutableSchema`)
 
-### Filter function
-Node filtering function, when result of this function is `true` the node will be returned
-```
-(field, root, args, context, info) => boolean;
-```
-- `field` - Schema node to be returned, the node we decide whether we want to show it or not
-- `root` - Root node for this introspection request as for regular query
-- `args` - Arguments for this introspection request as for regular query
-- `context` - Query context for this introspection request as for regular query
-- `info` - Query info for this introspection request as for regular query
+## Example
 
-### Pick filters from schema visitors
-This function creates filters definition from `schemaDirectives` based on static methods in 
-`SchemaDirectiveVisitor`s.
-```
-const filters = schemaDirectivesToFilters(schemaDirectives);
-```
-- `schemaDirectives` - Set of schemaDirectives provided to `makeExecutableSchema`
+### Integration tests
+There are working examples available in `tests/integration/__mocks__`.
 
-## Example with directives
-Example filtering schema introspection and checking permissions on fields,
-objects and enums with directives
+### Minimal example
+Minimal schema and auth introspection visitor
 
 #### Configure graphql schema structure
 ```graphql schema
@@ -90,90 +64,94 @@ type Query {
 }
 ```
 
-#### Make filtered schema
-```js
-import makeFilteredSchema, { schemaDirectivesToFilters } from 'graphql-introspection-filtering';
-
-const schema = makeFilteredSchema({
-   typeDefs,
-   resolvers,
-   schemaDirectives
-});
-```
-
 #### AuthenticationDirective 
-```js
-class AuthenticationDirective extends SchemaDirectiveVisitor {
-    static RequiredRole = Symbol('RequiredRole');
-    
-    _wrappedSymbol = Symbol('wrapped');
-
-    // filter introspection types
-    static visitTypeIntrospection(field, _, __, context) {
-        return AuthenticationDirective.isAccessible(field, context);
-    }
-
-    // filter introspection fields
-    static visitFieldIntrospection(field, _, __, context) {
-        return AuthenticationDirective.isAccessible(field, context);
-    }
-
-    // filter introspection directives
-    static visitDirectiveIntrospection({ name }) {
-        return name !== 'auth';
-    }
-
-    // decide if user has access to the node
-    static isAccessible(field, context) {
-        const requiredAuthRole = field[AuthenticationDirective.RequiredRole];
-
-        if (requiredAuthRole) {
-            if (!context || !context.user || !context.user.roles.includes(requiredAuthRole)) {
-                return false;
-            }
+```ts
+class AuthenticationDirective extends SchemaDirectiveVisitor implements IntrospectionDirectiveVisitor {
+    async validate(result: any) {
+        if (!roles.includes(this.args.requires || 'ADMIN')) {
+            return null;
         }
-
-        return true;
-    }
-    
-    constructor(...args) {
-        super(...args);
-
-        this.ensureFieldWrapped = this.ensureFieldWrapped.bind(this);
+        return result;
     }
 
-    ensureFieldWrapped(field) {
-        if (field[this._wrappedSymbol]) return;
-        field[this._wrappedSymbol] = true;
-
-        const { resolve = defaultFieldResolver } = field;
-
-        field.resolve = this.wrapField.call(this, resolve, field);
+    visitIntrospectionArgument<TSource, TContext, TArgs>(
+        result: GraphQLArgument,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLArgument | null> | GraphQLArgument | null {
+        return this.validate(result);
     }
 
-    visitObject(obj) {
-        this.ensureFieldWrapped(obj);
-        obj[AuthenticationDirective.RequiredRole] = this.args.requires;
+    visitIntrospectionDirective<TSource, TContext, TArgs>(
+        result: GraphQLDirective,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLDirective | null> | GraphQLDirective | null {
+        console.log(result);
+        return this.validate(result);
     }
 
-    visitEnum(en) {
-        this.ensureFieldWrapped(en);
-        en[AuthenticationDirective.RequiredRole] = this.args.requires;
+    visitIntrospectionEnum<TSource, TContext, TArgs>(
+        result: GraphQLEnumType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLEnumType | null> | GraphQLEnumType | null {
+        return this.validate(result);
     }
 
-    visitFieldDefinition(field) {
-        this.ensureFieldWrapped(field);
-        field[AuthenticationDirective.RequiredRole] = this.args.requires;
+    visitIntrospectionEnumValue<TSource, TContext, TArgs>(
+        result: GraphQLEnumValue,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLEnumValue | null> | GraphQLEnumValue | null {
+        return this.validate(result);
     }
 
-    wrapField(resolve, field) {
-        return async (root, args, context, info) => {
-            if (!AuthenticationDirective.isAccessible(field, context)) {
-                throw new Error('Not authorized!');
-            }
-
-            return resolve.call(this, root, args, context, info);
-        };
+    visitIntrospectionField<TSource, TContext, TArgs>(
+        result: GraphQLField<any, any>,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLField<any, any> | null> | GraphQLField<any, any> | null {
+        return this.validate(result);
     }
+
+    visitIntrospectionInputField<TSource, TContext, TArgs>(
+        result: GraphQLInputField,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLInputField | null> | GraphQLInputField | null {
+        return this.validate(result);
+    }
+
+    visitIntrospectionInputObject<TSource, TContext, TArgs>(
+        result: GraphQLInputObjectType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLInputObjectType | null> | GraphQLInputObjectType | null {
+        return this.validate(result);
+    }
+
+    visitIntrospectionInterface<TSource, TContext, TArgs>(
+        result: GraphQLInterfaceType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLInterfaceType | null> | GraphQLInterfaceType | null {
+        return this.validate(result);
+    }
+
+    visitIntrospectionObject<TSource, TContext, TArgs>(
+        result: GraphQLObjectType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLObjectType | null> | GraphQLObjectType | null {
+        return this.validate(result);
+    }
+
+    visitIntrospectionScalar<TSource, TContext, TArgs>(
+        result: GraphQLScalarType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLScalarType | null> | GraphQLScalarType | null {
+        return this.validate(result);
+    }
+
+    visitIntrospectionUnion<TSource, TContext, TArgs>(
+        result: GraphQLUnionType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLUnionType | null> | GraphQLUnionType | null {
+        return this.validate(result);
+    }
+
+    // ....
 }
 ```

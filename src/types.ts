@@ -1,28 +1,81 @@
-import type { SchemaDirectiveVisitor } from 'graphql-tools';
+import type {
+    GraphQLArgument,
+    GraphQLDirective,
+    GraphQLEnumType,
+    GraphQLEnumValue,
+    GraphQLField,
+    GraphQLInputField,
+    GraphQLInputObjectType,
+    GraphQLInterfaceType,
+    GraphQLObjectType,
+    GraphQLResolveInfo,
+    GraphQLScalarType,
+    GraphQLSchema,
+    GraphQLUnionType
+} from 'graphql';
+import type { SchemaDirectiveVisitor, VisitableSchemaType } from 'graphql-tools/dist/schemaVisitor';
 
-import type { GraphQLField, GraphQLObjectType } from 'graphql';
-import type { GraphQLResolveInfo } from 'graphql/type/definition';
+export type VisitableIntrospectionType = GraphQLScalarType
+    | GraphQLObjectType
+    | GraphQLInputField
+    | GraphQLField<any, any>
+    | GraphQLEnumType
+    | GraphQLInterfaceType
+    | GraphQLUnionType
+    | GraphQLEnumValue
+    | GraphQLArgument
+    | GraphQLInputObjectType
+    | GraphQLDirective;
 
-export type SchemaFilterSig<TSource, TContext, TArgs = { [key: string]: any }> = (
-    field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
-    root: TSource,
-    args: TArgs,
-    context: TContext,
-    info: GraphQLResolveInfo
-) => Promise<boolean> | boolean
+export type IntrospectionVisitor<T> = (result: T, info: GraphQLResolveInfo) =>  Promise<T|null> | T|null;
 
-export type FilterType = 'field' | 'type' | 'directive' | 'args' | 'enumValues' | 'inputFields' | 'possibleTypes';
-
-export type FiltersType<TSource, TContext, TArgs = { [key: string]: any }> = Record<FilterType, SchemaFilterSig<TSource, TContext, TArgs>[]>;
-
-export class SchemaFilterDirective {
-    public static visitTypeIntrospection: SchemaFilterSig<any, any>|undefined;
-    public static visitFieldIntrospection: SchemaFilterSig<any, any>|undefined;
-    public static visitDirectiveIntrospection: SchemaFilterSig<any, any>|undefined;
-    public static visitArgsIntrospection: SchemaFilterSig<any, any>|undefined;
-    public static visitEnumValuesIntrospection: SchemaFilterSig<any, any>|undefined;
-    public static visitInputFieldsIntrospection: SchemaFilterSig<any, any>|undefined;
-    public static visitPossibleTypesIntrospection: SchemaFilterSig<any, any>|undefined;
+export interface IntrospectionDirectiveVisitor extends SchemaDirectiveVisitor {
+    visitIntrospectionScalar?: IntrospectionVisitor<GraphQLScalarType>;
+    visitIntrospectionObject?: IntrospectionVisitor<GraphQLObjectType>;
+    visitIntrospectionInputField?: IntrospectionVisitor<GraphQLInputField>;
+    visitIntrospectionField?: IntrospectionVisitor<GraphQLField<any, any>>;
+    visitIntrospectionEnum?: IntrospectionVisitor<GraphQLEnumType>;
+    visitIntrospectionInterface?: IntrospectionVisitor<GraphQLInterfaceType>;
+    visitIntrospectionUnion?: IntrospectionVisitor<GraphQLUnionType>;
+    visitIntrospectionEnumValue?: IntrospectionVisitor<GraphQLEnumValue>;
+    visitIntrospectionArgument?: IntrospectionVisitor<GraphQLArgument>;
+    visitIntrospectionInputObject?: IntrospectionVisitor<GraphQLInputObjectType>;
+    visitIntrospectionDirective?: IntrospectionVisitor<GraphQLDirective>;
 }
 
-export type SchemaFilterAndVisitorDirectives = Record<any, SchemaFilterDirective | SchemaDirectiveVisitor>;
+export interface IntrospectionDirectiveVisitorStatic {
+    new(config: {
+        name: string;
+        args: {
+            [name: string]: any;
+        };
+        visitedType: VisitableSchemaType;
+        schema: GraphQLSchema;
+        context: {
+            [key: string]: any;
+        };
+    }): IntrospectionDirectiveVisitor;
+}
+
+export interface IntrospectionDirectiveVisitorCls {
+    new(config: {
+        name: string;
+        args: {
+            [name: string]: any;
+        };
+        visitedType: VisitableSchemaType;
+        schema: GraphQLSchema;
+        context: {
+            [key: string]: any;
+        };
+    }): IntrospectionDirectiveVisitor|typeof SchemaDirectiveVisitor;
+}
+
+export interface DirectiveConfig {
+    name: string;
+    args: Record<string, any>;
+}
+
+export interface ClassDirectiveConfig extends DirectiveConfig {
+    cls: IntrospectionDirectiveVisitorStatic;
+}

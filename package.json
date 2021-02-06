@@ -25,7 +25,9 @@
     "url": "https://github.com/vertexbz/graphql-introspection-filtering.git"
   },
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "tslib": "*"
+  },
   "peerDependencies": {
     "graphql": ">=14.0.2",
     "graphql-tools": ">=4.0.7"

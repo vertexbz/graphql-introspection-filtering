@@ -1,21 +1,18 @@
-import { TypeMetaFieldDef, __Schema, __Type } from 'graphql/type/introspection';
-import enhanceListResolver from './tools/enhanceListResolver';
-import enhanceRootResolver from './tools/enhanceRootResolver';
-import schemaFilter from './tools/schemaFilter';
-import { __Field } from "graphql";
+import { TypeMetaFieldDef, __Schema, __Type, __Field } from 'graphql/type/introspection';
+import Introspection from './classes/Introspection';
 
-enhanceListResolver(TypeMetaFieldDef, schemaFilter('type'));
+Introspection.hook(TypeMetaFieldDef);
 
-enhanceListResolver(__Schema.getFields().types, schemaFilter('type'));
-enhanceListResolver(__Schema.getFields().directives, schemaFilter('directive'));
+Introspection.hook(__Schema.getFields().types);
+Introspection.hook(__Schema.getFields().directives);
 
-enhanceListResolver(__Type.getFields().fields, schemaFilter('field'));
-enhanceListResolver(__Type.getFields().enumValues, schemaFilter('enumValues'));
-enhanceListResolver(__Type.getFields().inputFields, schemaFilter('inputFields'));
-enhanceListResolver(__Type.getFields().possibleTypes, schemaFilter('possibleTypes'));
+Introspection.hook(__Type.getFields().fields);
+Introspection.hook(__Type.getFields().enumValues);
+Introspection.hook(__Type.getFields().inputFields);
+Introspection.hook(__Type.getFields().possibleTypes);
 
-enhanceListResolver(__Field.getFields().args, schemaFilter('args'));
+Introspection.hook(__Field.getFields().args);
 
-enhanceRootResolver(__Schema.getFields().queryType, 'Query');
-enhanceRootResolver(__Schema.getFields().mutationType, 'Mutation');
-enhanceRootResolver(__Schema.getFields().subscriptionType, 'Subscription');
+// Introspection.hook(__Schema.getFields().queryType, 'Query');
+// Introspection.hook(__Schema.getFields().mutationType, 'Mutation');
+// Introspection.hook(__Schema.getFields().subscriptionType, 'Subscription');

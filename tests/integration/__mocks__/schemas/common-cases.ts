@@ -1,5 +1,5 @@
 import "../../../../src/register";
-import makeFilteredSchema from "../../../../src/tools/makeFilteredSchema";
+import makeFilteredSchema from "../../../../src/tools/makeExecutableSchema";
 import createAuthDirective from "../createAuthDirective";
 
 // language=GraphQL

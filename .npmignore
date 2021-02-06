@@ -1,10 +1,11 @@
-.idea
+/.idea
+/.eslintcache
+/.eslintrc
+/.jestrc.json
+/.gitignore
 /tsconfig.json
-.eslintcache
-.eslintrc
-.gitignore
+/yarn.lock
 /coverage
 /node_modules
 /src
-/yarn.lock
 /tests

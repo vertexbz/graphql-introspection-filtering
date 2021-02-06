@@ -1,6 +1,7 @@
 import { SchemaDirectiveVisitor } from "graphql-tools";
 import {
     GraphQLArgument,
+    GraphQLDirective,
     GraphQLEnumType,
     GraphQLEnumValue,
     GraphQLField,
@@ -9,97 +10,98 @@ import {
     GraphQLInterfaceType,
     GraphQLObjectType,
     GraphQLResolveInfo,
+    GraphQLScalarType,
     GraphQLUnionType
 } from "graphql";
+import { IntrospectionDirectiveVisitor } from "../../../src";
 
 export default (roles: string[]) =>
-class AuthDirective extends SchemaDirectiveVisitor {
-    public static visitTypeIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
-        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
-        root: TSource,
-        args: TArgs,
-        context: TContext,
-        info: GraphQLResolveInfo
-    ): Promise<boolean> {
-        return this.isAccessible(field, context);
-    }
-
-    public static visitFieldIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
-        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
-        root: TSource,
-        args: TArgs,
-        context: TContext,
-        info: GraphQLResolveInfo
-    ): Promise<boolean> {
-        return this.isAccessible(field, context);
-    }
-
-    public static async visitDirectiveIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
-        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
-        root: TSource,
-        args: TArgs,
-        context: TContext,
-        info: GraphQLResolveInfo
-    ): Promise<boolean> {
+class AuthDirective extends SchemaDirectiveVisitor implements IntrospectionDirectiveVisitor{
+    async validate(result: any) {
         await new Promise((res) => setTimeout(res, 10));
-        if (field.name !== 'auth') {
-            return true;
+        if (!roles.includes(this.args.requires || 'ADMIN')) {
+            return null;
         }
-        return roles.includes('ADMIN');
+        return result;
     }
 
-    public static visitArgsIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
-        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
-        root: TSource,
-        args: TArgs,
-        context: TContext,
+    visitIntrospectionArgument<TSource, TContext, TArgs>(
+        result: GraphQLArgument,
         info: GraphQLResolveInfo
-    ): Promise<boolean> {
-        return this.isAccessible(field, context);
+    ): Promise<GraphQLArgument | null> | GraphQLArgument | null {
+        return this.validate(result);
     }
 
-    public static visitEnumValuesIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
-        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
-        root: TSource,
-        args: TArgs,
-        context: TContext,
+    visitIntrospectionDirective<TSource, TContext, TArgs>(
+        result: GraphQLDirective,
         info: GraphQLResolveInfo
-    ): Promise<boolean> {
-        return this.isAccessible(field, context);
+    ): Promise<GraphQLDirective | null> | GraphQLDirective | null {
+        return this.validate(result);
     }
 
-    public static visitInputFieldsIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
-        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
-        root: TSource,
-        args: TArgs,
-        context: TContext,
+    visitIntrospectionEnum<TSource, TContext, TArgs>(
+        result: GraphQLEnumType,
         info: GraphQLResolveInfo
-    ): Promise<boolean> {
-        return this.isAccessible(field, context);
+    ): Promise<GraphQLEnumType | null> | GraphQLEnumType | null {
+        return this.validate(result);
     }
 
-    public static visitPossibleTypesIntrospection<TSource, TContext, TArgs = { [key: string]: any }>(
-        field: GraphQLField<TSource, TContext, TArgs> | GraphQLObjectType,
-        root: TSource,
-        args: TArgs,
-        context: TContext,
+    visitIntrospectionEnumValue<TSource, TContext, TArgs>(
+        result: GraphQLEnumValue,
         info: GraphQLResolveInfo
-    ): Promise<boolean> {
-        return this.isAccessible(field, context);
+    ): Promise<GraphQLEnumValue | null> | GraphQLEnumValue | null {
+        return this.validate(result);
     }
 
-    public static async isAccessible(field: any, context: any) {
-        await new Promise((res) => setTimeout(res, 10));
-        for (const directive of field.astNode?.directives || []) {
-            const name = directive.name.value;
-            if (name === 'auth') {
-                const arg = directive.arguments[0]?.value.value || 'ADMIN';
-                return roles.includes(arg);
-            }
-        }
-
-        return true;
+    visitIntrospectionField<TSource, TContext, TArgs>(
+        result: GraphQLField<any, any>,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLField<any, any> | null> | GraphQLField<any, any> | null {
+        return this.validate(result);
     }
+
+    visitIntrospectionInputField<TSource, TContext, TArgs>(
+        result: GraphQLInputField,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLInputField | null> | GraphQLInputField | null {
+        return this.validate(result);
+    }
+
+    visitIntrospectionInputObject<TSource, TContext, TArgs>(
+        result: GraphQLInputObjectType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLInputObjectType | null> | GraphQLInputObjectType | null {
+        return this.validate(result);
+    }
+
+    visitIntrospectionInterface<TSource, TContext, TArgs>(
+        result: GraphQLInterfaceType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLInterfaceType | null> | GraphQLInterfaceType | null {
+        return this.validate(result);
+    }
+
+    visitIntrospectionObject<TSource, TContext, TArgs>(
+        result: GraphQLObjectType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLObjectType | null> | GraphQLObjectType | null {
+        return this.validate(result);
+    }
+
+    // visitIntrospectionScalar<TSource, TContext, TArgs>(
+    //     result: GraphQLScalarType,
+    //     info: GraphQLResolveInfo
+    // ): Promise<GraphQLScalarType | null> | GraphQLScalarType | null {
+    //     return this.validate(result);
+    // }
+
+    visitIntrospectionUnion<TSource, TContext, TArgs>(
+        result: GraphQLUnionType,
+        info: GraphQLResolveInfo
+    ): Promise<GraphQLUnionType | null> | GraphQLUnionType | null {
+        return this.validate(result);
+    }
+
 
     // required by SchemaDirectiveVisitor
     visitObject(object: GraphQLObjectType): GraphQLObjectType | void | null {

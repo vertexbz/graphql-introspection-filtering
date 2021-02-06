@@ -21,7 +21,7 @@
     "declarationDir": "dist",
     "outDir": "dist",
     "resolveJsonModule": true,
-    "importHelpers": false,
+    "importHelpers": true,
     "plugins": [
       {
         "name": "typescript-tslint-plugin",
