@@ -22,12 +22,6 @@
     "outDir": "dist",
     "resolveJsonModule": true,
     "importHelpers": true,
-    "plugins": [
-      {
-        "name": "typescript-tslint-plugin",
-        "alwaysShowRuleFailuresAsWarnings": false
-      }
-    ],
     "paths": {
       "*": [
         "node_modules/*",

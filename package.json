@@ -15,7 +15,7 @@
   "scripts": {
     "clean": "rimraf dist",
     "build": "yarn clean && tsc",
-    "lint": "eslint --ext .ts --cache src",
+    "lint": "eslint --ext .ts --cache src tests",
     "prepare": "yarn build",
     "test": "jest --config .jestrc.json"
   },

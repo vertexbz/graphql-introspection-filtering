@@ -1,6 +1,6 @@
-import "../../../../src/register";
-import makeFilteredSchema from "../../../../src/tools/makeExecutableSchema";
-import createAuthDirective from "../createAuthDirective";
+import '../../../../src/register';
+import makeFilteredSchema from '../../../../src/tools/makeExecutableSchema';
+import createAuthDirective from '../createAuthDirective';
 
 // language=GraphQL
 const typeDefs = `
@@ -127,6 +127,7 @@ type Subscription {
     subscribe: Int!
 }
 `;
+
 export default (me: any, mutate: any, subscribe: any[], roles: string[]) =>  makeFilteredSchema({
     typeDefs,
     resolvers: {

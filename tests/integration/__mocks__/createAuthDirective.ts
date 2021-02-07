@@ -1,4 +1,4 @@
-import { SchemaDirectiveVisitor } from "graphql-tools";
+import { SchemaDirectiveVisitor } from 'graphql-tools';
 import {
     GraphQLArgument,
     GraphQLDirective,
@@ -12,8 +12,8 @@ import {
     GraphQLResolveInfo,
     GraphQLScalarType,
     GraphQLUnionType
-} from "graphql";
-import { IntrospectionDirectiveVisitor } from "../../../src";
+} from 'graphql';
+import { IntrospectionDirectiveVisitor } from '../../../src';
 
 export default (roles: string[]) =>
 class AuthDirective extends SchemaDirectiveVisitor implements IntrospectionDirectiveVisitor{
