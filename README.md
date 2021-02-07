@@ -8,6 +8,10 @@ schema nodes will be returned with introspection result
 If any of dependent types is missing it won't be possible to rebuild graph on
 client side i.e. graphql playground is unable to build an interactive documentation. 
 
+> **NOTE:** `Query` type definition is required
+
+> **NOTE:** Object types must contain at least one visible field
+
 **Tested with GraphQL 14.0.0 - ...**
 
 ## Installation

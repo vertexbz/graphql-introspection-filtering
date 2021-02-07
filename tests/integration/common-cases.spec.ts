@@ -1,5 +1,6 @@
-import { ExecutionResult, graphql, introspectionQuery, parse, subscribe, } from "graphql";
-import createSchema from "./__mocks__/schemas/common-cases";
+import type { ExecutionResult } from 'graphql';
+import { graphql, introspectionQuery, parse, subscribe } from 'graphql';
+import createSchema from './_mocks_/schemas/common-cases';
 
 describe('Common cases',  () => {
     test('Guest', async () => {

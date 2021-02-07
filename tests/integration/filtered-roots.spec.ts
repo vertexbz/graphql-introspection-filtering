@@ -1,5 +1,5 @@
 import { graphql, introspectionQuery } from 'graphql';
-import createSchema from './__mocks__/schemas/filtered-roots';
+import createSchema from './_mocks_/schemas/filtered-roots';
 
 describe('Filtered roots',  () => {
     test('Guest', async () => {

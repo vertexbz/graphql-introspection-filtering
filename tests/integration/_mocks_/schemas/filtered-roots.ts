@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unassigned-import, max-len */
 import '../../../../src/register';
 import makeFilteredSchema from '../../../../src/tools/makeExecutableSchema';
 import createAuthDirective from '../createAuthDirective';
@@ -14,12 +15,12 @@ type Query {
     hello: String!
 }
 
-type Mutation {
-    mutate: String! @auth(requires: USER)
+type Mutation @auth(requires: USER) {
+    mutate: String!
 }
 
-type Subscription {
-    subscribe: Int! @auth(requires: USER)
+type Subscription @auth(requires: USER) {
+    subscribe: Int!
 }
 `;
 

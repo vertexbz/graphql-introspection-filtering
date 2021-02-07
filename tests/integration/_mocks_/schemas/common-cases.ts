@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unassigned-import, max-len */
 import '../../../../src/register';
 import makeFilteredSchema from '../../../../src/tools/makeExecutableSchema';
 import createAuthDirective from '../createAuthDirective';
@@ -139,12 +140,12 @@ export default (me: any, mutate: any, subscribe: any[], roles: string[]) =>  mak
         },
         Subscription: {
             subscribe: {
-                subscribe: async function *() {
+                async *subscribe() {
                     for (const value of subscribe) {
                         await new Promise((res) => setTimeout(res, 10));
                         yield { subscribe: value };
                     }
-                },
+                }
             }
         },
         Public: {

@@ -50,7 +50,7 @@ class Introspection {
             return true;
         }
 
-        if (!item.astNode) {// todo rules out queryType, mutationType, and subscriptionType
+        if (!item.astNode) {
             return true;
         }
 

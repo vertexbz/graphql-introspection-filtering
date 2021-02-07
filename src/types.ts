@@ -27,7 +27,8 @@ export type VisitableIntrospectionType = GraphQLScalarType
     | GraphQLInputObjectType
     | GraphQLDirective;
 
-export type IntrospectionVisitor<T> = (result: T, info: GraphQLResolveInfo) =>  Promise<T|null> | T|null;
+export type VisitorResult<T> = Promise<T | null> | T | null;
+export type IntrospectionVisitor<T> = (result: T, info: GraphQLResolveInfo) => VisitorResult<T>;
 
 export interface IntrospectionDirectiveVisitor extends SchemaDirectiveVisitor {
     visitIntrospectionScalar?: IntrospectionVisitor<GraphQLScalarType>;
