@@ -1,0 +1,32 @@
+stages:
+  - lint
+  - test
+
+cache:
+  key: ${CI_PROJECT_PATH}
+  untracked: false
+  paths:
+    - node_modules/
+
+"ESlint":
+  stage: lint
+  image: node:14.11.0
+  before_script:
+    - yarn config set "strict-ssl" false -g
+  script:
+    - yarn install
+    - yarn lint
+  except:
+    - tags
+
+"Jest":
+  stage: test
+  image: node:14.11.0
+  before_script:
+    - yarn config set "strict-ssl" false -g
+  script:
+    - yarn install
+    - yarn test
+  except:
+    - tags
+
