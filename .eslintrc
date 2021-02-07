@@ -115,7 +115,7 @@
     "jest"
   ],
   "parserOptions": {
-    "project": "./tsconfig.eslint.json",
+    "project": "./tsconfig.all.json",
     "ecmaVersion": 6,
     "sourceType": "module",
     "ecmaFeatures": {
@@ -133,7 +133,7 @@
     },
     "import/resolver": {
       "typescript": {
-        "project": "./tsconfig.eslint.json"
+        "project": "./tsconfig.all.json"
       }
     }
   }

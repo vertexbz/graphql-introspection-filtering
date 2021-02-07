@@ -4,6 +4,7 @@
 /.jestrc.json
 /.gitignore
 /tsconfig.json
+/tsconfig.all.json
 /yarn.lock
 /coverage
 /node_modules
