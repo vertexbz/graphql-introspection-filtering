@@ -4,9 +4,7 @@ import Manager from '../classes/Manager';
 import type { GraphQLSchema } from 'graphql';
 import type { IExecutableSchemaDefinition } from 'graphql-tools';
 import type { SchemaDirectiveVisitor } from 'graphql-tools/dist/schemaVisitor';
-import type { IntrospectionDirectiveVisitorCls } from '../types';
-
-export type BuilderSig<TContext = any> = (config: IExecutableSchemaDefinition<TContext>) => GraphQLSchema;
+import type { BuilderSig, IntrospectionDirectiveVisitorStatic } from '../types';
 
 const INTROSPECTION_VISITOR_METHODS = [
     'visitIntrospectionScalar',
@@ -22,11 +20,11 @@ const INTROSPECTION_VISITOR_METHODS = [
     'visitIntrospectionDirective'
 ];
 
-const filterIntrospectionDirectives = (directives: Record<string, typeof SchemaDirectiveVisitor>) => {
-    const filtered: Record<string, IntrospectionDirectiveVisitorCls> = {};
+const filterIntrospectionDirectives = (directives: Record<string, IntrospectionDirectiveVisitorStatic | typeof SchemaDirectiveVisitor>) => {
+    const filtered: Record<string, IntrospectionDirectiveVisitorStatic> = {};
     for (const [name, directive] of Object.entries(directives)) {
-        if (INTROSPECTION_VISITOR_METHODS.some((method) => !!(directive.prototype as any)[method]))
-            filtered[name] = directive as any as IntrospectionDirectiveVisitorCls;
+        if (INTROSPECTION_VISITOR_METHODS.some((method) => !!directive.prototype[method]))
+            filtered[name] = directive as IntrospectionDirectiveVisitorStatic;
     }
 
     return filtered;

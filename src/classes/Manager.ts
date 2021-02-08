@@ -22,7 +22,6 @@ import type {
     ClassDirectiveConfig,
     DirectiveConfig,
     IntrospectionDirectiveVisitor,
-    IntrospectionDirectiveVisitorCls,
     VisitableIntrospectionType,
     IntrospectionDirectiveVisitorStatic
 } from '../types';
@@ -47,19 +46,19 @@ export default class Manager {
         (manager._schema as any)[ManagerSymbol] = manager;
     }
 
-    protected _directives: Record<string, IntrospectionDirectiveVisitorCls>;
+    protected _directives: Record<string, IntrospectionDirectiveVisitorStatic>;
     protected _schema: GraphQLSchema;
 
-    public constructor(directives: Record<string, IntrospectionDirectiveVisitorCls>, schema: GraphQLSchema) {
+    public constructor(directives: Record<string, IntrospectionDirectiveVisitorStatic>, schema: GraphQLSchema) {
         this._directives = directives;
         this._schema = schema;
     }
 
-    public resolve<T extends VisitableIntrospectionType, TSource = any, TContext = any>(
-        result: T, root: TSource, context: TContext, info: GraphQLResolveInfo
+    public resolve<T extends VisitableIntrospectionType, R extends VisitableSchemaType = any, C = any>(
+        result: T, root: R, context: C, info: GraphQLResolveInfo
     ): Promise<T|null> | T|null {
         if (!hasOwn(result, HOOK)) {
-            (result as any)[HOOK] = this.prepare(result, root as any);
+            (result as any)[HOOK] = this.prepare(result, root);
         }
         if ((result as any)[HOOK] === false) {
             return result;
@@ -95,7 +94,7 @@ export default class Manager {
                 }
                 return 'visitIntrospectionArgument';
             default:
-                throw new Error('We shouldn\'t get here!');
+                throw new Error('Visited unknown object!');
         }
     }
 
@@ -115,7 +114,7 @@ export default class Manager {
             }
         }
 
-        const directives: ReadonlyArray<DirectiveNode> = (result as any)?.astNode?.directives || [];
+        const directives: ReadonlyArray<DirectiveNode> = (result.astNode as any)?.directives || [];
         if (directives.length > 0) {
             const method = this.expectedMethodFor(result, root);
 

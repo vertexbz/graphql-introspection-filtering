@@ -12,9 +12,9 @@ class Hook {
         this._method = method;
     }
 
-    public resolve<T extends VisitableIntrospectionType, R = any, C = any>(
+    public resolve<T extends VisitableIntrospectionType, R extends VisitableSchemaType = any, C = any>(
         result: T, root: R, context: C, info: GraphQLResolveInfo
-    ): Promise<T|null> | T|null {
+    ): Promise<T | null> | T | null {
 
         for (const config of this._directives) {
             const Directive = config.cls;
@@ -22,7 +22,7 @@ class Hook {
             const directive = new Directive({
                 name: config.name,
                 args: config.args,
-                visitedType: root as any as VisitableSchemaType,
+                visitedType: root as VisitableSchemaType,
                 schema: info.schema,
                 context
             });

@@ -14,6 +14,7 @@ import type {
     GraphQLUnionType
 } from 'graphql';
 import type { SchemaDirectiveVisitor, VisitableSchemaType } from 'graphql-tools/dist/schemaVisitor';
+import type { IExecutableSchemaDefinition } from 'graphql-tools';
 
 export type VisitableIntrospectionType = GraphQLScalarType
     | GraphQLObjectType
@@ -47,29 +48,11 @@ export interface IntrospectionDirectiveVisitor extends SchemaDirectiveVisitor {
 export interface IntrospectionDirectiveVisitorStatic {
     new(config: {
         name: string;
-        args: {
-            [name: string]: any;
-        };
+        args: Record<string, any>;
         visitedType: VisitableSchemaType;
         schema: GraphQLSchema;
-        context: {
-            [key: string]: any;
-        };
+        context: Record<string, any>;
     }): IntrospectionDirectiveVisitor;
-}
-
-export interface IntrospectionDirectiveVisitorCls {
-    new(config: {
-        name: string;
-        args: {
-            [name: string]: any;
-        };
-        visitedType: VisitableSchemaType;
-        schema: GraphQLSchema;
-        context: {
-            [key: string]: any;
-        };
-    }): IntrospectionDirectiveVisitor|typeof SchemaDirectiveVisitor;
 }
 
 export interface DirectiveConfig {
@@ -80,3 +63,5 @@ export interface DirectiveConfig {
 export interface ClassDirectiveConfig extends DirectiveConfig {
     cls: IntrospectionDirectiveVisitorStatic;
 }
+
+export type BuilderSig<TContext = any> = (config: IExecutableSchemaDefinition<TContext>) => GraphQLSchema;
