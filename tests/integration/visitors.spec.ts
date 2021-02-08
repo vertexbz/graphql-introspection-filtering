@@ -2,7 +2,7 @@ import { graphql } from 'graphql';
 import { INTROSPECTION_VISITOR_METHODS } from '../../src/constants';
 import createSchema from './_mocks_/schemas/visitors';
 import createAuthDirective from './_mocks_/createAuthDirective';
-import { introspectionQuery } from './helper';
+import { introspectionQuery } from '../helper';
 import type { GraphQLResolveInfo } from 'graphql';
 
 describe('Visitors',  () => {
