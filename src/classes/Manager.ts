@@ -29,20 +29,12 @@ import type {
 } from '../types';
 
 export default class Manager {
-    public static extract(schema: GraphQLSchema): Manager|undefined {
+    public static extract(schema: GraphQLSchema): Manager | undefined {
         if (hasOwn(schema, SCHEMA_MANAGER)) {
             return (schema as any)[SCHEMA_MANAGER];
         }
 
         return undefined;
-    }
-
-    public static inject(manager: Manager) {
-        if (hasOwn(manager._schema, SCHEMA_MANAGER)) {
-            throw new Error('Already injected!');
-        }
-
-        (manager._schema as any)[SCHEMA_MANAGER] = manager;
     }
 
     protected _directives: Record<string, IntrospectionDirectiveVisitorStatic>;

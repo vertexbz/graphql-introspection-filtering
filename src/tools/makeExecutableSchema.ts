@@ -1,6 +1,7 @@
 import { makeExecutableSchema } from 'graphql-tools';
 import Manager from '../classes/Manager';
-import { INTROSPECTION_VISITOR_METHODS } from '../constants';
+import { INTROSPECTION_VISITOR_METHODS, SCHEMA_MANAGER } from '../constants';
+import hasOwn from './hasOwn';
 
 import type { GraphQLSchema } from 'graphql';
 import type { IExecutableSchemaDefinition } from 'graphql-tools';
@@ -24,7 +25,14 @@ export default <TContext = any>(
 ): GraphQLSchema => {
     const schema = builder(config);
     if (config.schemaDirectives) {
-        Manager.inject(new Manager(filterIntrospectionDirectives(config.schemaDirectives), schema));
+        const introspectionDirectives = filterIntrospectionDirectives(config.schemaDirectives);
+        if (Object.keys(introspectionDirectives).length > 0) {
+            if (hasOwn(schema, SCHEMA_MANAGER)) {
+                throw new Error('Already injected!');
+            }
+
+            (schema as any)[SCHEMA_MANAGER] = new Manager(introspectionDirectives, schema);
+        }
     }
     return schema;
 };

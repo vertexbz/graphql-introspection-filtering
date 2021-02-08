@@ -10,7 +10,11 @@ module.exports = {
     resolveSnapshotPath: (testPath, snapshotExtension) => {
         const filename = path.basename(testPath) + snapshotExtension;
         const dirname = path.dirname(testPath);
-        return path.join(dirname, '__snapshots__', gqlVersion, filename);
+        if (dirname.endsWith('integration')) {
+            return path.join(dirname, '__snapshots__', gqlVersion, filename);
+        }
+
+        return path.join(dirname, '__snapshots__', filename);
     },
 
     // resolves from snapshot to test path

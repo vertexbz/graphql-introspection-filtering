@@ -9,5 +9,8 @@
   "transform": {
     "^.+\\.(ts|tsx)$": "ts-jest"
   },
-  "snapshotResolver": "./tests/snapshotResolver.js"
+  "snapshotResolver": "./tests/snapshotResolver.js",
+  "setupFilesAfterEnv": [
+    "./tests/init.js"
+  ]
 }
