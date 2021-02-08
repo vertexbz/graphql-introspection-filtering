@@ -1,14 +1,12 @@
+import type { GraphQLField, GraphQLNamedType, GraphQLResolveInfo } from 'graphql';
 import { __Schema, defaultFieldResolver, introspectionTypes } from 'graphql';
+import { INTROSPECTION_HOOK } from '../constants';
 import Manager from './Manager';
 
-import type { GraphQLResolveInfo , GraphQLField, GraphQLNamedType } from 'graphql';
 import type { VisitableSchemaType } from 'graphql-tools/dist/schemaVisitor';
 import type { VisitableIntrospectionType } from '../types';
 
-const HOOK = Symbol('HOOK');
-
-export default
-class Introspection {
+export default class Introspection {
     /**
      * Hook root type mapping to nullify reference when Mutation or Subscription types are empty
      * (all fields are filtered out)
@@ -19,7 +17,7 @@ class Introspection {
     public static hookRoot<R, C, A = Record<string, any>>(subject: GraphQLField<R, C, A>, typeName: string) {
         const originalResolver = subject.resolve || defaultFieldResolver;
 
-        subject.resolve = async function(root: R, args: A, context: C, info: GraphQLResolveInfo) {
+        subject.resolve = async function (root: R, args: A, context: C, info: GraphQLResolveInfo) {
             const resolver = await originalResolver(root, args, context, info);
             const manager = Manager.extract(info.schema);
             if (manager) {
@@ -42,10 +40,10 @@ class Introspection {
      * @param subject
      */
     public static hook(subject: any) {
-        if ((subject as any)[HOOK]) {
+        if ((subject as any)[INTROSPECTION_HOOK]) {
             return;
         }
-        (subject as any)[HOOK] = true;
+        (subject as any)[INTROSPECTION_HOOK] = true;
 
         subject.resolve = Introspection.resolve.bind(subject.resolve || defaultFieldResolver);
     }
@@ -60,7 +58,11 @@ class Introspection {
      * @protected
      */
     protected static async resolve<R extends VisitableSchemaType, C, A>(
-        this: typeof defaultFieldResolver, root: R, args: A, context: C, info: GraphQLResolveInfo
+        this: typeof defaultFieldResolver,
+        root: R,
+        args: A,
+        context: C,
+        info: GraphQLResolveInfo
     ) {
         const result = this(root, args, context, info);
         if (!result || !(typeof result === 'object')) {
@@ -97,7 +99,7 @@ class Introspection {
      */
     protected static isExcluded(item: VisitableIntrospectionType) {
         // exclude already hooked
-        if ((item as any)[HOOK]) {
+        if ((item as any)[INTROSPECTION_HOOK]) {
             return true;
         }
 

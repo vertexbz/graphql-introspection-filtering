@@ -7,6 +7,7 @@ import {
     GraphQLScalarType,
     GraphQLUnionType
 } from 'graphql';
+import { SCHEMA_HOOK, SCHEMA_MANAGER } from '../constants';
 import hasOwn from '../tools/hasOwn';
 import Hook from './Hook';
 
@@ -26,24 +27,21 @@ import type {
     IntrospectionDirectiveVisitorStatic
 } from '../types';
 
-const ManagerSymbol = Symbol('Manager');
-const HOOK = Symbol('HOOK');
-
 export default class Manager {
     public static extract(schema: GraphQLSchema): Manager|undefined {
-        if (hasOwn(schema, ManagerSymbol)) {
-            return (schema as any)[ManagerSymbol];
+        if (hasOwn(schema, SCHEMA_MANAGER)) {
+            return (schema as any)[SCHEMA_MANAGER];
         }
 
         return undefined;
     }
 
     public static inject(manager: Manager) {
-        if (hasOwn(manager._schema, ManagerSymbol)) {
+        if (hasOwn(manager._schema, SCHEMA_MANAGER)) {
             throw new Error('Already injected!');
         }
 
-        (manager._schema as any)[ManagerSymbol] = manager;
+        (manager._schema as any)[SCHEMA_MANAGER] = manager;
     }
 
     protected _directives: Record<string, IntrospectionDirectiveVisitorStatic>;
@@ -57,14 +55,14 @@ export default class Manager {
     public resolve<T extends VisitableIntrospectionType, R extends VisitableSchemaType = any, C = any>(
         result: T, root: R, context: C, info: GraphQLResolveInfo
     ): Promise<T|null> | T|null {
-        if (!hasOwn(result, HOOK)) {
-            (result as any)[HOOK] = this.prepare(result, root);
+        if (!hasOwn(result, SCHEMA_HOOK)) {
+            (result as any)[SCHEMA_HOOK] = this.prepare(result, root);
         }
-        if ((result as any)[HOOK] === false) {
+        if ((result as any)[SCHEMA_HOOK] === false) {
             return result;
         }
 
-        return (result as any)[HOOK].resolve(result, root, context, info);
+        return (result as any)[SCHEMA_HOOK].resolve(result, root, context, info);
     }
 
     // eslint-disable-next-line complexity

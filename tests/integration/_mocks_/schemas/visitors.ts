@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unassigned-import, max-len */
 import '../../../../src/register';
 import makeFilteredSchema from '../../../../src/tools/makeExecutableSchema';
-import createAuthDirective from '../createAuthDirective';
+import type { SchemaDirectiveVisitor } from 'graphql-tools/dist/schemaVisitor';
 
 // language=GraphQL
 const typeDefs = `
@@ -99,9 +99,7 @@ input InEmpty {
     empty2private: String @auth(requires: ADMIN)
 }
 
-scalar Text
-scalar ProtectedText @auth(requires: USER)
-scalar PrivateText @auth(requires: ADMIN)
+scalar Text @auth(requires: ADMIN)
 
 type Query {
     me: User!
@@ -123,34 +121,13 @@ type Query {
     args6(argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
     args7(argProtected: String! @auth(requires: USER), argPrivate: String! @auth(requires: ADMIN), argLast: String!): Int!
 }
-
-type Mutation {
-    mutate: String!
-}
-
-type Subscription {
-    subscribe: Int!
-}
 `;
 
-export default (me: any, mutate: any, subscribe: any[], roles: string[]) =>  makeFilteredSchema({
+export default (directive: typeof SchemaDirectiveVisitor) =>  makeFilteredSchema({
     typeDefs,
     resolvers: {
         Query: {
-            me: () => me
-        },
-        Mutation: {
-            mutate: () => mutate
-        },
-        Subscription: {
-            subscribe: {
-                async *subscribe() {
-                    for (const value of subscribe) {
-                        await new Promise((res) => setTimeout(res, 10));
-                        yield { subscribe: value };
-                    }
-                }
-            }
+            me: () => null
         },
         Public: {
             __resolveType: () => 'Empty'
@@ -169,6 +146,6 @@ export default (me: any, mutate: any, subscribe: any[], roles: string[]) =>  mak
         }
     },
     schemaDirectives: {
-        auth: createAuthDirective(roles)
+        auth: directive
     }
 });

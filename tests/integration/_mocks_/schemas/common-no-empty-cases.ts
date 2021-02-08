@@ -5,7 +5,7 @@ import createAuthDirective from '../createAuthDirective';
 
 // language=GraphQL
 const typeDefs = `
-directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | SCALAR
 enum Role @auth(requires: USER) {
     ADMIN
     REVIEWER
@@ -77,6 +77,10 @@ input InPrivate @auth(requires: ADMIN) {
     param1private: String
     param2private: String
 }
+
+scalar Text
+scalar ProtectedText @auth(requires: USER)
+scalar PrivateText @auth(requires: ADMIN)
 
 
 type Query {

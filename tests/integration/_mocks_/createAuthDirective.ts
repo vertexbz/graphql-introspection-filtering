@@ -10,6 +10,7 @@ import type {
     GraphQLInterfaceType,
     GraphQLObjectType,
     GraphQLResolveInfo,
+    GraphQLScalarType,
     GraphQLUnionType
 } from 'graphql';
 import type { IntrospectionDirectiveVisitor } from '../../../src';
@@ -71,9 +72,9 @@ export default (roles: string[]) => {
         }
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        // visitIntrospectionScalar(result: GraphQLScalarType, info: GraphQLResolveInfo): VisitorResult<GraphQLScalarType> {
-        //     return this.validate(result);
-        // }
+        visitIntrospectionScalar(result: GraphQLScalarType, info: GraphQLResolveInfo): VisitorResult<GraphQLScalarType> {
+            return this.validate(result);
+        }
 
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         visitIntrospectionUnion(result: GraphQLUnionType, info: GraphQLResolveInfo): VisitorResult<GraphQLUnionType> {
@@ -120,6 +121,10 @@ export default (roles: string[]) => {
 
         visitInputObject(object: GraphQLInputObjectType): GraphQLInputObjectType | void | null {
             return super.visitInputObject(object);
+        }
+
+        visitScalar(scalar: GraphQLScalarType): GraphQLScalarType | void | null {
+            return super.visitScalar(scalar);
         }
     };
 };
