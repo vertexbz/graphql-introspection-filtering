@@ -11,10 +11,23 @@ import type {
     GraphQLResolveInfo,
     GraphQLScalarType,
     GraphQLSchema,
-    GraphQLUnionType
+    GraphQLUnionType,
+    GraphQLNamedType
 } from 'graphql';
-import type { SchemaDirectiveVisitor, VisitableSchemaType } from 'graphql-tools/dist/schemaVisitor';
-import type { IExecutableSchemaDefinition } from 'graphql-tools';
+import type { SchemaDirectiveVisitor, IExecutableSchemaDefinition } from 'graphql-tools';
+
+export type VisitableSchemaType = GraphQLSchema
+    | GraphQLObjectType
+    | GraphQLInterfaceType
+    | GraphQLInputObjectType
+    | GraphQLNamedType
+    | GraphQLScalarType
+    | GraphQLField<any, any>
+    | GraphQLArgument
+    | GraphQLUnionType
+    | GraphQLEnumType
+    | GraphQLEnumValue
+    | GraphQLInputField;
 
 export type VisitableIntrospectionType = GraphQLScalarType
     | GraphQLObjectType

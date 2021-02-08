@@ -1,6 +1,7 @@
-import type { ExecutionResult } from 'graphql';
-import { graphql, introspectionQuery, parse, subscribe } from 'graphql';
+import { graphql, parse, subscribe } from 'graphql';
 import createSchema from './_mocks_/schemas/common-no-empty-cases';
+import { introspectionQuery } from './helper';
+import type { ExecutionResult } from 'graphql';
 
 describe('Common (no empty) cases',  () => {
     test('Guest', async () => {

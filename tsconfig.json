@@ -2,8 +2,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "moduleResolution": "node",
-    "target": "es5",
-    "lib": ["dom", "es2015"],
+    "target": "es6",
+    "lib": ["es6"],
 
     "typeRoots": [
       "./node_modules/@types",

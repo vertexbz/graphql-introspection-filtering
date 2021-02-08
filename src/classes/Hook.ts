@@ -1,7 +1,6 @@
 import chain from '../tools/chain';
 import type { GraphQLResolveInfo } from 'graphql';
-import type { VisitableSchemaType } from 'graphql-tools/dist/schemaVisitor';
-import type { ClassDirectiveConfig, IntrospectionDirectiveVisitor, VisitableIntrospectionType } from '../types';
+import type { ClassDirectiveConfig, IntrospectionDirectiveVisitor, VisitableIntrospectionType, VisitableSchemaType } from '../types';
 
 export default
 class Hook {

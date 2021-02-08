@@ -12,19 +12,20 @@ import hasOwn from '../tools/hasOwn';
 import Hook from './Hook';
 
 import type { DirectiveNode } from 'graphql/language/ast';
-import type { VisitableSchemaType } from 'graphql-tools/dist/schemaVisitor';
 import type {
     GraphQLEnumValue,
     GraphQLField,
     GraphQLInputField,
     GraphQLResolveInfo,
-    GraphQLSchema } from 'graphql';
+    GraphQLSchema
+} from 'graphql';
 import type {
     ClassDirectiveConfig,
     DirectiveConfig,
     IntrospectionDirectiveVisitor,
     VisitableIntrospectionType,
-    IntrospectionDirectiveVisitorStatic
+    IntrospectionDirectiveVisitorStatic,
+    VisitableSchemaType
 } from '../types';
 
 export default class Manager {

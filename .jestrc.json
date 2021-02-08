@@ -8,5 +8,6 @@
   ],
   "transform": {
     "^.+\\.(ts|tsx)$": "ts-jest"
-  }
+  },
+  "snapshotResolver": "./tests/snapshotResolver.js"
 }

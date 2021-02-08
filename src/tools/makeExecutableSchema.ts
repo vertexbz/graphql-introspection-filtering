@@ -4,7 +4,7 @@ import { INTROSPECTION_VISITOR_METHODS } from '../constants';
 
 import type { GraphQLSchema } from 'graphql';
 import type { IExecutableSchemaDefinition } from 'graphql-tools';
-import type { SchemaDirectiveVisitor } from 'graphql-tools/dist/schemaVisitor';
+import type { SchemaDirectiveVisitor } from 'graphql-tools';
 import type { BuilderSig, IntrospectionDirectiveVisitorStatic } from '../types';
 
 

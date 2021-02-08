@@ -18,6 +18,10 @@ import type { VisitorResult } from '../../../src/types';
 
 export default (roles: string[]) => {
     return class AuthDirective extends SchemaDirectiveVisitor implements IntrospectionDirectiveVisitor {
+        public constructor(config: any) {
+            super(config);
+        }
+
         async validate(result: any) {
             await new Promise((res) => setTimeout(res, 10));
             if (!roles.includes(this.args.requires || 'ADMIN')) {

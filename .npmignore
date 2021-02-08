@@ -7,6 +7,7 @@
 /tsconfig.all.json
 /yarn.lock
 /coverage
+/example
 /node_modules
 /src
 /tests

@@ -3,8 +3,7 @@ import { __Schema, defaultFieldResolver, introspectionTypes } from 'graphql';
 import { INTROSPECTION_HOOK } from '../constants';
 import Manager from './Manager';
 
-import type { VisitableSchemaType } from 'graphql-tools/dist/schemaVisitor';
-import type { VisitableIntrospectionType } from '../types';
+import type { VisitableIntrospectionType, VisitableSchemaType } from '../types';
 
 export default class Introspection {
     /**
@@ -109,6 +108,6 @@ export default class Introspection {
         }
 
         // exclude rest of fundamental introspection types
-        return introspectionTypes.includes(item);
+        return introspectionTypes.includes(item as any);
     }
 }

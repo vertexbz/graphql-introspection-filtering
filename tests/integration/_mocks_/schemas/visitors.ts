@@ -1,7 +1,7 @@
 /* eslint-disable import/no-unassigned-import, max-len */
 import '../../../../src/register';
 import makeFilteredSchema from '../../../../src/tools/makeExecutableSchema';
-import type { SchemaDirectiveVisitor } from 'graphql-tools/dist/schemaVisitor';
+import type { SchemaDirectiveVisitor } from 'graphql-tools';
 
 // language=GraphQL
 const typeDefs = `

@@ -12,7 +12,7 @@ client side i.e. graphql playground is unable to build an interactive documentat
 
 > **NOTE:** Object types must contain at least one visible field
 
-**Tested with GraphQL 14.0.0 - ...**
+**Tested with GraphQL 14.0.0 - 15.5.0 - ...**
 
 ## Installation
 ```bash
