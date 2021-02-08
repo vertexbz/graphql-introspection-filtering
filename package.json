@@ -16,7 +16,7 @@
     "clean": "rimraf dist",
     "build": "yarn clean && tsc",
     "lint": "eslint --ext .ts --cache src tests",
-    "prepare": "yarn build",
+    "prepare": "yarn lint && yarn test && yarn build",
     "test": "jest --config .jestrc.json",
     "example": "ts-node -P ./tsconfig.all.json ./example/index.ts"
   },

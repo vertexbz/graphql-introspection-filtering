@@ -1,3 +1,4 @@
+import chain from '../tools/chain';
 import type { GraphQLResolveInfo } from 'graphql';
 import type { VisitableSchemaType } from 'graphql-tools/dist/schemaVisitor';
 import type { ClassDirectiveConfig, IntrospectionDirectiveVisitor, VisitableIntrospectionType } from '../types';
@@ -15,7 +16,6 @@ class Hook {
     public resolve<T extends VisitableIntrospectionType, R extends VisitableSchemaType = any, C = any>(
         result: T, root: R, context: C, info: GraphQLResolveInfo
     ): Promise<T | null> | T | null {
-
         for (const config of this._directives) {
             const Directive = config.cls;
 
@@ -30,7 +30,8 @@ class Hook {
             // @ts-ignore
             const visit = directive[this._method].bind(directive);
 
-            result = visit(result, info);
+            // @ts-ignore
+            result = chain(result, (result) => visit(result, info));
         }
 
         return result;
