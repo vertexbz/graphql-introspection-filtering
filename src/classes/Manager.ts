@@ -28,7 +28,15 @@ import type {
     VisitableSchemaType
 } from '../types';
 
+/**
+ * Introspection schema hooks manager
+ */
 export default class Manager {
+    /**
+     * Extract Manager from schema
+     *
+     * @param schema graphql executable schema
+     */
     public static extract(schema: GraphQLSchema): Manager | undefined {
         if (hasOwn(schema, SCHEMA_MANAGER)) {
             return (schema as any)[SCHEMA_MANAGER];
@@ -40,46 +48,66 @@ export default class Manager {
     protected _directives: Record<string, IntrospectionDirectiveVisitorStatic>;
     protected _schema: GraphQLSchema;
 
+    /**
+     * Manager constructor
+     * @param directives introspection directive visitors map
+     * @param schema graphql schema want to visit
+     */
     public constructor(directives: Record<string, IntrospectionDirectiveVisitorStatic>, schema: GraphQLSchema) {
         this._directives = directives;
         this._schema = schema;
     }
 
+    /**
+     * Enhanced schema resolver
+     *
+     * @param subject resolved field/type
+     * @param root subject's root
+     * @param context current graphql context
+     * @param info graphql resolve info
+     */
     public resolve<T extends VisitableIntrospectionType, R extends VisitableSchemaType = any, C = any>(
-        result: T, root: R, context: C, info: GraphQLResolveInfo
+        subject: T, root: R, context: C, info: GraphQLResolveInfo
     ): Promise<T|null> | T|null {
-        if (!hasOwn(result, SCHEMA_HOOK)) {
-            (result as any)[SCHEMA_HOOK] = this.prepare(result, root);
+        if (!hasOwn(subject, SCHEMA_HOOK)) {
+            (subject as any)[SCHEMA_HOOK] = this.prepare(subject, root);
         }
-        if ((result as any)[SCHEMA_HOOK] === false) {
-            return result;
+        if ((subject as any)[SCHEMA_HOOK] === false) {
+            return subject;
         }
 
-        return (result as any)[SCHEMA_HOOK].resolve(result, root, context, info);
+        return (subject as any)[SCHEMA_HOOK].resolve(subject, root, context, info);
     }
 
+    /**
+     * Resolve visitor method for subject
+     *
+     * @param subject type/field for which we want to get visitor method name
+     * @param root subject's root
+     * @protected
+     */
     // eslint-disable-next-line complexity
-    protected expectedMethodFor(result: VisitableIntrospectionType, root: VisitableSchemaType): keyof IntrospectionDirectiveVisitor {
+    protected expectedMethodFor(subject: VisitableIntrospectionType, root: VisitableSchemaType): keyof IntrospectionDirectiveVisitor {
         switch (true) {
-            case result instanceof GraphQLScalarType:
+            case subject instanceof GraphQLScalarType:
                 return 'visitIntrospectionScalar';
-            case result instanceof GraphQLDirective:
+            case subject instanceof GraphQLDirective:
                 return 'visitIntrospectionDirective';
-            case result instanceof GraphQLInputObjectType:
+            case subject instanceof GraphQLInputObjectType:
                 return 'visitIntrospectionInputObject';
-            case result instanceof GraphQLEnumType:
+            case subject instanceof GraphQLEnumType:
                 return 'visitIntrospectionEnum';
-            case result instanceof GraphQLInterfaceType:
+            case subject instanceof GraphQLInterfaceType:
                 return 'visitIntrospectionInterface';
-            case result instanceof GraphQLUnionType:
+            case subject instanceof GraphQLUnionType:
                 return 'visitIntrospectionUnion';
-            case result instanceof GraphQLObjectType:
+            case subject instanceof GraphQLObjectType:
                 return 'visitIntrospectionObject';
-            case (result as GraphQLField<any, any>).astNode?.kind === 'FieldDefinition':
+            case (subject as GraphQLField<any, any>).astNode?.kind === 'FieldDefinition':
                 return 'visitIntrospectionField';
-            case (result as GraphQLEnumValue).astNode?.kind === 'EnumValueDefinition':
+            case (subject as GraphQLEnumValue).astNode?.kind === 'EnumValueDefinition':
                 return 'visitIntrospectionEnumValue';
-            case (result as GraphQLInputField).astNode?.kind === 'InputValueDefinition':
+            case (subject as GraphQLInputField).astNode?.kind === 'InputValueDefinition':
                 if (root instanceof GraphQLInputObjectType) {
                     return 'visitIntrospectionInputField';
                 }
@@ -89,9 +117,16 @@ export default class Manager {
         }
     }
 
-    protected prepare(result: VisitableIntrospectionType, root: VisitableSchemaType) {
-        if (result instanceof GraphQLDirective) {
-            const method = this.expectedMethodFor(result, root);
+    /**
+     * Prepare Hook for given class
+     *
+     * @param subject type/field that we are creating the Hook for
+     * @param root subject's root
+     * @protected
+     */
+    protected prepare(subject: VisitableIntrospectionType, root: VisitableSchemaType) {
+        if (subject instanceof GraphQLDirective) {
+            const method = this.expectedMethodFor(subject, root);
             const parsedDirectives = Object.entries(this._directives)
                 .map<ClassDirectiveConfig>(([name, cls]) => ({
                     name, args: {}, cls: cls as IntrospectionDirectiveVisitorStatic
@@ -105,9 +140,9 @@ export default class Manager {
             }
         }
 
-        const directives: ReadonlyArray<DirectiveNode> = (result.astNode as any)?.directives || [];
+        const directives: ReadonlyArray<DirectiveNode> = (subject.astNode as any)?.directives || [];
         if (directives.length > 0) {
-            const method = this.expectedMethodFor(result, root);
+            const method = this.expectedMethodFor(subject, root);
 
             const parsedDirectives = this.parseDirectiveAst(directives)
                 .filter(({ name }) => Object.keys(this._directives).includes(name))
@@ -126,6 +161,12 @@ export default class Manager {
         return false;
     }
 
+    /**
+     * Grabs directive name and arguments from AST
+     *
+     * @param directives array of AST definitions for directives applied to type/field
+     * @protected
+     */
     protected parseDirectiveAst(directives: ReadonlyArray<DirectiveNode>): DirectiveConfig[] {
         return directives
             .map(({ name: { value: name }, arguments: args = [] }) => {

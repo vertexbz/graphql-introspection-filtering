@@ -1,8 +1,8 @@
-import type { GraphQLField, GraphQLNamedType, GraphQLResolveInfo } from 'graphql';
 import { __Schema, defaultFieldResolver, introspectionTypes } from 'graphql';
 import { INTROSPECTION_HOOK } from '../constants';
 import Manager from './Manager';
 
+import type { GraphQLField, GraphQLNamedType, GraphQLResolveInfo } from 'graphql';
 import type { VisitableIntrospectionType, VisitableSchemaType } from '../types';
 
 export default class Introspection {
@@ -10,8 +10,8 @@ export default class Introspection {
      * Hook root type mapping to nullify reference when Mutation or Subscription types are empty
      * (all fields are filtered out)
      *
-     * @param subject
-     * @param typeName
+     * @param subject schema root field to hook
+     * @param typeName designated root type for field
      */
     public static hookRoot<R, C, A = Record<string, any>>(subject: GraphQLField<R, C, A>, typeName: string) {
         const originalResolver = subject.resolve || defaultFieldResolver;
@@ -36,7 +36,7 @@ export default class Introspection {
     /**
      * Hook Introspection schema resolver
      *
-     * @param subject
+     * @param subject introspection field
      */
     public static hook(subject: any) {
         if ((subject as any)[INTROSPECTION_HOOK]) {
@@ -50,10 +50,10 @@ export default class Introspection {
     /**
      * Hooked introspection object/field/arg... resolver
      *
-     * @param root
-     * @param args
-     * @param context
-     * @param info
+     * @param root fields root type
+     * @param args introspection arguments
+     * @param context current graphql context
+     * @param info graphql resolve info
      * @protected
      */
     protected static async resolve<R extends VisitableSchemaType, C, A>(
@@ -63,17 +63,17 @@ export default class Introspection {
         context: C,
         info: GraphQLResolveInfo
     ) {
-        const result = this(root, args, context, info);
-        if (!result || !(typeof result === 'object')) {
-            return result;
+        const subject = this(root, args, context, info);
+        if (!subject || !(typeof subject === 'object')) {
+            return subject;
         }
 
         const manager = Manager.extract(info.schema);
 
         if (manager) {
-            if (Array.isArray(result)) {
+            if (Array.isArray(subject)) {
                 const items = [];
-                for (const item of result) {
+                for (const item of subject) {
                     if (Introspection.isExcluded(item)) {
                         items.push(item);
                     } else {
@@ -82,32 +82,32 @@ export default class Introspection {
                 }
 
                 return items.filter(Boolean);
-            } else if (!Introspection.isExcluded(result)) {
-                return manager.resolve(result, root, context, info);
+            } else if (!Introspection.isExcluded(subject)) {
+                return manager.resolve(subject, root, context, info);
             }
         }
 
-        return result;
+        return subject;
     }
 
     /**
      * Exclude hooked and fundamental types
      *
-     * @param item
+     * @param subject type/field to check
      * @protected
      */
-    protected static isExcluded(item: VisitableIntrospectionType) {
+    protected static isExcluded(subject: VisitableIntrospectionType) {
         // exclude already hooked
-        if ((item as any)[INTROSPECTION_HOOK]) {
+        if ((subject as any)[INTROSPECTION_HOOK]) {
             return true;
         }
 
         // exclude nodes without ast (builtins)
-        if (!item.astNode) {
+        if (!subject.astNode) {
             return true;
         }
 
         // exclude rest of fundamental introspection types
-        return introspectionTypes.includes(item as any);
+        return introspectionTypes.includes(subject as any);
     }
 }

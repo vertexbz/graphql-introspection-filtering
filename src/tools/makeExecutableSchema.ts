@@ -8,7 +8,11 @@ import type { IExecutableSchemaDefinition } from 'graphql-tools';
 import type { SchemaDirectiveVisitor } from 'graphql-tools';
 import type { BuilderSig, IntrospectionDirectiveVisitorStatic } from '../types';
 
-
+/**
+ * Filter Introspection directive visitors from directive map
+ *
+ * @param directives introspection and regular directives map
+ */
 const filterIntrospectionDirectives = (directives: Record<string, IntrospectionDirectiveVisitorStatic | typeof SchemaDirectiveVisitor>) => {
     const filtered: Record<string, IntrospectionDirectiveVisitorStatic> = {};
     for (const [name, directive] of Object.entries(directives)) {
@@ -19,6 +23,12 @@ const filterIntrospectionDirectives = (directives: Record<string, IntrospectionD
     return filtered;
 };
 
+/**
+ * Create graphql executable schema with injected Manager
+ *
+ * @param config schema configuration
+ * @param builder original schema builder
+ */
 export default <TContext = any>(
     config: IExecutableSchemaDefinition<TContext>,
     builder: BuilderSig<TContext> = makeExecutableSchema
