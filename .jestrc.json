@@ -12,5 +12,6 @@
   "snapshotResolver": "./tests/snapshotResolver.js",
   "setupFilesAfterEnv": [
     "./tests/init.js"
-  ]
+  ],
+  "slowTestThreshold": 20
 }

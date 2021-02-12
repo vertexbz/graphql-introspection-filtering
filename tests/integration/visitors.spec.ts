@@ -2,7 +2,7 @@ import { graphql } from 'graphql';
 import createSchema from './_mocks_/schemas/visitors';
 import createAuthDirective from './_mocks_/createAuthDirective';
 import { introspectionQuery } from '../helper';
-import type { SchemaDirectiveVisitor } from "graphql-tools";
+import type { SchemaDirectiveVisitor } from 'graphql-tools';
 
 describe('Visitors',  () => {
     test('visitIntrospectionScalar', async () => {
