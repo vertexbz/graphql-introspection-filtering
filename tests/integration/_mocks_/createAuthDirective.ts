@@ -16,15 +16,22 @@ import type {
 import type { IntrospectionDirectiveVisitor } from '../../../src';
 import type { VisitorResult } from '../../../src/types';
 
-export default (roles: string[]) => {
+type Sig = (requires: string, context: any) => boolean;
+
+export default (roles: string[] | Sig) => {
     return class AuthDirective extends SchemaDirectiveVisitor implements IntrospectionDirectiveVisitor {
-        public constructor(config: any) {
-            super(config);
+        check(roles: string[] | Sig, requires: string) {
+            if (Array.isArray(roles)) {
+                return roles.includes(requires);
+            }
+
+            return roles(requires, this.context);
         }
 
         async validate(result: any) {
             await new Promise((res) => setTimeout(res, 10));
-            if (!roles.includes(this.args.requires || 'ADMIN')) {
+            const requires = this.args.requires || 'ADMIN';
+            if (!this.check(roles, requires)) {
                 return null;
             }
             return result;

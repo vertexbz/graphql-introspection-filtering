@@ -3,7 +3,7 @@ import OnceSession from './OnceSession';
 export default
 class Once {
     protected _store = new Map();
-    protected _ttl = 5000;
+    protected static _ttl = 5000;
 
     protected newSession() {
         return new OnceSession();
@@ -17,7 +17,7 @@ class Once {
         const ses = this.newSession();
 
         this._store.set(context, ses);
-        setTimeout(() => this._store.delete(context), this._ttl);
+        setTimeout(() => this._store.delete(context), (this.constructor as typeof Once)._ttl);
         return ses;
     }
 }

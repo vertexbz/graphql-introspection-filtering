@@ -4,14 +4,6 @@ import createAuthDirective from './_mocks_/createAuthDirective';
 import { introspectionQuery } from '../helper';
 import type { SchemaDirectiveVisitor } from "graphql-tools";
 
-declare global {
-    namespace jest {
-        interface Matchers<R> {
-            toContainOnly(expected: any): R;
-        }
-    }
-}
-
 describe('Visitors',  () => {
     test('visitIntrospectionScalar', async () => {
         const Directive = createAuthDirective(['USER']);
@@ -23,9 +15,6 @@ describe('Visitors',  () => {
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
-        const calls = spy.mock.calls.map(([subject]) => subject);
-        const reference = calls.pop();
-        expect(calls).toContainOnly(reference);
 
         const [subject, info] = spy.mock.calls[0];
         const instance: SchemaDirectiveVisitor = spy.mock.instances[0] as any;
@@ -124,9 +113,6 @@ describe('Visitors',  () => {
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
-        const calls = spy.mock.calls.map(([subject]) => subject);
-        const reference = calls.pop();
-        expect(calls).toContainOnly(reference);
 
         const [subject, info] = spy.mock.calls[0];
         const instance: SchemaDirectiveVisitor = spy.mock.instances[0] as any;
@@ -150,9 +136,6 @@ describe('Visitors',  () => {
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
-        const calls = spy.mock.calls.map(([subject]) => subject);
-        const reference = calls.pop();
-        expect(calls).toContainOnly(reference);
 
         const [subject, info] = spy.mock.calls[0];
         const instance: SchemaDirectiveVisitor = spy.mock.instances[0] as any;
@@ -176,9 +159,6 @@ describe('Visitors',  () => {
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
-        const calls = spy.mock.calls.map(([subject]) => subject);
-        const reference = calls.pop();
-        expect(calls).toContainOnly(reference);
 
         const [subject, info] = spy.mock.calls[0];
         const instance: SchemaDirectiveVisitor = spy.mock.instances[0] as any;
@@ -248,9 +228,6 @@ describe('Visitors',  () => {
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
-        const calls = spy.mock.calls.map(([subject]) => subject);
-        const reference = calls.pop();
-        expect(calls).toContainOnly(reference);
 
 
         const [subject, info] = spy.mock.calls[0];
