@@ -22,7 +22,7 @@ describe('Visitors',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        expect(spy).toBeCalledTimes(3);
+        expect(spy).toBeCalledTimes(1);
         const calls = spy.mock.calls.map(([subject]) => subject);
         const reference = calls.pop();
         expect(calls).toContainOnly(reference);
@@ -33,6 +33,8 @@ describe('Visitors',  () => {
         expect(subject).toBeTruthy();
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
+
+        expect(subject.name).toBe('Text');
 
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
@@ -46,24 +48,22 @@ describe('Visitors',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        expect(spy).toBeCalledTimes(2 * 3);
-        {
-            const calls = spy.mock.calls.slice(0, 3).map(([subject]) => subject);
-            const reference = calls.pop();
-            expect(calls).toContainOnly(reference);
-        }
-        {
-            const calls = spy.mock.calls.slice(3, 3).map(([subject]) => subject);
-            const reference = calls.pop();
-            expect(calls).toContainOnly(reference);
-        }
+        expect(spy).toBeCalledTimes(2);
 
         const [subject, info] = spy.mock.calls[0];
+        const [subject2] = spy.mock.calls[1];
         const instance: SchemaDirectiveVisitor = spy.mock.instances[0] as any;
+
+        // should be two different objects
+        expect(instance).not.toBe(spy.mock.instances[1]);
+        expect(subject).not.toBe(subject2);
 
         expect(subject).toBeTruthy();
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
+
+        expect(subject.name).toBe('OPrivate');
+        expect(subject2.name).toBe('Book');
 
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
@@ -86,6 +86,8 @@ describe('Visitors',  () => {
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
 
+        expect(subject.name).toBe('param2protected');
+
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
 
@@ -107,6 +109,8 @@ describe('Visitors',  () => {
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
 
+        expect(subject.name).toBe('books');
+
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
 
@@ -119,7 +123,7 @@ describe('Visitors',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        expect(spy).toBeCalledTimes(3);
+        expect(spy).toBeCalledTimes(1);
         const calls = spy.mock.calls.map(([subject]) => subject);
         const reference = calls.pop();
         expect(calls).toContainOnly(reference);
@@ -130,6 +134,8 @@ describe('Visitors',  () => {
         expect(subject).toBeTruthy();
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
+
+        expect(subject.name).toBe('Role');
 
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
@@ -143,7 +149,7 @@ describe('Visitors',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        expect(spy).toBeCalledTimes(3);
+        expect(spy).toBeCalledTimes(1);
         const calls = spy.mock.calls.map(([subject]) => subject);
         const reference = calls.pop();
         expect(calls).toContainOnly(reference);
@@ -154,6 +160,8 @@ describe('Visitors',  () => {
         expect(subject).toBeTruthy();
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
+
+        expect(subject.name).toBe('IPrivate');
 
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
@@ -167,7 +175,7 @@ describe('Visitors',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        expect(spy).toBeCalledTimes(3);
+        expect(spy).toBeCalledTimes(1);
         const calls = spy.mock.calls.map(([subject]) => subject);
         const reference = calls.pop();
         expect(calls).toContainOnly(reference);
@@ -178,6 +186,8 @@ describe('Visitors',  () => {
         expect(subject).toBeTruthy();
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
+
+        expect(subject.name).toBe('Private');
 
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
@@ -200,6 +210,8 @@ describe('Visitors',  () => {
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
 
+        expect(subject.name).toBe('ADMIN');
+
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
 
@@ -221,6 +233,8 @@ describe('Visitors',  () => {
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
 
+        expect(subject.name).toBe('type');
+
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
 
@@ -233,7 +247,7 @@ describe('Visitors',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        expect(spy).toBeCalledTimes(3);
+        expect(spy).toBeCalledTimes(1);
         const calls = spy.mock.calls.map(([subject]) => subject);
         const reference = calls.pop();
         expect(calls).toContainOnly(reference);
@@ -245,6 +259,8 @@ describe('Visitors',  () => {
         expect(subject).toBeTruthy();
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
+
+        expect(subject.name).toBe('InProtected');
 
         expect(instance.args.requires).toMatch(/^ADMIN|USER$/);
     });
@@ -266,6 +282,8 @@ describe('Visitors',  () => {
         expect(subject).toBeTruthy();
         expect(info).toBeTruthy();
         expect(info.schema).toBe(instance.schema);
+
+        expect(subject.name).toBe('auth');
     });
 });
 
