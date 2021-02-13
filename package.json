@@ -17,7 +17,10 @@
     "build": "yarn clean && tsc",
     "lint": "eslint --ext .ts --cache src tests",
     "prepare": "yarn lint && yarn test && yarn build",
-    "test": "jest --config .jestrc.json",
+    "test": "jest --no-cache --config .jestrc.json",
+    "test:integration": "yarn test ./tests/integration",
+    "test:unit": "yarn test ./tests/unit",
+    "test:coverage": "yarn test:integration --ci --coverage && yarn test:unit --ci --coverage",
     "example": "ts-node -P ./tsconfig.all.json ./example/index.ts"
   },
   "author": "Adam Makświej <adam.makswiej@gmail.com>",

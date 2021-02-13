@@ -50,8 +50,8 @@ export default class Introspection {
         const manager = Manager.extract(info.schema);
 
         if (manager) {
-            if ((info.operation as any)[SHOULD_HOOK_QUERY] === undefined) {
-                (info.operation as any)[SHOULD_HOOK_QUERY] = manager.shouldHookQuery(context);
+            if (!Introspection.shouldHook(manager, context, info)) {
+                return subject;
             }
 
             if (Array.isArray(subject)) {
@@ -79,7 +79,7 @@ export default class Introspection {
      * @protected
      */
     protected static isExcluded(subject: VisitableIntrospectionType) {
-        // exclude already hooked
+        // exclude already hooked top level objects/fields
         if ((subject as any)[INTROSPECTION_HOOK]) {
             return true;
         }
@@ -91,5 +91,21 @@ export default class Introspection {
 
         // exclude rest of fundamental introspection types
         return introspectionTypes.includes(subject as any);
+    }
+
+    /**
+     * Tells whether current introspection query be hooked
+     *
+     * @param manager
+     * @param context
+     * @param info
+     * @protected
+     */
+    protected static shouldHook<C>(manager: Manager<C>, context: C, info: GraphQLResolveInfo): boolean {
+        if ((info.operation as any)[SHOULD_HOOK_QUERY] === undefined) {
+            (info.operation as any)[SHOULD_HOOK_QUERY] = manager.shouldHookQuery(context);
+        }
+
+        return (info.operation as any)[SHOULD_HOOK_QUERY];
     }
 }

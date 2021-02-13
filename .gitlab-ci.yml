@@ -26,7 +26,7 @@ cache:
     - yarn config set "strict-ssl" false -g
   script:
     - yarn install
-    - yarn test --coverage
+    - yarn test:coverage
   except:
     - tags
 
