@@ -1,7 +1,7 @@
-import { graphql, parse, subscribe } from 'graphql';
+import { buildClientSchema, graphql, parse, printSchema, subscribe } from 'graphql';
 import createSchema from './_mocks_/schemas/common-cases';
 import { introspectionQuery } from '../helper';
-import type { ExecutionResult } from 'graphql';
+import type { ExecutionResult, IntrospectionQuery } from 'graphql';
 
 describe('Common cases',  () => {
     test('Guest', async () => {
@@ -11,11 +11,13 @@ describe('Common cases',  () => {
 
         const schema = createSchema(testUser, testMutation, testSubscription, ['GUEST']);
 
-        const introspectionResult = await graphql(schema, introspectionQuery);
+        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
-        expect(JSON.stringify(introspectionResult.data)).not.toMatch(/private/i);
-        expect(JSON.stringify(introspectionResult.data)).not.toMatch(/protected/i);
-        expect(introspectionResult.data).toMatchSnapshot();
+
+        const textSchema = printSchema(buildClientSchema(introspectionResult.data!));
+        expect(textSchema).not.toMatch(/private/i);
+        expect(textSchema).not.toMatch(/protected/i);
+        expect(textSchema).toMatchSnapshot();
 
         // test simple query
         const queryResult = await graphql(schema, '{ me { name roleProtected } }');
@@ -42,10 +44,13 @@ describe('Common cases',  () => {
 
         const schema = createSchema(testUser, testMutation, testSubscription, ['GUEST', 'USER']);
 
-        const introspectionResult = await graphql(schema, introspectionQuery);
+        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
-        expect(JSON.stringify(introspectionResult.data)).not.toMatch(/private/i);
-        expect(introspectionResult.data).toMatchSnapshot();
+
+        const textSchema = printSchema(buildClientSchema(introspectionResult.data!));
+        expect(textSchema).toMatch(/protected/i);
+        expect(textSchema).not.toMatch(/private/i);
+        expect(textSchema).toMatchSnapshot();
 
         // test simple query
         const queryResult = await graphql(schema, '{ me { name roleProtected } }');
@@ -72,11 +77,13 @@ describe('Common cases',  () => {
 
         const schema = createSchema(testUser, testMutation, testSubscription, ['GUEST', 'USER', 'ADMIN']);
 
-        const introspectionResult = await graphql(schema, introspectionQuery);
+        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
-        expect(JSON.stringify(introspectionResult.data)).toMatch(/private/i);
-        expect(JSON.stringify(introspectionResult.data)).toMatch(/protected/i);
-        expect(introspectionResult.data).toMatchSnapshot();
+
+        const textSchema = printSchema(buildClientSchema(introspectionResult.data!));
+        expect(textSchema).toMatch(/private/i);
+        expect(textSchema).toMatch(/protected/i);
+        expect(textSchema).toMatchSnapshot();
 
         // test simple query
         const queryResult = await graphql(schema, '{ me { name roleProtected } }');

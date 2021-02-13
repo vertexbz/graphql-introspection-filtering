@@ -47,6 +47,12 @@ type Query {
 export default (directive: typeof SchemaDirectiveVisitor) =>  makeFilteredSchema({
     typeDefs,
     resolvers: {
+        Private: {
+            __resolveType: () => 'Book'
+        },
+        IPrivate: {
+            __resolveType: () => 'OPrivate'
+        }
     },
     schemaDirectives: {
         auth: directive
