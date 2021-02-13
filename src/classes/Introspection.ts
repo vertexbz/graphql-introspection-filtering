@@ -48,7 +48,7 @@ export default class Introspection {
 
         if (manager) {
             if ((info.operation as any)[SHOULD_HOOK_QUERY] === undefined) {
-                (info.operation as any)[SHOULD_HOOK_QUERY] = manager.shouldHookQuery();
+                (info.operation as any)[SHOULD_HOOK_QUERY] = manager.shouldHookQuery(context);
             }
 
             if (Array.isArray(subject)) {

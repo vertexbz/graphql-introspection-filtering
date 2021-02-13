@@ -4,13 +4,6 @@ const CACHE = Symbol('CACHE');
 
 export default
 class Once {
-    // protected _store = new Map();
-    // protected _cacheTtl: number;
-
-    // constructor(cacheTtl: number) {
-    //     this._cacheTtl = cacheTtl;
-    // }
-
     protected newSession() {
         return new OnceSession();
     }
@@ -32,7 +25,6 @@ class Once {
         const ses = this.newSession();
 
         store.set(this, ses);
-        // setTimeout(() => this._store.delete(context), this._cacheTtl);
         return ses;
     }
 }

@@ -4,8 +4,8 @@ import { INTROSPECTION_VISITOR_METHODS, SCHEMA_MANAGER } from '../constants';
 import hasOwn from './hasOwn';
 
 import type { GraphQLSchema } from 'graphql';
-import type { IExecutableSchemaDefinition, SchemaDirectiveVisitor } from 'graphql-tools';
-import type { BuilderSig, IntrospectionDirectiveVisitorStatic } from '../types';
+import type { SchemaDirectiveVisitor } from 'graphql-tools';
+import type { BuilderSig, ExecutableSchemaDefinition, IntrospectionDirectiveVisitorStatic } from '../types';
 
 /**
  * Filter Introspection directive visitors from directive map
@@ -29,7 +29,7 @@ const filterIntrospectionDirectives = (directives: Record<string, IntrospectionD
  * @param builder original schema builder
  */
 export default <TContext = any>(
-    config: IExecutableSchemaDefinition<TContext>,
+    config: ExecutableSchemaDefinition<TContext>,
     builder: BuilderSig<TContext> = makeExecutableSchema
 ): GraphQLSchema => {
     const schema = builder(config);
@@ -40,7 +40,7 @@ export default <TContext = any>(
                 throw new Error('Already injected!');
             }
 
-            (schema as any)[SCHEMA_MANAGER] = new Manager(introspectionDirectives, schema);
+            (schema as any)[SCHEMA_MANAGER] = new Manager<TContext>(introspectionDirectives, schema, config);
         }
     }
     return schema;

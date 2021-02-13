@@ -1,6 +1,14 @@
 import chain from './chain';
 import isPromise from './isPromise';
 
+/**
+ * Maps array of items of given types with `fn` callback,
+ * if callback returns promise for eny element,
+ * result will be wrapped with `Promise.all`
+ *
+ * @param array array of values
+ * @param fn function to transform values, can return promises
+ */
 export default <T = any>(array: T[], fn: (item: T) => T): T[] | Promise<T[]> => {
     const items: any[] = [];
 

@@ -81,6 +81,11 @@ export interface IntrospectionDirectiveVisitor extends SchemaDirectiveVisitor {
  * IntrospectionDirectiveVisitor's static interface
  */
 export interface IntrospectionDirectiveVisitorStatic {
+    /**
+     * IntrospectionDirectiveVisitor constructor
+     * (derived from SchemaDirectiveVisitor)
+     * @param config
+     */
     new(config: {
         name: string;
         args: Record<string, any>;
@@ -95,7 +100,14 @@ export interface IntrospectionDirectiveVisitorStatic {
  * Internal helper type
  */
 export interface DirectiveConfig {
+    /**
+     * Directive name
+     */
     name: string;
+    /**
+     * Directive arguments
+     * (unavailable for directive visitor!)
+     */
     args: Record<string, any>;
 }
 
@@ -104,7 +116,26 @@ export interface DirectiveConfig {
  * Internal helper type
  */
 export interface ClassDirectiveConfig extends DirectiveConfig {
+    /**
+     * Introspection schema visitor class constructor
+     * (matched by name)
+     */
     cls: IntrospectionDirectiveVisitorStatic;
+}
+
+/**
+ * Decides whether query should be hooked
+ */
+export type ShouldSkipQueryPredicate<TContext = any> = (context: TContext) => boolean;
+
+/**
+ * Executable schema definition (config) with introspection Manager config
+ */
+export interface ExecutableSchemaDefinition<TContext = any> extends IExecutableSchemaDefinition<TContext> {
+    /**
+     * Skip query predicate or counter
+     */
+    shouldSkipQuery?: null | undefined | number | ShouldSkipQueryPredicate<TContext>
 }
 
 /**

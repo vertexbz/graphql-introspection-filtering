@@ -2,14 +2,9 @@ import { graphql } from 'graphql';
 import createSchema from './_mocks_/schemas/visitors';
 import createAuthDirective from './_mocks_/createAuthDirective';
 import { introspectionQuery } from '../helper';
-import Once from '../../src/classes/Once';
 
 const check = (required: string, context: any): boolean => {
     return context.includes(required);
-};
-
-const timoutSessions = (instances: Once[]) => {
-    instances.forEach((instance) => ((instance as any)._store as Map<any, any>).clear());
 };
 
 describe('Multiple calls',  () => {

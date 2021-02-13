@@ -9,6 +9,7 @@ import {
 } from 'graphql';
 import { SCHEMA_HOOK, SCHEMA_MANAGER } from '../constants';
 import hasOwn from '../tools/hasOwn';
+import parseDirectiveAst from '../tools/parseDirectiveAst';
 import Hook from './Hook';
 
 import type { DirectiveNode } from 'graphql/language/ast';
@@ -21,17 +22,18 @@ import type {
 } from 'graphql';
 import type {
     ClassDirectiveConfig,
-    DirectiveConfig,
     IntrospectionDirectiveVisitor,
     VisitableIntrospectionType,
     IntrospectionDirectiveVisitorStatic,
-    VisitableSchemaType
+    VisitableSchemaType,
+    ExecutableSchemaDefinition,
+    ShouldSkipQueryPredicate
 } from '../types';
 
 /**
  * Introspection schema hooks manager
  */
-export default class Manager {
+export default class Manager<C = any> {
     /**
      * Extract Manager from schema
      *
@@ -47,15 +49,22 @@ export default class Manager {
 
     protected _directives: Record<string, IntrospectionDirectiveVisitorStatic>;
     protected _schema: GraphQLSchema;
+    protected _shouldSkipQuery: null | number | ShouldSkipQueryPredicate<C> = null;
 
     /**
      * Manager constructor
      * @param directives introspection directive visitors map
      * @param schema graphql schema want to visit
+     * @param config schema configuration (definition)
      */
-    public constructor(directives: Record<string, IntrospectionDirectiveVisitorStatic>, schema: GraphQLSchema) {
+    public constructor(
+        directives: Record<string, IntrospectionDirectiveVisitorStatic>,
+        schema: GraphQLSchema,
+        config: ExecutableSchemaDefinition<C>
+    ) {
         this._directives = directives;
         this._schema = schema;
+        this._shouldSkipQuery = config.shouldSkipQuery || null;
     }
 
     /**
@@ -66,7 +75,7 @@ export default class Manager {
      * @param context current graphql context
      * @param info graphql resolve info
      */
-    public resolve<T extends VisitableIntrospectionType, R extends VisitableSchemaType = any, C = any>(
+    public resolve<T extends VisitableIntrospectionType, R extends VisitableSchemaType = any>(
         subject: T, root: R, context: C, info: GraphQLResolveInfo
     ): Promise<T|null> | T|null {
         if (!hasOwn(subject, SCHEMA_HOOK)) {
@@ -83,8 +92,21 @@ export default class Manager {
      * It may be useful to occasionally not hook the introspection query
      * For example to hash it by apollo, which requires sync resolution
      * It's always the first introspection query made o the instance
+     *
+     * @param context current query context
      */
-    public shouldHookQuery() {
+    public shouldHookQuery(context: C) {
+        if (typeof this._shouldSkipQuery === 'number') {
+            if (this._shouldSkipQuery > 0) {
+                --this._shouldSkipQuery;
+                return false;
+            }
+
+            return true;
+        } else if (typeof this._shouldSkipQuery === 'function') {
+            return !this._shouldSkipQuery(context);
+        }
+
         return true;
     }
 
@@ -136,7 +158,7 @@ export default class Manager {
 
         const directives: ReadonlyArray<DirectiveNode> = (subject.astNode as any)?.directives || [];
         if (directives.length > 0) {
-            return this.parseDirectiveAst(directives)
+            return parseDirectiveAst(directives)
                 .filter(({ name }) => Object.keys(this._directives).includes(name))
                 .map<ClassDirectiveConfig>((config) => ({
                     ...config,
@@ -171,24 +193,5 @@ export default class Manager {
         }
 
         return false;
-    }
-
-    /**
-     * Grabs directive name and arguments from AST
-     *
-     * @param directives array of AST definitions for directives applied to type/field
-     * @protected
-     */
-    protected parseDirectiveAst(directives: ReadonlyArray<DirectiveNode>): DirectiveConfig[] {
-        return directives
-            .map(({ name: { value: name }, arguments: args = [] }) => {
-                return {
-                    name,
-                    args: args.reduce((args: Record<string, any>, { name: { value: name }, value }) => {
-                        args[name] = (value as any).value || null;
-                        return args;
-                    }, {})
-                };
-            });
     }
 }
