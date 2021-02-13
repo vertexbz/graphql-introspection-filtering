@@ -1,27 +1,38 @@
 import OnceSession from './OnceSession';
 
+const CACHE = Symbol('CACHE');
+
 export default
 class Once {
-    protected _store = new Map();
-    protected _cacheTtl: number;
+    // protected _store = new Map();
+    // protected _cacheTtl: number;
 
-    constructor(cacheTtl: number) {
-        this._cacheTtl = cacheTtl;
-    }
+    // constructor(cacheTtl: number) {
+    //     this._cacheTtl = cacheTtl;
+    // }
 
     protected newSession() {
         return new OnceSession();
     }
 
+    protected getStore(context: any): Map<Once, OnceSession> {
+        if (!context[CACHE]) {
+            context[CACHE] = new Map();
+        }
+
+        return context[CACHE];
+    }
+
     public session(context: any): OnceSession {
-        if (this._store.has(context)) {
-            return this._store.get(context);
+        const store = this.getStore(context);
+        if (store.has(this)) {
+            return store.get(this)!;
         }
 
         const ses = this.newSession();
 
-        this._store.set(context, ses);
-        setTimeout(() => this._store.delete(context), this._cacheTtl);
+        store.set(this, ses);
+        // setTimeout(() => this._store.delete(context), this._cacheTtl);
         return ses;
     }
 }

@@ -1,5 +1,5 @@
 import { defaultFieldResolver, introspectionTypes } from 'graphql';
-import { INTROSPECTION_HOOK } from '../constants';
+import { INTROSPECTION_HOOK, SHOULD_HOOK_QUERY } from '../constants';
 import chainArray from '../tools/chainArray';
 import chain from '../tools/chain';
 import Manager from './Manager';
@@ -39,13 +39,18 @@ export default class Introspection {
         info: GraphQLResolveInfo
     ) {
         const subject = this(root, args, context, info);
-        if (!subject || !(typeof subject === 'object')) {
+
+        if (!subject || !(typeof subject === 'object') || (info.operation as any)[SHOULD_HOOK_QUERY] === false) {
             return subject;
         }
 
         const manager = Manager.extract(info.schema);
 
         if (manager) {
+            if ((info.operation as any)[SHOULD_HOOK_QUERY] === undefined) {
+                (info.operation as any)[SHOULD_HOOK_QUERY] = manager.shouldHookQuery();
+            }
+
             if (Array.isArray(subject)) {
                 const resolved = chainArray(subject, (item) => {
                     if (Introspection.isExcluded(item)) {

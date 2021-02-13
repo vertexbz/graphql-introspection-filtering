@@ -19,3 +19,5 @@ export const INTROSPECTION_HOOK = Symbol('INTROSPECTION_HOOK');
 export const SCHEMA_MANAGER = Symbol('SCHEMA_HOOK');
 
 export const SCHEMA_HOOK = Symbol('SCHEMA_HOOK');
+
+export const SHOULD_HOOK_QUERY = Symbol('SHOULD_HOOK_QUERY');

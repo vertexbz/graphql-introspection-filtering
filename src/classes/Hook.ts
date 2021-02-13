@@ -15,12 +15,11 @@ class Hook {
      *
      * @param directives directives to be executed for type/field
      * @param method directives method to be called on resolve
-     * @param cacheTtl ttl for field resolve cache default is 1s
      */
-    constructor(directives: ClassDirectiveConfig[], method: keyof IntrospectionDirectiveVisitor, cacheTtl: number) {
+    constructor(directives: ClassDirectiveConfig[], method: keyof IntrospectionDirectiveVisitor) {
         this._directives = directives;
         this._method = method;
-        this._once = new Once(cacheTtl);
+        this._once = new Once();
     }
 
     /**
@@ -34,7 +33,7 @@ class Hook {
     public resolve<S extends VisitableIntrospectionType, R extends VisitableSchemaType = any, C = any>(
         subject: S, root: R, context: C, info: GraphQLResolveInfo
     ): Promise<S | null> | S | null {
-        const session = this._once.session(context);
+        const session = this._once.session(info.operation);
         if (session.isRunning) {
             return session.join();
         }

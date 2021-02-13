@@ -28,7 +28,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -37,14 +37,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionScalar');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -86,7 +83,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(2);
+            expect(spy).toBeCalledTimes(4);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -95,14 +92,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionObject');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -144,7 +138,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -153,14 +147,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionInputField');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -202,7 +193,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -211,14 +202,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionField');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -260,7 +248,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -269,14 +257,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionEnum');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -318,7 +303,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -327,14 +312,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionInterface');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -376,7 +358,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -385,14 +367,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionUnion');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -434,7 +413,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -443,14 +422,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionEnumValue');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -492,7 +468,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -501,14 +477,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionArgument');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -550,7 +523,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -559,14 +532,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionInputObject');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
@@ -608,7 +578,7 @@ describe('Multiple calls',  () => {
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
-            expect(spy).toBeCalledTimes(1);
+            expect(spy).toBeCalledTimes(2);
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
@@ -617,14 +587,11 @@ describe('Multiple calls',  () => {
 
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionDirective');
-            const spyOnce = jest.spyOn(Once.prototype, 'newSession' as any);
 
             const schema = createSchema(Directive);
 
             const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
-
-            timoutSessions(spyOnce.mock.instances);
 
             const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();

@@ -47,7 +47,6 @@ export default class Manager {
 
     protected _directives: Record<string, IntrospectionDirectiveVisitorStatic>;
     protected _schema: GraphQLSchema;
-    private _cacheTtl = 1000;
 
     /**
      * Manager constructor
@@ -81,14 +80,12 @@ export default class Manager {
     }
 
     /**
-     * Change default introspection resolver cache ttl
-     * This cache is used to not perform duplicated
-     * resolutions for the same type/field during single request
-     *
-     * @param ttl
+     * It may be useful to occasionally not hook the introspection query
+     * For example to hash it by apollo, which requires sync resolution
+     * It's always the first introspection query made o the instance
      */
-    public setCacheTtl(ttl: number) {
-        this._cacheTtl = ttl;
+    public shouldHookQuery() {
+        return true;
     }
 
     /**
@@ -169,7 +166,7 @@ export default class Manager {
                 });
 
             if (filteredDirectives.length > 0) {
-                return new Hook(filteredDirectives, method, this._cacheTtl);
+                return new Hook(filteredDirectives, method);
             }
         }
 
