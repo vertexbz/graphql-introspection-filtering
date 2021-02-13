@@ -1,7 +1,7 @@
 import { buildClientSchema, graphql, parse, printSchema, subscribe } from 'graphql';
 import createSchema from './_mocks_/schemas/common-cases';
 import { introspectionQuery } from '../helper';
-import type { ExecutionResult, IntrospectionQuery } from 'graphql';
+import type { ExecutionResult } from 'graphql';
 
 describe('Common cases',  () => {
     test('Guest', async () => {
@@ -11,10 +11,10 @@ describe('Common cases',  () => {
 
         const schema = createSchema(testUser, testMutation, testSubscription, ['GUEST']);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        const textSchema = printSchema(buildClientSchema(introspectionResult.data!));
+        const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
         expect(textSchema).not.toMatch(/private/i);
         expect(textSchema).not.toMatch(/protected/i);
         expect(textSchema).toMatchSnapshot();
@@ -44,10 +44,10 @@ describe('Common cases',  () => {
 
         const schema = createSchema(testUser, testMutation, testSubscription, ['GUEST', 'USER']);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        const textSchema = printSchema(buildClientSchema(introspectionResult.data!));
+        const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
         expect(textSchema).toMatch(/protected/i);
         expect(textSchema).not.toMatch(/private/i);
         expect(textSchema).toMatchSnapshot();
@@ -77,10 +77,10 @@ describe('Common cases',  () => {
 
         const schema = createSchema(testUser, testMutation, testSubscription, ['GUEST', 'USER', 'ADMIN']);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        const textSchema = printSchema(buildClientSchema(introspectionResult.data!));
+        const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
         expect(textSchema).toMatch(/private/i);
         expect(textSchema).toMatch(/protected/i);
         expect(textSchema).toMatchSnapshot();

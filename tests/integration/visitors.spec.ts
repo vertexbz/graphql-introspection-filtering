@@ -2,7 +2,6 @@ import { graphql } from 'graphql';
 import createSchema from './_mocks_/schemas/visitors';
 import createAuthDirective from './_mocks_/createAuthDirective';
 import { introspectionQuery } from '../helper';
-import type { IntrospectionQuery } from 'graphql';
 import type { SchemaDirectiveVisitor } from 'graphql-tools';
 
 describe('Visitors',  () => {
@@ -12,7 +11,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -35,7 +34,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(2);
@@ -63,7 +62,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -86,7 +85,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -109,7 +108,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -132,7 +131,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -155,7 +154,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -178,7 +177,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -201,7 +200,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -224,7 +223,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);
@@ -248,7 +247,7 @@ describe('Visitors',  () => {
 
         const schema = createSchema(Directive);
 
-        const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery);
+        const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
         expect(spy).toBeCalledTimes(1);

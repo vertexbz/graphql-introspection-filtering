@@ -2,7 +2,6 @@ import { graphql } from 'graphql';
 import createSchema from './_mocks_/schemas/visitors';
 import createAuthDirective from './_mocks_/createAuthDirective';
 import { introspectionQuery } from '../helper';
-import type { IntrospectionQuery } from 'graphql';
 
 const check = (required: string, context: any): boolean => {
     return context.includes(required);
@@ -18,10 +17,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -37,10 +36,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -54,10 +53,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, []);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, []);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -75,10 +74,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(4);
@@ -94,10 +93,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(4);
@@ -111,10 +110,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, []);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, []);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(4);
@@ -132,10 +131,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -151,10 +150,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -168,10 +167,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER', 'ADMIN']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER', 'ADMIN']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -189,10 +188,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -208,10 +207,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -225,10 +224,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, []);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, []);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -246,10 +245,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -265,10 +264,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -282,10 +281,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, []);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, []);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -303,10 +302,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -322,10 +321,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -339,10 +338,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, []);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, []);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -360,10 +359,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -379,10 +378,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -396,10 +395,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, []);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, []);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -417,10 +416,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -436,10 +435,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -453,10 +452,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER', 'ADMIN']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER', 'ADMIN']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -474,10 +473,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -493,10 +492,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -510,10 +509,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER', 'ADMIN']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER', 'ADMIN']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -531,10 +530,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -550,10 +549,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -567,10 +566,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, []);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, []);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -588,10 +587,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -607,10 +606,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, contextValue);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, contextValue);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
@@ -624,10 +623,10 @@ describe('Multiple calls',  () => {
 
             const schema = createSchema(Directive);
 
-            const introspectionResult = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, ['USER']);
+            const introspectionResult = await graphql(schema, introspectionQuery, null, ['USER']);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const introspectionResult2 = await graphql<IntrospectionQuery>(schema, introspectionQuery, null, []);
+            const introspectionResult2 = await graphql(schema, introspectionQuery, null, []);
             expect(introspectionResult2.errors).toBeFalsy();
 
             expect(spy).toBeCalledTimes(2);
