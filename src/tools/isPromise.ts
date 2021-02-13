@@ -4,5 +4,5 @@
  * @param subject value or promise to check
  */
 export default <T = any>(subject: Promise<T> | T) => {
-    return subject instanceof Promise;
+    return subject && (subject as Promise<T>).then && typeof (subject as Promise<T>).then === 'function';
 };

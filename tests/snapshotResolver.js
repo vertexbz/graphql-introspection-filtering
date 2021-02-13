@@ -1,9 +1,9 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const path = require('path');
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const package = require('../package.json');
+const pkg = require('../package.json');
 
-const gqlVersion = package.devDependencies.graphql.split('.').shift().replace(/[^0-9]/, '');
+const gqlVersion = pkg.devDependencies.graphql.split('.').shift().replace(/[^0-9]/, '');
 
 module.exports = {
     // resolves from test to snapshot path

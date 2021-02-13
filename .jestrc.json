@@ -3,16 +3,19 @@
     "<rootDir>"
   ],
   "testMatch": [
-    "tests/**/*.+(ts|tsx|js)",
-    "**/?(*.)+(spec|test).+(ts|tsx|js)"
+    "<rootDir>/tests/**/?(*.)+(spec|test).ts"
   ],
   "transform": {
-    "^.+\\.(ts|tsx)$": "ts-jest"
+    "^.+\\.ts": "ts-jest"
   },
   "snapshotResolver": "./tests/snapshotResolver.js",
   "setupFilesAfterEnv": [
-    "./tests/init.js"
   ],
+  "globals": {
+    "ts-jest": {
+      "tsconfig": "./tsconfig.jest.json"
+    }
+  },
   "slowTestThreshold": 20,
   "coveragePathIgnorePatterns": [
     "/node_modules/",

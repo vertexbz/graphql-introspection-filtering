@@ -1,4 +1,6 @@
 /* eslint-disable import/no-unassigned-import, max-len */
+// @ts-ignore
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import '../../../../src/register';
 import makeFilteredSchema from '../../../../src/tools/makeExecutableSchema';
 import type { SchemaDirectiveVisitor } from 'graphql-tools';

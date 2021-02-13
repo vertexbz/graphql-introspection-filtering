@@ -13,5 +13,5 @@ Introspection.hook(__Type.getFields().possibleTypes);
 
 Introspection.hook(__Field.getFields().args);
 
-Introspection.hookRoot(__Schema.getFields().mutationType, 'Mutation');
-Introspection.hookRoot(__Schema.getFields().subscriptionType, 'Subscription');
+Introspection.hook(__Schema.getFields().mutationType);
+Introspection.hook(__Schema.getFields().subscriptionType);

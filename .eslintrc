@@ -122,7 +122,8 @@
       "jsx": false,
       "modules": true,
       "experimentalObjectRestSpread": true
-    }
+    },
+    "module": "es2015"
   },
   "settings": {
     "import/parsers": {
