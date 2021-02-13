@@ -47,6 +47,7 @@ export default class Manager {
 
     protected _directives: Record<string, IntrospectionDirectiveVisitorStatic>;
     protected _schema: GraphQLSchema;
+    private _cacheTtl = 1000;
 
     /**
      * Manager constructor
@@ -77,6 +78,17 @@ export default class Manager {
         }
 
         return (subject as any)[SCHEMA_HOOK].resolve(subject, root, context, info);
+    }
+
+    /**
+     * Change default introspection resolver cache ttl
+     * This cache is used to not perform duplicated
+     * resolutions for the same type/field during single request
+     *
+     * @param ttl
+     */
+    public setCacheTtl(ttl: number) {
+        this._cacheTtl = ttl;
     }
 
     /**
@@ -117,6 +129,28 @@ export default class Manager {
         }
     }
 
+    protected prepareDirectives(subject: VisitableIntrospectionType) {
+        if (subject instanceof GraphQLDirective) {
+            return Object.entries(this._directives)
+                .map<ClassDirectiveConfig>(([name, cls]) => ({
+                    name, args: {}, cls: cls as IntrospectionDirectiveVisitorStatic
+                }));
+        }
+
+        const directives: ReadonlyArray<DirectiveNode> = (subject.astNode as any)?.directives || [];
+        if (directives.length > 0) {
+            return this.parseDirectiveAst(directives)
+                .filter(({ name }) => Object.keys(this._directives).includes(name))
+                .map<ClassDirectiveConfig>((config) => ({
+                    ...config,
+                    cls: this._directives[config.name] as IntrospectionDirectiveVisitorStatic
+                }));
+
+        }
+
+        return [];
+    }
+
     /**
      * Prepare Hook for given class
      *
@@ -125,39 +159,20 @@ export default class Manager {
      * @protected
      */
     protected prepare(subject: VisitableIntrospectionType, root: VisitableSchemaType) {
-        if (subject instanceof GraphQLDirective) {
+        const parsedDirectives = this.prepareDirectives(subject);
+        if (parsedDirectives.length > 0) {
             const method = this.expectedMethodFor(subject, root);
-            const parsedDirectives = Object.entries(this._directives)
-                .map<ClassDirectiveConfig>(([name, cls]) => ({
-                    name, args: {}, cls: cls as IntrospectionDirectiveVisitorStatic
-                }))
+
+            const filteredDirectives = parsedDirectives
                 .filter(({ cls }) => {
                     return method && (method in cls.prototype);
                 });
 
-            if (parsedDirectives.length > 0) {
-                return new Hook(parsedDirectives, method);
+            if (filteredDirectives.length > 0) {
+                return new Hook(filteredDirectives, method, this._cacheTtl);
             }
         }
 
-        const directives: ReadonlyArray<DirectiveNode> = (subject.astNode as any)?.directives || [];
-        if (directives.length > 0) {
-            const method = this.expectedMethodFor(subject, root);
-
-            const parsedDirectives = this.parseDirectiveAst(directives)
-                .filter(({ name }) => Object.keys(this._directives).includes(name))
-                .map<ClassDirectiveConfig>((config) => ({
-                    ...config,
-                    cls: this._directives[config.name] as IntrospectionDirectiveVisitorStatic
-                }))
-                .filter(({ cls }) => {
-                    return method && (method in cls.prototype);
-                });
-
-            if (parsedDirectives.length > 0) {
-                return new Hook(parsedDirectives, method);
-            }
-        }
         return false;
     }
 

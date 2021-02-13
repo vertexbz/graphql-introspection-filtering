@@ -16,6 +16,10 @@ import type {
 } from 'graphql';
 import type { SchemaDirectiveVisitor, IExecutableSchemaDefinition } from 'graphql-tools';
 
+/**
+ * Copy of VisitableSchemaType from graphql-tools for compatibility
+ * Usually represents root of visited introspection type/filed/directive
+ */
 export type VisitableSchemaType = GraphQLSchema
     | GraphQLObjectType
     | GraphQLInterfaceType
@@ -29,6 +33,9 @@ export type VisitableSchemaType = GraphQLSchema
     | GraphQLEnumValue
     | GraphQLInputField;
 
+/**
+ * Represents visited introspection type/filed/directive
+ */
 export type VisitableIntrospectionType = GraphQLScalarType
     | GraphQLObjectType
     | GraphQLInputField
@@ -41,9 +48,21 @@ export type VisitableIntrospectionType = GraphQLScalarType
     | GraphQLInputObjectType
     | GraphQLDirective;
 
+/**
+ * Introspection visitor result template
+ * Internal helper type
+ */
 export type VisitorResult<T> = Promise<T | null> | T | null;
+
+/**
+ * Visitor method template
+ */
 export type IntrospectionVisitor<T> = (result: T, info: GraphQLResolveInfo) => VisitorResult<T>;
 
+/**
+ * Introspection visitor interface, extends SchemaDirectiveVisitor
+ * is instantiated per field/type and context combination
+ */
 export interface IntrospectionDirectiveVisitor extends SchemaDirectiveVisitor {
     visitIntrospectionScalar?: IntrospectionVisitor<GraphQLScalarType>;
     visitIntrospectionObject?: IntrospectionVisitor<GraphQLObjectType>;
@@ -58,6 +77,9 @@ export interface IntrospectionDirectiveVisitor extends SchemaDirectiveVisitor {
     visitIntrospectionDirective?: IntrospectionVisitor<GraphQLDirective>;
 }
 
+/**
+ * IntrospectionDirectiveVisitor's static interface
+ */
 export interface IntrospectionDirectiveVisitorStatic {
     new(config: {
         name: string;
@@ -68,13 +90,25 @@ export interface IntrospectionDirectiveVisitorStatic {
     }): IntrospectionDirectiveVisitor;
 }
 
+/**
+ * Parsed directive entry form schema AST
+ * Internal helper type
+ */
 export interface DirectiveConfig {
     name: string;
     args: Record<string, any>;
 }
 
+/**
+ * Parsed directive entry form schema AST with resolved class
+ * Internal helper type
+ */
 export interface ClassDirectiveConfig extends DirectiveConfig {
     cls: IntrospectionDirectiveVisitorStatic;
 }
 
+/**
+ * makeExecutableSchema executable schema builder signature
+ * Internal helper type
+ */
 export type BuilderSig<TContext = any> = (config: IExecutableSchemaDefinition<TContext>) => GraphQLSchema;

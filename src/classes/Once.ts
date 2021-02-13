@@ -3,7 +3,11 @@ import OnceSession from './OnceSession';
 export default
 class Once {
     protected _store = new Map();
-    protected static _ttl = 5000;
+    protected _cacheTtl: number;
+
+    constructor(cacheTtl: number) {
+        this._cacheTtl = cacheTtl;
+    }
 
     protected newSession() {
         return new OnceSession();
@@ -17,7 +21,7 @@ class Once {
         const ses = this.newSession();
 
         this._store.set(context, ses);
-        setTimeout(() => this._store.delete(context), (this.constructor as typeof Once)._ttl);
+        setTimeout(() => this._store.delete(context), this._cacheTtl);
         return ses;
     }
 }

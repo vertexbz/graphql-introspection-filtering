@@ -8,17 +8,19 @@ export default
 class Hook {
     protected _directives: ClassDirectiveConfig[];
     protected _method: keyof IntrospectionDirectiveVisitor;
-    protected _once = new Once();
+    protected _once: Once;
 
     /**
      * Hook constructor
      *
      * @param directives directives to be executed for type/field
      * @param method directives method to be called on resolve
+     * @param cacheTtl ttl for field resolve cache default is 1s
      */
-    constructor(directives: ClassDirectiveConfig[], method: keyof IntrospectionDirectiveVisitor) {
+    constructor(directives: ClassDirectiveConfig[], method: keyof IntrospectionDirectiveVisitor, cacheTtl: number) {
         this._directives = directives;
         this._method = method;
+        this._once = new Once(cacheTtl);
     }
 
     /**

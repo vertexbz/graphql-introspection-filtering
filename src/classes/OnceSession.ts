@@ -16,6 +16,8 @@ class OnceSession {
         if (this._started) {
             return new Promise((res) => this._awaiters.push(res));
         }
+
+        throw new Error('Session not started!');
     }
 
     public start() {

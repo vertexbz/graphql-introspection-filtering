@@ -13,5 +13,9 @@
   "setupFilesAfterEnv": [
     "./tests/init.js"
   ],
-  "slowTestThreshold": 20
+  "slowTestThreshold": 20,
+  "coveragePathIgnorePatterns": [
+    "/node_modules/",
+    "/tests/"
+  ]
 }
