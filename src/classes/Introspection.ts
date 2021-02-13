@@ -4,16 +4,19 @@ import chainArray from '../tools/chainArray';
 import chain from '../tools/chain';
 import Manager from './Manager';
 
-import type { GraphQLResolveInfo } from 'graphql';
-import type { VisitableIntrospectionType, VisitableSchemaType } from '../types';
+import type { GraphQLResolveInfo, GraphQLField } from 'graphql';
+import type { VisitableIntrospectionType, VisitableSchemaType, VisitorResult } from '../types';
 
+/**
+ * Introspection hook helper
+ */
 export default class Introspection {
     /**
      * Hook Introspection schema resolver
      *
      * @param subject introspection field
      */
-    public static hook(subject: any) {
+    public static hook(subject: GraphQLField<any, any>) {
         if ((subject as any)[INTROSPECTION_HOOK]) {
             return;
         }
@@ -37,7 +40,7 @@ export default class Introspection {
         args: A,
         context: C,
         info: GraphQLResolveInfo
-    ) {
+    ): VisitorResult<any> {
         const subject = this(root, args, context, info);
 
         if (!subject || !(typeof subject === 'object') || (info.operation as any)[SHOULD_HOOK_QUERY] === false) {

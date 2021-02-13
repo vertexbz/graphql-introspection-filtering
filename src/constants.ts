@@ -21,3 +21,5 @@ export const SCHEMA_MANAGER = Symbol('SCHEMA_HOOK');
 export const SCHEMA_HOOK = Symbol('SCHEMA_HOOK');
 
 export const SHOULD_HOOK_QUERY = Symbol('SHOULD_HOOK_QUERY');
+
+export const ONCE_CACHE = Symbol('ONCE_CACHE');

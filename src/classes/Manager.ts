@@ -27,19 +27,20 @@ import type {
     IntrospectionDirectiveVisitorStatic,
     VisitableSchemaType,
     ExecutableSchemaDefinition,
-    ShouldSkipQueryPredicate
+    ShouldSkipQueryPredicate,
+    VisitorResult
 } from '../types';
 
 /**
  * Introspection schema hooks manager
  */
-export default class Manager<C = any> {
+export default class Manager<C> {
     /**
      * Extract Manager from schema
      *
      * @param schema graphql executable schema
      */
-    public static extract(schema: GraphQLSchema): Manager | undefined {
+    public static extract<C>(schema: GraphQLSchema): Manager<C> | undefined {
         if (hasOwn(schema, SCHEMA_MANAGER)) {
             return (schema as any)[SCHEMA_MANAGER];
         }
@@ -77,7 +78,7 @@ export default class Manager<C = any> {
      */
     public resolve<T extends VisitableIntrospectionType, R extends VisitableSchemaType = any>(
         subject: T, root: R, context: C, info: GraphQLResolveInfo
-    ): Promise<T|null> | T|null {
+    ): VisitorResult<T> {
         if (!hasOwn(subject, SCHEMA_HOOK)) {
             (subject as any)[SCHEMA_HOOK] = this.prepare(subject, root);
         }
@@ -95,7 +96,7 @@ export default class Manager<C = any> {
      *
      * @param context current query context
      */
-    public shouldHookQuery(context: C) {
+    public shouldHookQuery(context: C): boolean {
         if (typeof this._shouldSkipQuery === 'number') {
             if (this._shouldSkipQuery > 0) {
                 --this._shouldSkipQuery;
@@ -148,7 +149,13 @@ export default class Manager<C = any> {
         }
     }
 
-    protected prepareDirectives(subject: VisitableIntrospectionType) {
+    /**
+     * Prepare directives assigned to given field/type/...
+     *
+     * @param subject
+     * @protected
+     */
+    protected findDirectives(subject: VisitableIntrospectionType): ClassDirectiveConfig[] {
         if (subject instanceof GraphQLDirective) {
             return Object.entries(this._directives)
                 .map<ClassDirectiveConfig>(([name, cls]) => ({
@@ -156,7 +163,7 @@ export default class Manager<C = any> {
                 }));
         }
 
-        const directives: ReadonlyArray<DirectiveNode> = (subject.astNode as any)?.directives || [];
+        const directives: ReadonlyArray<DirectiveNode> = subject.astNode?.directives || [];
         if (directives.length > 0) {
             return parseDirectiveAst(directives)
                 .filter(({ name }) => Object.keys(this._directives).includes(name))
@@ -171,24 +178,24 @@ export default class Manager<C = any> {
     }
 
     /**
-     * Prepare Hook for given class
+     * Prepare Hook for given subject
      *
      * @param subject type/field that we are creating the Hook for
      * @param root subject's root
      * @protected
      */
-    protected prepare(subject: VisitableIntrospectionType, root: VisitableSchemaType) {
-        const parsedDirectives = this.prepareDirectives(subject);
-        if (parsedDirectives.length > 0) {
+    protected prepare(subject: VisitableIntrospectionType, root: VisitableSchemaType): Hook<C> | false {
+        const matchingDirectives = this.findDirectives(subject);
+        if (matchingDirectives.length > 0) {
             const method = this.expectedMethodFor(subject, root);
 
-            const filteredDirectives = parsedDirectives
+            const filteredDirectives = matchingDirectives
                 .filter(({ cls }) => {
                     return method && (method in cls.prototype);
                 });
 
             if (filteredDirectives.length > 0) {
-                return new Hook(filteredDirectives, method);
+                return new Hook<C>(filteredDirectives, method);
             }
         }
 

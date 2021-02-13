@@ -2,13 +2,22 @@ import chain from '../tools/chain';
 import Once from './Once';
 
 import type { GraphQLResolveInfo } from 'graphql';
-import type { ClassDirectiveConfig, IntrospectionDirectiveVisitor, VisitableIntrospectionType, VisitableSchemaType } from '../types';
+import type { OperationDefinitionNode } from 'graphql/language/ast';
+import type {
+    ClassDirectiveConfig,
+    IntrospectionDirectiveVisitor,
+    VisitableIntrospectionType,
+    VisitableSchemaType,
+    VisitorResult
+} from '../types';
 
-export default
-class Hook {
+/**
+ * Introspection field hook
+ */
+export default class Hook<C> {
     protected _directives: ClassDirectiveConfig[];
     protected _method: keyof IntrospectionDirectiveVisitor;
-    protected _once: Once;
+    protected _once = new Once<OperationDefinitionNode>();
 
     /**
      * Hook constructor
@@ -19,7 +28,6 @@ class Hook {
     constructor(directives: ClassDirectiveConfig[], method: keyof IntrospectionDirectiveVisitor) {
         this._directives = directives;
         this._method = method;
-        this._once = new Once();
     }
 
     /**
@@ -30,11 +38,11 @@ class Hook {
      * @param context
      * @param info
      */
-    public resolve<S extends VisitableIntrospectionType, R extends VisitableSchemaType = any, C = any>(
+    public resolve<S extends VisitableIntrospectionType, R extends VisitableSchemaType = any>(
         subject: S, root: R, context: C, info: GraphQLResolveInfo
-    ): Promise<S | null> | S | null {
+    ): VisitorResult<S> {
         const session = this._once.session(info.operation);
-        if (session.isRunning) {
+        if (session.canJoin) {
             return session.join();
         }
         session.start();
