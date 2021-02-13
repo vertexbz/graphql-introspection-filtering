@@ -32,6 +32,7 @@ describe('OnceSession', () => {
         expect(await awaiter).toBe(result);
 
     });
+
     test('join finished session', () => {
         const session = new OnceSession();
         session.start();

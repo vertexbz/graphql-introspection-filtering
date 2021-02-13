@@ -27,6 +27,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -45,6 +46,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionScalar');
@@ -82,6 +84,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -100,6 +103,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionObject');
@@ -137,6 +141,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -155,6 +160,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionInputField');
@@ -192,6 +198,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -210,6 +217,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionField');
@@ -247,6 +255,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -265,6 +274,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionEnum');
@@ -302,6 +312,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -320,6 +331,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionInterface');
@@ -357,6 +369,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -375,6 +388,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionUnion');
@@ -412,6 +426,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -430,6 +445,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionEnumValue');
@@ -467,6 +483,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -485,6 +502,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionArgument');
@@ -522,6 +540,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -540,6 +559,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionInputObject');
@@ -577,6 +597,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with same context, after timeout', async () => {
             const contextValue = ['USER'];
 
@@ -595,6 +616,7 @@ describe('Multiple calls',  () => {
 
             expect(introspectionResult.data).toEqual(introspectionResult2.data);
         });
+
         test('with different context', async () => {
             const Directive = createAuthDirective(check);
             const spy = jest.spyOn(Directive.prototype, 'visitIntrospectionDirective');

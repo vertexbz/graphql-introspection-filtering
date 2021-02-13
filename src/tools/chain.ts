@@ -5,7 +5,7 @@ import isPromise from './isPromise';
  * @param valueOrPromise value or promise to chain
  * @param fn function to process value or promises result
  */
-export default <T>(valueOrPromise: Promise<T> | T, fn: (v: T) => T) => {
+export default <T>(valueOrPromise: Promise<T> | T, fn: (v: T) => T | Promise<T>) => {
     if (isPromise(valueOrPromise)) {
         const promise = valueOrPromise as Promise<T>;
 

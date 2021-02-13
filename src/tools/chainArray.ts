@@ -9,7 +9,7 @@ import isPromise from './isPromise';
  * @param array array of values
  * @param fn function to transform values, can return promises
  */
-export default <T = any>(array: T[], fn: (item: T) => T): T[] | Promise<T[]> => {
+export default <T = any>(array: T[], fn: (item: T) => T | Promise<T>): T[] | Promise<T[]> => {
     const items: any[] = [];
 
     let promise = false;

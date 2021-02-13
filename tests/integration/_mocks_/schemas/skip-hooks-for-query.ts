@@ -4,7 +4,8 @@
 import '../../../../src/register';
 import makeFilteredSchema from '../../../../src/tools/makeExecutableSchema';
 import createAuthDirective from '../createAuthDirective';
-import { ShouldSkipQueryPredicate } from "../../../../src/types";
+
+import type { ShouldSkipQueryPredicate } from '../../../../src/types';
 
 // language=GraphQL
 const typeDefs = `
