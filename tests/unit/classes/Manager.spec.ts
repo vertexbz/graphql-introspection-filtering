@@ -138,7 +138,7 @@ describe('Manager', () => {
         describe('prepare', () => {
             describe('no directives', () => {
                 test.each([
-                    ['visitIntrospectionScalar' , new GraphQLScalarType({ name: 'scalar' }), {}],
+                    ['visitIntrospectionScalar' , new GraphQLScalarType({ name: 'scalar', serialize: (a) => a }), {}],
                     ['visitIntrospectionObject' , new GraphQLObjectType({ name: '123', fields: {} }), {}],
                     ['visitIntrospectionInputField' , { astNode: { kind: 'InputValueDefinition' } },
                         new GraphQLInputObjectType({ name: 'input', fields: {} })],
@@ -182,7 +182,7 @@ describe('Manager', () => {
 
             describe('no matching directives', () => {
                 test.each([
-                    ['visitIntrospectionScalar' , new GraphQLScalarType({ name: 'scalar' }), {}],
+                    ['visitIntrospectionScalar' , new GraphQLScalarType({ name: 'scalar', serialize: (a) => a }), {}],
                     ['visitIntrospectionObject' , new GraphQLObjectType({ name: '123', fields: {} }), {}],
                     ['visitIntrospectionInputField' , { astNode: { kind: 'InputValueDefinition' } },
                         new GraphQLInputObjectType({ name: 'input', fields: {} })],
@@ -226,7 +226,7 @@ describe('Manager', () => {
             });
 
             test.each([
-                ['visitIntrospectionScalar' , new GraphQLScalarType({ name: 'scalar' }), {}],
+                ['visitIntrospectionScalar' , new GraphQLScalarType({ name: 'scalar', serialize: (a) => a }), {}],
                 ['visitIntrospectionObject' , new GraphQLObjectType({ name: '123', fields: {} }), {}],
                 ['visitIntrospectionInputField' , { astNode: { kind: 'InputValueDefinition' } },
                     new GraphQLInputObjectType({ name: 'input', fields: {} })],

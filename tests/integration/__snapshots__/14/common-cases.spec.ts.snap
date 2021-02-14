@@ -149,11 +149,11 @@ type User {
   roleProtected: String!
   roleForAdmin: String!
 }
-"
+
 `;
 
 exports[`Common cases Guest 1`] = `
-"type Empty {
+type Empty {
 
 }
 
@@ -231,11 +231,11 @@ scalar Text
 type User {
   name: String!
 }
-"
+
 `;
 
 exports[`Common cases User 1`] = `
-"type Empty {
+type Empty {
 
 }
 

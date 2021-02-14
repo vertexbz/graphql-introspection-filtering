@@ -121,7 +121,7 @@ type User {
 `;
 
 exports[`Common (no empty) cases Guest 1`] = `
-"enum EnumPartial {
+enum EnumPartial {
   PUBLIC
 }
 
@@ -181,7 +181,7 @@ type User {
 `;
 
 exports[`Common (no empty) cases User 1`] = `
-"enum EnumPartial {
+enum EnumPartial {
   PUBLIC
 }
 
