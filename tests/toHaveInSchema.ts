@@ -18,7 +18,7 @@ const getStringForSchema = (schema: IntrospectionQuery) => {
         return cache.get(schema);
     }
 
-    const str = String(printSchema(buildClientSchema(schema)));
+    const str = printSchema(buildClientSchema(schema));
     cache.set(schema, str);
     return str;
 };
@@ -27,7 +27,11 @@ expect.extend({
     toHaveInSchema(received: IntrospectionQuery, expected: string | RegExp) {
         const schema = getStringForSchema(received);
 
-        const pass = schema.match(expected); // todo improve
+        if (typeof expected === 'string' || expected instanceof String) {
+            expected = new RegExp('\\b' + expected + '\\b', 'i');
+        }
+
+        const pass = schema.match(expected);
 
         if (pass) {
             return {

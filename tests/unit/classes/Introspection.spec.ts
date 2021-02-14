@@ -312,61 +312,116 @@ describe('Introspection', () => {
             expect(result).toStrictEqual(resolution);
         });
 
-        test('custom object definition', async () => {
-            const resolution = { asd: 123, astNode: { } };
-            const mockSubject: any = { };
+        describe('custom object definition', () => {
+            test('value', () => {
+                const resolution = { asd: 123, astNode: { } };
+                const mockSubject: any = { };
 
-            Introspection.hook(mockSubject as any);
+                Introspection.hook(mockSubject as any);
 
-            expect(typeof mockSubject.resolve).toBe('function');
+                expect(typeof mockSubject.resolve).toBe('function');
 
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const managerResolve = jest.fn((a, b, c, d) => Promise.resolve({ ...a, from: 'manager' })); // todo value
-            const mockManager = { resolve: managerResolve };
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const managerResolve = jest.fn((a, b, c, d) => ({ ...a, from: 'manager' }));
+                const mockManager = { resolve: managerResolve };
 
-            const mockInfo = {
-                operation: { [SHOULD_HOOK_QUERY]: true },
-                schema: { [SCHEMA_MANAGER]: mockManager },
-                fieldName: 'resolution'
-            };
+                const mockInfo = {
+                    operation: { [SHOULD_HOOK_QUERY]: true },
+                    schema: { [SCHEMA_MANAGER]: mockManager },
+                    fieldName: 'resolution'
+                };
 
-            const result = mockSubject.resolve({ resolution }, { }, null, mockInfo);
+                const result = mockSubject.resolve({ resolution }, { }, null, mockInfo);
 
-            expect(managerResolve).toBeCalled();
-            expect(result).toBeInstanceOf(Promise);
-            expect(await result).toStrictEqual({ ...resolution, from: 'manager' });
+                expect(managerResolve).toBeCalled();
+                expect(result).toStrictEqual({ ...resolution, from: 'manager' });
+            });
+
+            test('promise', async () => {
+                const resolution = { asd: 123, astNode: { } };
+                const mockSubject: any = { };
+
+                Introspection.hook(mockSubject as any);
+
+                expect(typeof mockSubject.resolve).toBe('function');
+
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const managerResolve = jest.fn((a, b, c, d) => Promise.resolve({ ...a, from: 'manager' }));
+                const mockManager = { resolve: managerResolve };
+
+                const mockInfo = {
+                    operation: { [SHOULD_HOOK_QUERY]: true },
+                    schema: { [SCHEMA_MANAGER]: mockManager },
+                    fieldName: 'resolution'
+                };
+
+                const result = mockSubject.resolve({ resolution }, { }, null, mockInfo);
+
+                expect(managerResolve).toBeCalled();
+                expect(result).toBeInstanceOf(Promise);
+                expect(await result).toStrictEqual({ ...resolution, from: 'manager' });
+            });
         });
 
-        test('custom objects definition', async () => {
-            const resolution = [{ asd: 123, astNode: { } }, { asd: 321, astNode: { } }];
-            const mockSubject: any = { };
+        describe('custom objects definition', () => {
+            test('value', () => {
+                const resolution = [{ asd: 123, astNode: { } }, { asd: 321, astNode: { } }];
+                const mockSubject: any = { };
 
-            Introspection.hook(mockSubject as any);
+                Introspection.hook(mockSubject as any);
 
-            expect(typeof mockSubject.resolve).toBe('function');
+                expect(typeof mockSubject.resolve).toBe('function');
 
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            const managerResolve = jest.fn((a, b, c, d) => {
-                if (a.asd === 123) {
-                    return null;
-                }
-                return Promise.resolve({ ...a, from: 'manager' });  // todo value
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const managerResolve = jest.fn((a, b, c, d) => {
+                    if (a.asd === 123) {
+                        return null;
+                    }
+                    return { ...a, from: 'manager' };
+                });
+                const mockManager = { resolve: managerResolve };
+
+                const mockInfo = {
+                    operation: { [SHOULD_HOOK_QUERY]: true },
+                    schema: { [SCHEMA_MANAGER]: mockManager },
+                    fieldName: 'resolution'
+                };
+
+                const result = mockSubject.resolve({ resolution }, { }, null, mockInfo);
+
+                expect(managerResolve).toBeCalled();
+                expect(result).toStrictEqual([{ asd: 321, astNode: { }, from: 'manager' }]);
             });
-            const mockManager = { resolve: managerResolve };
 
-            const mockInfo = {
-                operation: { [SHOULD_HOOK_QUERY]: true },
-                schema: { [SCHEMA_MANAGER]: mockManager },
-                fieldName: 'resolution'
-            };
+            test('promise', async () => {
+                const resolution = [{ asd: 123, astNode: { } }, { asd: 321, astNode: { } }];
+                const mockSubject: any = { };
 
-            const result = mockSubject.resolve({ resolution }, { }, null, mockInfo);
+                Introspection.hook(mockSubject as any);
 
-            expect(managerResolve).toBeCalled();
-            expect(result).toBeInstanceOf(Promise);
-            expect(await result).toStrictEqual([{ asd: 321, astNode: { }, from: 'manager' }]);
+                expect(typeof mockSubject.resolve).toBe('function');
+
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                const managerResolve = jest.fn((a, b, c, d) => {
+                    if (a.asd === 123) {
+                        return null;
+                    }
+                    return Promise.resolve({ ...a, from: 'manager' });
+                });
+                const mockManager = { resolve: managerResolve };
+
+                const mockInfo = {
+                    operation: { [SHOULD_HOOK_QUERY]: true },
+                    schema: { [SCHEMA_MANAGER]: mockManager },
+                    fieldName: 'resolution'
+                };
+
+                const result = mockSubject.resolve({ resolution }, { }, null, mockInfo);
+
+                expect(managerResolve).toBeCalled();
+                expect(result).toBeInstanceOf(Promise);
+                expect(await result).toStrictEqual([{ asd: 321, astNode: { }, from: 'manager' }]);
+            });
         });
     });
-
-    // todo test resolve via manager array and object, maybe exclusions
 });
