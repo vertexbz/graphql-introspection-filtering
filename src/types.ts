@@ -63,7 +63,7 @@ export type IntrospectionVisitor<T> = (result: T, info: GraphQLResolveInfo) => V
  * Introspection visitor interface, extends SchemaDirectiveVisitor
  * is instantiated per field/type and context combination
  */
-export interface IntrospectionDirectiveVisitor extends SchemaDirectiveVisitor {
+export interface IntrospectionDirectiveVisitor<TArgs = any, TContext = any> extends SchemaDirectiveVisitor<TArgs, TContext> {
     visitIntrospectionScalar?: IntrospectionVisitor<GraphQLScalarType>;
     visitIntrospectionObject?: IntrospectionVisitor<GraphQLObjectType>;
     visitIntrospectionInputField?: IntrospectionVisitor<GraphQLInputField>;

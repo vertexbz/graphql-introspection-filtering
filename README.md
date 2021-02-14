@@ -1,18 +1,17 @@
 # graphql-introspection-filtering
 
-Filter graphql schema introspection result to hide restricted fields and types. 
-It allows using extended `SchemaDirectiveVisitor`s or filter functions to decide which
-schema nodes will be returned with introspection result  
+Extend `SchemaDirectiveVisitor`'s abilities and filter/modify introspection query results.
 
 > **NOTE:** For successful introspection all dependent types must be returned.
-If any of dependent types is missing it won't be possible to rebuild graph on
-client side i.e. graphql playground is unable to build an interactive documentation. 
+If any of dependent types is missing, it's not possible to rebuild graph on
+client side, for example graphql playground is unable to build an interactive documentation. 
 
 > **NOTE:** `Query` type definition is required
 
 > **NOTE:** Object types must contain at least one visible field
 
-**Tested with GraphQL 14.0.0 - 15.5.0 - ...**
+> **Tested with GraphQL 14.0.0 - 15.5.0**
+
 
 ## Installation
 ```bash
@@ -23,29 +22,115 @@ or
 yarn add graphql-introspection-filtering
 ```
 
+
 ## Usage
 
-### Make filtered schema
-You need to create your executable schema with `makeExecutableSchema` provided by `graphql-introspection-filtering`
+### Create schema
+Filtering is possible on schemas created with `makeExecutableSchema`, provided by `graphql-introspection-filtering`.
 ```
 import makeExecutableSchema from 'graphql-introspection-filtering';
 
 const schema = makeExecutableSchema(schemaConfig[, builder]);
 ```
 
-- `schemaConfig` - schema configuration like for original `makeExecutableSchema`
-- `builder` - builder function (default: original `makeExecutableSchema`)
+- `schemaConfig` - schema configuration, extended original `makeExecutableSchema`'s config object
+  
+  Additional options
+  
+  | Option              | Type                                     | Default | Description | 
+  |---------------------|------------------------------------------|---------|-------------|
+  | **shouldSkipQuery** | `null`, `number`, `(context) => boolean` | `null`  | When positive number provided, this number of introspection queries will be unfiltered. Alternatively callback can be provided, it takes `context` as an argument, and should return boolean. |
+  
 
-## Example
+- `builder` - builder function (default: original graphql `makeExecutableSchema`)
+
+### Create introspection schema visitor
+Every object and field is visited by a directive visitor, where corresponding directive is applied on it in
+a schema definition (directives on directives are not allowed, so all directives pass this requirement)
+**AND** assigned directive visitor contains a corresponding introspection visitor method.
+
+Directive visitor instance is created for every object and field it was applied to (and all directive definitions).
+
+When *falsy* value is returned by a visitor, the field / object is excluded from introspection result.
+
+Example introspection directive visitor below.
+```ts
+class AuthenticationDirective<TArgs = any, TContext = any> extends SchemaDirectiveVisitor<TArgs, TContext> implements IntrospectionDirectiveVisitor<TArgs, TContext> {
+    name: string; // name of the directive used in schema
+    args: TArgs; // arguments provided to directive
+    visitedType: VisitableSchemaType; // parent of visited object/field/...
+    context: TContext; // current query context
+
+    // (optional) If defined instance can visit field argument definitions
+    visitIntrospectionArgument(result: GraphQLArgument, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLArgument> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit `directive` definitions
+    visitIntrospectionDirective(result: GraphQLDirective, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLDirective> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit `enum` definitions
+    visitIntrospectionEnum(result: GraphQLEnumType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLEnumType> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit enum value definitions
+    visitIntrospectionEnumValue(result: GraphQLEnumValue, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLEnumValue> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit object field definitions
+    visitIntrospectionField(result: GraphQLField<any, any>, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLField<any, any>> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit input field definitions
+    visitIntrospectionInputField(result: GraphQLInputField, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLInputField> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit `input` object definitions
+    visitIntrospectionInputObject(result: GraphQLInputObjectType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLInputObjectType> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit `interface` definitions
+    visitIntrospectionInterface(result: GraphQLInterfaceType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLInterfaceType> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit object `type` definitions
+    visitIntrospectionObject(result: GraphQLObjectType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLObjectType> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit `scalar` definitions
+    visitIntrospectionScalar(result: GraphQLScalarType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLScalarType> {
+        return this.authenticate(result);
+    }
+
+    // (optional) If defined instance can visit `union` definitions
+    visitIntrospectionUnion(result: GraphQLUnionType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLUnionType> {
+        return this.authenticate(result);
+    }
+}
+```
+
+
+## Examples
 
 ### Integration tests
-There are working examples available in `tests/integration/__mocks__`.
+There are working examples available, to start local server
+use `npm run example` or `yarn example`.
+Those examples use schema mocks from `tests/integration/__mocks__`.
 
-### Minimal example
-Minimal schema and auth introspection visitor
+### Authentication example
+This example provides simple authentication based on roles provided in context.
 
-#### Configure graphql schema structure
-```graphql schema
+#### Schema
+```graphql
 enum Role @auth(requires: ADMIN) {
     ADMIN
     REVIEWER
@@ -71,91 +156,71 @@ type Query {
 #### AuthenticationDirective 
 ```ts
 class AuthenticationDirective extends SchemaDirectiveVisitor implements IntrospectionDirectiveVisitor {
-    async validate(result: any) {
-        if (!roles.includes(this.args.requires || 'ADMIN')) {
+    async authenticate(result: any) {
+        if (!this.context.roles.includes(this.args.requires || 'ADMIN')) {
             return null;
         }
         return result;
     }
 
-    visitIntrospectionArgument<TSource, TContext, TArgs>(
-        result: GraphQLArgument,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLArgument | null> | GraphQLArgument | null {
-        return this.validate(result);
+    visitIntrospectionArgument(result: GraphQLArgument, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLArgument> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionDirective<TSource, TContext, TArgs>(
-        result: GraphQLDirective,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLDirective | null> | GraphQLDirective | null {
-        console.log(result);
-        return this.validate(result);
+    visitIntrospectionDirective(result: GraphQLDirective, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLDirective> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionEnum<TSource, TContext, TArgs>(
-        result: GraphQLEnumType,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLEnumType | null> | GraphQLEnumType | null {
-        return this.validate(result);
+    visitIntrospectionEnum(result: GraphQLEnumType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLEnumType> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionEnumValue<TSource, TContext, TArgs>(
-        result: GraphQLEnumValue,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLEnumValue | null> | GraphQLEnumValue | null {
-        return this.validate(result);
+    visitIntrospectionEnumValue(result: GraphQLEnumValue, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLEnumValue> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionField<TSource, TContext, TArgs>(
-        result: GraphQLField<any, any>,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLField<any, any> | null> | GraphQLField<any, any> | null {
-        return this.validate(result);
+    visitIntrospectionField(result: GraphQLField<any, any>, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLField<any, any>> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionInputField<TSource, TContext, TArgs>(
-        result: GraphQLInputField,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLInputField | null> | GraphQLInputField | null {
-        return this.validate(result);
+    visitIntrospectionInputField(result: GraphQLInputField, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLInputField> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionInputObject<TSource, TContext, TArgs>(
-        result: GraphQLInputObjectType,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLInputObjectType | null> | GraphQLInputObjectType | null {
-        return this.validate(result);
+    visitIntrospectionInputObject(result: GraphQLInputObjectType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLInputObjectType> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionInterface<TSource, TContext, TArgs>(
-        result: GraphQLInterfaceType,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLInterfaceType | null> | GraphQLInterfaceType | null {
-        return this.validate(result);
+    visitIntrospectionInterface(result: GraphQLInterfaceType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLInterfaceType> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionObject<TSource, TContext, TArgs>(
-        result: GraphQLObjectType,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLObjectType | null> | GraphQLObjectType | null {
-        return this.validate(result);
+    visitIntrospectionObject(result: GraphQLObjectType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLObjectType> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionScalar<TSource, TContext, TArgs>(
-        result: GraphQLScalarType,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLScalarType | null> | GraphQLScalarType | null {
-        return this.validate(result);
+    visitIntrospectionScalar(result: GraphQLScalarType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLScalarType> {
+        return this.authenticate(result);
     }
 
-    visitIntrospectionUnion<TSource, TContext, TArgs>(
-        result: GraphQLUnionType,
-        info: GraphQLResolveInfo
-    ): Promise<GraphQLUnionType | null> | GraphQLUnionType | null {
-        return this.validate(result);
+    visitIntrospectionUnion(result: GraphQLUnionType, info: GraphQLResolveInfo): IntrospectionVisitor<GraphQLUnionType> {
+        return this.authenticate(result);
     }
 
     // ....
 }
+```
+
+#### Make it executable
+```ts
+import makeExecutableSchema from 'graphql-introspection-filtering';
+
+const schema = makeExecutableSchema({
+    typeDefs: ...schema...,
+    ...,
+    schemaDirectives: {
+        auth: AuthenticationDirective
+    },
+    shouldSkipQuery: 1 // skip initial query, which is executeted to hash schema
+});
 ```
