@@ -5,7 +5,7 @@ describe('Hook.resolve', () => {
         const hook = new Hook<any>([], 'visit' as any);
 
         const subject = { hello: 'subject' };
-        const mockInfo = { operation: {} };
+        const mockInfo = { variableValues: {} };
         const result = hook.resolve(subject as any, null as any, null, mockInfo as any);
 
         expect(result).toStrictEqual({ hello: 'subject' });
@@ -32,7 +32,7 @@ describe('Hook.resolve', () => {
 
         const subject = { hello: 'subject' };
         const mockSchema = { schema: [1, 2, 3] };
-        const mockInfo = { operation: {}, schema: mockSchema };
+        const mockInfo = { variableValues: {}, schema: mockSchema };
         const mockRoot = { root: 'qwe' };
         const mockContext = { context: 5345 };
         const result = hook.resolve(subject as any, mockRoot as any, mockContext, mockInfo as any);
@@ -75,7 +75,7 @@ describe('Hook.resolve', () => {
 
         const subject = { hello: 'subject' };
         const mockSchema = { schema: [1, 2, 3] };
-        const mockInfo = { operation: {}, schema: mockSchema };
+        const mockInfo = { variableValues: {}, schema: mockSchema };
         const mockRoot = { root: 'qwe' };
         const mockContext = { context: 5345 };
         const result = hook.resolve(subject as any, mockRoot as any, mockContext, mockInfo as any);
@@ -118,7 +118,7 @@ describe('Hook.resolve', () => {
             const hook = new Hook<any>([{ name: 'test1a', cls: Directive, args: mockDirectiveArgs }] as any, 'visit' as any);
 
             const subject = { hello: 'subject' };
-            const mockInfo = { operation: {} };
+            const mockInfo = { variableValues: {} };
 
             const result = hook.resolve(subject as any, null as any, null, mockInfo as any);
             expect(result).toBeInstanceOf(Promise);
@@ -149,11 +149,11 @@ describe('Hook.resolve', () => {
 
             const subject = { hello: 'subject' };
 
-            const mockInfo = { operation: {} };
+            const mockInfo = { variableValues: {} };
             const result = hook.resolve(subject as any, null as any, null, mockInfo as any);
             expect(result).toBeInstanceOf(Promise);
 
-            const mockInfo2 = { operation: {} };
+            const mockInfo2 = { variableValues: {} };
             const result2 = hook.resolve(subject as any, null as any, null, mockInfo2 as any);
             expect(result2).toBeInstanceOf(Promise);
 
@@ -182,7 +182,7 @@ describe('Hook.resolve', () => {
         const hook2 = new Hook<any>([{ name: 'test1a', cls: Directive, args: mockDirectiveArgs }] as any, 'visit' as any);
 
         const subject = { hello: 'subject' };
-        const mockInfo = { operation: {} };
+        const mockInfo = { variableValues: {} };
 
         const result = hook.resolve(subject as any, null as any, null, mockInfo as any);
         expect(result).toBeInstanceOf(Promise);

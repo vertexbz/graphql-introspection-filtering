@@ -2,7 +2,6 @@ import chain from '../tools/chain';
 import Once from './Once';
 
 import type { GraphQLResolveInfo } from 'graphql';
-import type { OperationDefinitionNode } from 'graphql/language/ast';
 import type {
     ClassDirectiveConfig,
     IntrospectionDirectiveVisitor,
@@ -17,7 +16,7 @@ import type {
 export default class Hook<C> {
     protected _directives: ClassDirectiveConfig[];
     protected _method: keyof IntrospectionDirectiveVisitor;
-    protected _once = new Once<OperationDefinitionNode>();
+    protected _once = new Once<any>();
 
     /**
      * Hook constructor
@@ -41,7 +40,7 @@ export default class Hook<C> {
     public resolve<S extends VisitableIntrospectionType, R extends VisitableSchemaType = any>(
         subject: S, root: R, context: C, info: GraphQLResolveInfo
     ): VisitorResult<S> {
-        const session = this._once.session(info.operation);
+        const session = this._once.session(info.variableValues);
         if (session.canJoin) {
             return session.join();
         }

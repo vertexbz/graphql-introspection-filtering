@@ -171,7 +171,7 @@ describe('Manager', () => {
                     const manager = new Manager(directives, null as any, { } as any);
 
                     const context = { context: 'mock' };
-                    const info = { operation: { } };
+                    const info = { variableValues: { } };
                     const result = manager.resolve(subject as any, root as any, context, info as any);
 
                     expect(spy).not.toBeCalled();
@@ -216,7 +216,7 @@ describe('Manager', () => {
                     const manager = new Manager(directives, null as any, { } as any);
 
                     const context = { context: 'mock' };
-                    const info = { operation: { } };
+                    const info = { variableValues: { } };
                     const result = manager.resolve(subject as any, root as any, context, info as any);
 
                     expect(spy).not.toBeCalled();
@@ -269,7 +269,7 @@ describe('Manager', () => {
                 const manager = new Manager(directives, null as any, { } as any);
 
                 const context = { context: 'mock' };
-                const info = { operation: { } };
+                const info = { variableValues: { } };
                 const result = manager.resolve(subject as any, root as any, context, info as any);
 
                 expect(skippedSpy).not.toBeCalled();
@@ -307,7 +307,7 @@ describe('Manager', () => {
                 const manager = new Manager(directives, null as any, { } as any);
 
                 const context = { context: 'mock' };
-                const info = { operation: { } };
+                const info = { variableValues: { } };
                 const result = manager.resolve(subject as any, null as any, context, info as any);
 
                 expect(otherSpy).toBeCalled();
