@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Skip hooks for query callback 1`] = `
-"type Query {
+type Query {
   hello: String!
 }
-"
+
 `;
 
 exports[`Skip hooks for query callback 2`] = `
-"directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
 
 enum Role {
   USER
@@ -26,18 +26,18 @@ type Mutation {
 type Subscription {
   subscribe: Int!
 }
-"
+
 `;
 
 exports[`Skip hooks for query countdown = 0 1`] = `
-"type Query {
+type Query {
   hello: String!
 }
-"
+
 `;
 
 exports[`Skip hooks for query countdown > 0 1`] = `
-"directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
 
 enum Role {
   USER
@@ -55,11 +55,11 @@ type Mutation {
 type Subscription {
   subscribe: Int!
 }
-"
+
 `;
 
 exports[`Skip hooks for query countdown > 0 2`] = `
-"directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
+directive @auth(requires: Role = USER) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION
 
 enum Role {
   USER
@@ -77,26 +77,26 @@ type Mutation {
 type Subscription {
   subscribe: Int!
 }
-"
+
 `;
 
 exports[`Skip hooks for query countdown > 0 3`] = `
-"type Query {
+type Query {
   hello: String!
 }
-"
+
 `;
 
 exports[`Skip hooks for query countdown > 0 4`] = `
-"type Query {
+type Query {
   hello: String!
 }
-"
+
 `;
 
 exports[`Skip hooks for query empty (default) 1`] = `
-"type Query {
+type Query {
   hello: String!
 }
-"
+
 `;

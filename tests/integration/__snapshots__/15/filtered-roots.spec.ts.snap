@@ -1,14 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Filtered roots Guest 1`] = `
-"type Query {
+type Query {
   hello: String!
 }
-"
+
 `;
 
 exports[`Filtered roots User 1`] = `
-"enum Role {
+enum Role {
   USER
   GUEST
 }
@@ -24,5 +24,5 @@ type Mutation {
 type Subscription {
   subscribe: Int!
 }
-"
+
 `;

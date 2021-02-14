@@ -1,4 +1,6 @@
-import { buildClientSchema, graphql, printSchema } from 'graphql';
+// eslint-disable-next-line import/no-unassigned-import
+import '../toHaveInSchema';
+import { graphql } from 'graphql';
 import createSchema from './_mocks_/schemas/skip-hooks-for-query';
 import { introspectionQuery } from '../helper';
 
@@ -9,11 +11,10 @@ describe('Skip hooks for query',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-        expect(textSchema).toMatch('hello');
-        expect(textSchema).not.toMatch('mutate');
-        expect(textSchema).not.toMatch('subscribe');
-        expect(textSchema).toMatchSnapshot();
+        expect(introspectionResult.data).toHaveInSchema('hello');
+        expect(introspectionResult.data).not.toHaveInSchema('mutate');
+        expect(introspectionResult.data).not.toHaveInSchema('subscribe');
+        expect(introspectionResult.data).toMatchSnapshot();
     });
 
     test('countdown = 0', async () => {
@@ -22,11 +23,10 @@ describe('Skip hooks for query',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-        expect(textSchema).toMatch('hello');
-        expect(textSchema).not.toMatch('mutate');
-        expect(textSchema).not.toMatch('subscribe');
-        expect(textSchema).toMatchSnapshot();
+        expect(introspectionResult.data).toHaveInSchema('hello');
+        expect(introspectionResult.data).not.toHaveInSchema('mutate');
+        expect(introspectionResult.data).not.toHaveInSchema('subscribe');
+        expect(introspectionResult.data).toMatchSnapshot();
     });
 
     // eslint-disable-next-line max-statements
@@ -37,41 +37,37 @@ describe('Skip hooks for query',  () => {
             const introspectionResult = await graphql(schema, introspectionQuery);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-            expect(textSchema).toMatch('hello');
-            expect(textSchema).toMatch('mutate');
-            expect(textSchema).toMatch('subscribe');
-            expect(textSchema).toMatchSnapshot();
+            expect(introspectionResult.data).toHaveInSchema('hello');
+            expect(introspectionResult.data).toHaveInSchema('mutate');
+            expect(introspectionResult.data).toHaveInSchema('subscribe');
+            expect(introspectionResult.data).toMatchSnapshot();
         }
         { // second skipped query, counter 1 => 0
             const introspectionResult = await graphql(schema, introspectionQuery);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-            expect(textSchema).toMatch('hello');
-            expect(textSchema).toMatch('mutate');
-            expect(textSchema).toMatch('subscribe');
-            expect(textSchema).toMatchSnapshot();
+            expect(introspectionResult.data).toHaveInSchema('hello');
+            expect(introspectionResult.data).toHaveInSchema('mutate');
+            expect(introspectionResult.data).toHaveInSchema('subscribe');
+            expect(introspectionResult.data).toMatchSnapshot();
         }
         { // hooked query, counter at 0
             const introspectionResult = await graphql(schema, introspectionQuery);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-            expect(textSchema).toMatch('hello');
-            expect(textSchema).not.toMatch('mutate');
-            expect(textSchema).not.toMatch('subscribe');
-            expect(textSchema).toMatchSnapshot();
+            expect(introspectionResult.data).toHaveInSchema('hello');
+            expect(introspectionResult.data).not.toHaveInSchema('mutate');
+            expect(introspectionResult.data).not.toHaveInSchema('subscribe');
+            expect(introspectionResult.data).toMatchSnapshot();
         }
         { // hooked query, counter at 0
             const introspectionResult = await graphql(schema, introspectionQuery);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-            expect(textSchema).toMatch('hello');
-            expect(textSchema).not.toMatch('mutate');
-            expect(textSchema).not.toMatch('subscribe');
-            expect(textSchema).toMatchSnapshot();
+            expect(introspectionResult.data).toHaveInSchema('hello');
+            expect(introspectionResult.data).not.toHaveInSchema('mutate');
+            expect(introspectionResult.data).not.toHaveInSchema('subscribe');
+            expect(introspectionResult.data).toMatchSnapshot();
         }
     });
 
@@ -86,21 +82,19 @@ describe('Skip hooks for query',  () => {
             const introspectionResult = await graphql(schema, introspectionQuery, null, hookedContext);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-            expect(textSchema).toMatch('hello');
-            expect(textSchema).not.toMatch('mutate');
-            expect(textSchema).not.toMatch('subscribe');
-            expect(textSchema).toMatchSnapshot();
+            expect(introspectionResult.data).toHaveInSchema('hello');
+            expect(introspectionResult.data).not.toHaveInSchema('mutate');
+            expect(introspectionResult.data).not.toHaveInSchema('subscribe');
+            expect(introspectionResult.data).toMatchSnapshot();
         }
         {
             const introspectionResult = await graphql(schema, introspectionQuery);
             expect(introspectionResult.errors).toBeFalsy();
 
-            const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-            expect(textSchema).toMatch('hello');
-            expect(textSchema).toMatch('mutate');
-            expect(textSchema).toMatch('subscribe');
-            expect(textSchema).toMatchSnapshot();
+            expect(introspectionResult.data).toHaveInSchema('hello');
+            expect(introspectionResult.data).toHaveInSchema('mutate');
+            expect(introspectionResult.data).toHaveInSchema('subscribe');
+            expect(introspectionResult.data).toMatchSnapshot();
         }
     });
 });

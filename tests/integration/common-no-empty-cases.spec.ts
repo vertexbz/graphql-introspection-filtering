@@ -1,4 +1,6 @@
-import { buildClientSchema, graphql, parse, printSchema, subscribe } from 'graphql';
+// eslint-disable-next-line import/no-unassigned-import
+import '../toHaveInSchema';
+import { graphql, parse, subscribe } from 'graphql';
 import createSchema from './_mocks_/schemas/common-no-empty-cases';
 import { introspectionQuery } from '../helper';
 import type { ExecutionResult } from 'graphql';
@@ -14,10 +16,9 @@ describe('Common (no empty) cases',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-        expect(textSchema).not.toMatch(/private/i);
-        expect(textSchema).not.toMatch(/protected/i);
-        expect(textSchema).toMatchSnapshot();
+        expect(introspectionResult.data).not.toHaveInSchema(/private/i);
+        expect(introspectionResult.data).not.toHaveInSchema(/protected/i);
+        expect(introspectionResult.data).toMatchSnapshot();
 
         // test simple query
         const queryResult = await graphql(schema, '{ me { name roleProtected } }');
@@ -47,10 +48,9 @@ describe('Common (no empty) cases',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-        expect(textSchema).not.toMatch(/private/i);
-        expect(textSchema).toMatch(/protected/i);
-        expect(textSchema).toMatchSnapshot();
+        expect(introspectionResult.data).not.toHaveInSchema(/private/i);
+        expect(introspectionResult.data).toHaveInSchema(/protected/i);
+        expect(introspectionResult.data).toMatchSnapshot();
 
         // test simple query
         const queryResult = await graphql(schema, '{ me { name roleProtected } }');
@@ -80,10 +80,9 @@ describe('Common (no empty) cases',  () => {
         const introspectionResult = await graphql(schema, introspectionQuery);
         expect(introspectionResult.errors).toBeFalsy();
 
-        const textSchema = printSchema(buildClientSchema(introspectionResult.data as any));
-        expect(textSchema).toMatch(/private/i);
-        expect(textSchema).toMatch(/protected/i);
-        expect(textSchema).toMatchSnapshot();
+        expect(introspectionResult.data).toHaveInSchema(/private/i);
+        expect(introspectionResult.data).toHaveInSchema(/protected/i);
+        expect(introspectionResult.data).toMatchSnapshot();
 
         // test simple query
         const queryResult = await graphql(schema, '{ me { name roleProtected } }');

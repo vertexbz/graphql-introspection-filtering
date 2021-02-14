@@ -1,7 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Common cases Admin 1`] = `
-"directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | SCALAR
+directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | SCALAR
+
+directive @testd on OBJECT
+
+directive @testd2(arg: String) on OBJECT
 
 enum Role {
   ADMIN
@@ -145,11 +149,11 @@ type Mutation {
 type Subscription {
   subscribe: Int!
 }
-"
+
 `;
 
 exports[`Common cases Guest 1`] = `
-"enum EnumPublic {
+enum EnumPublic {
   PUBLIC
   PUBLIC2
 }
@@ -219,11 +223,11 @@ type Mutation {
 type Subscription {
   subscribe: Int!
 }
-"
+
 `;
 
 exports[`Common cases User 1`] = `
-"enum Role {
+enum Role {
   ADMIN
   REVIEWER
   USER
@@ -309,5 +313,5 @@ type Mutation {
 type Subscription {
   subscribe: Int!
 }
-"
+
 `;

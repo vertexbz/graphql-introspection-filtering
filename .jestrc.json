@@ -11,6 +11,9 @@
   "snapshotResolver": "./tests/snapshotResolver.js",
   "setupFilesAfterEnv": [
   ],
+  "snapshotSerializers": [
+    "./tests/graphqlSerializer.js"
+  ],
   "globals": {
     "ts-jest": {
       "tsconfig": "./tsconfig.jest.json"

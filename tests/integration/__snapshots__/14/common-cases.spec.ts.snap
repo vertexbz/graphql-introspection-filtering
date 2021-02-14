@@ -1,7 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Common cases Admin 1`] = `
-"directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | SCALAR
+directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | SCALAR
+
+directive @testd on OBJECT
+
+directive @testd2(arg: String) on OBJECT
 
 type Book {
   title: String!
@@ -325,5 +329,5 @@ type User {
   name: String!
   roleProtected: String!
 }
-"
+
 `;

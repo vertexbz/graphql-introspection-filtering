@@ -4,10 +4,14 @@
 import '../../../../src/register';
 import makeFilteredSchema from '../../../../src/tools/makeExecutableSchema';
 import createAuthDirective from '../createAuthDirective';
+import DummyDirective from '../DummyDirective';
 
 // language=GraphQL
 const typeDefs = `
 directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | SCALAR
+directive @testd on OBJECT
+directive @testd2(arg: String) on OBJECT
+
 enum Role @auth(requires: USER) {
     ADMIN
     REVIEWER
@@ -66,7 +70,7 @@ type OEmpty implements IEmpty {
 type PublicType {
     value: String!
 }
-type User {
+type User @testd @testd2 {
     name: String!
     roleProtected: String! @auth(requires: USER)
     roleForAdmin: String! @auth(requires: ADMIN)
@@ -171,6 +175,8 @@ export default (me: any, mutate: any, subscribe: any[], roles: string[]) =>  mak
         }
     },
     schemaDirectives: {
-        auth: createAuthDirective(roles)
+        auth: createAuthDirective(roles),
+        testd: DummyDirective,
+        testd2: DummyDirective
     }
 });

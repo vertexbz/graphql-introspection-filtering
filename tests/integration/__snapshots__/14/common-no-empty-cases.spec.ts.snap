@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Common (no empty) cases Admin 1`] = `
-"directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | SCALAR
+directive @auth(requires: Role = ADMIN) on OBJECT | FIELD_DEFINITION | ENUM | ENUM_VALUE | INTERFACE | UNION | INPUT_OBJECT | INPUT_FIELD_DEFINITION | ARGUMENT_DEFINITION | SCALAR
 
 type Book {
   title: String!
@@ -117,7 +117,7 @@ type User {
   roleProtected: String!
   roleForAdmin: String!
 }
-"
+
 `;
 
 exports[`Common (no empty) cases Guest 1`] = `
@@ -177,7 +177,7 @@ scalar Text
 type User {
   name: String!
 }
-"
+
 `;
 
 exports[`Common (no empty) cases User 1`] = `
@@ -253,5 +253,5 @@ type User {
   name: String!
   roleProtected: String!
 }
-"
+
 `;
