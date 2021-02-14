@@ -10,7 +10,7 @@ cache:
 
 "ESlint":
   stage: lint
-  image: node:14.11.0
+  image: node:15.8.0
   before_script:
     - yarn config set "strict-ssl" false -g
   script:
@@ -21,7 +21,7 @@ cache:
 
 "Jest":
   stage: test
-  image: node:14.11.0
+  image: node:15.8.0
   before_script:
     - yarn config set "strict-ssl" false -g
   script:
