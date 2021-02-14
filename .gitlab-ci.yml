@@ -12,7 +12,7 @@ cache:
   stage: lint
   image: node:15.8.0
   before_script:
-    - yarn config set "strict-ssl" false -g
+    - sed -i.bak '/"prepare":/d' ./package.json
   script:
     - yarn install
     - yarn lint
@@ -23,7 +23,7 @@ cache:
   stage: test
   image: node:15.8.0
   before_script:
-    - yarn config set "strict-ssl" false -g
+    - sed -i.bak '/"prepare":/d' ./package.json
   script:
     - yarn install
     - yarn test:coverage
