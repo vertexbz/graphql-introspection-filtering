@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-unassigned-import
 import '../toHaveInSchema';
 import { graphql } from 'graphql';
-import createSchema from './_mocks_/schemas/filtered-roots';
 import { introspectionQuery } from '../helper';
+import createSchema from './_mocks_/schemas/filtered-roots';
 
 describe('Filtered roots',  () => {
     test('Guest', async () => {

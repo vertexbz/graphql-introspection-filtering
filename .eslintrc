@@ -1,142 +1,122 @@
-{
-  "root": true,
-  "parser": "@typescript-eslint/parser",
-  "extends": [
-    "eslint:recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:import/typescript",
-    "plugin:jest/recommended"
-  ],
-  "rules": {
-    "no-unused-vars": 0,
-    "@typescript-eslint/no-unused-vars": ["error", { "argsIgnorePattern": "_+", "vars": "all", "ignoreRestSiblings": true }],
-
-    "quotes": [
-      "warn",
-      "single"
-    ],
-    "linebreak-style": [
-      "error",
-      "unix"
-    ],
-    "semi": [
-      "warn",
-      "always"
-    ],
-    "curly": "off",
-    "no-use-before-define": [
-      "error",
-      "nofunc"
-    ],
-    "keyword-spacing": "warn",
-    "space-before-blocks": [
-      "warn",
-      "always"
-    ],
-    "eol-last": [
-      "warn",
-      "always"
-    ],
-    "semi-spacing": [
-      "warn",
-      {
-        "before": false,
-        "after": true
-      }
-    ],
-    "no-var": "error",
-    "object-shorthand": [
-      "error",
-      "always"
-    ],
-    "prefer-const": "error",
-    "max-depth": [
-      "error",
-      5
-    ],
-    "max-len": [
-      "warn",
-      145,
-      2
-    ],
-    "max-statements": [
-      "error",
-      20
-    ],
-    "complexity": [
-      "warn",
-      8
-    ],
-    "object-curly-spacing": [
-      "warn",
-      "always"
-    ],
-    "no-process-exit": "error",
-    "no-console": "warn",
-    "rest-spread-spacing": [
-      "warn",
-      "never"
-    ],
-    "indent": [
-      "warn",
-      4,
-      {
-        "SwitchCase": 1
-      }
-    ],
-    "comma-dangle": [
-      "warn",
-      "never"
-    ],
-    "no-underscore-dangle": 0,
-
-    "space-infix-ops": ["warn", {"int32Hint": false}],
-    "no-only-tests/no-only-tests" : "warn",
-
-    "import/no-cycle": "error",
-    "import/no-unassigned-import": "error",
-
-    "@typescript-eslint/explicit-module-boundary-types": 0,
-    "@typescript-eslint/ban-ts-comment": 0,
-    "@typescript-eslint/no-explicit-any": 0,
-    "@typescript-eslint/no-non-null-assertion": 0,
-    "@typescript-eslint/consistent-type-imports": "error"
-  },
-  "env": {
-    "browser": false,
-    "es6": true,
-    "node": true,
-    "mocha": true,
-    "jest/globals": true
-  },
-  "plugins": [
-    "no-only-tests",
-    "import",
-    "@typescript-eslint",
-    "jest"
-  ],
-  "parserOptions": {
-    "project": "./tsconfig.all.json",
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": false,
-      "modules": true,
-      "experimentalObjectRestSpread": true
-    },
-    "module": "es2015"
-  },
-  "settings": {
-    "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
-    },
-    "import/resolver": {
-      "typescript": {
-        "project": "./tsconfig.all.json"
-      }
-    }
-  }
-}
+root: true
+parser: "@typescript-eslint/parser"
+extends:
+  - eslint:recommended
+  - plugin:@typescript-eslint/recommended
+  - plugin:import/typescript
+  - plugin:jest/recommended
+env:
+  browser: false
+  es6: true
+  node: true
+  jest/globals: true
+plugins:
+  - "@typescript-eslint"
+  - "@avaly/eslint-plugin-import-order"
+  - no-only-tests
+  - import
+  - jest
+parserOptions:
+  project: "./tsconfig.all.json"
+  ecmaVersion: 2020
+  sourceType: module
+  ecmaFeatures:
+    jsx: false
+    modules: true
+  module: es2020
+settings:
+  import/parsers:
+    "@typescript-eslint/parser": [".ts"]
+  import/resolver:
+    typescript:
+      project: "./tsconfig.all.json"
+rules:
+  "@avaly/import-order/order":
+    - error
+    - groups:
+        - [ "builtin", "external" ]
+        - "internal"
+        - "parent"
+        - [ "sibling", "index" ]
+        - "flow"
+  "@typescript-eslint/no-unused-vars":
+    - error
+    - argsIgnorePattern: _+
+      vars: all
+      ignoreRestSiblings: true
+  "@typescript-eslint/no-this-alias":
+    - warn
+    - allowDestructuring: true
+      allowedNames:
+        - self
+        - that
+  "@typescript-eslint/consistent-type-imports": error
+  "@typescript-eslint/no-non-null-assertion": 0
+  quotes:
+    - warn
+    - single
+  linebreak-style:
+    - error
+    - unix
+  semi:
+    - warn
+    - always
+  curly: 'off'
+  no-use-before-define:
+    - error
+    - nofunc
+  keyword-spacing: warn
+  space-before-blocks:
+    - warn
+    - always
+  eol-last:
+    - warn
+    - always
+  semi-spacing:
+    - warn
+    - before: false
+      after: true
+  no-var: error
+  object-shorthand:
+    - error
+    - always
+  prefer-const: error
+  max-depth:
+    - error
+    - 5
+  max-len:
+    - warn
+    - 145
+    - 2
+  max-statements:
+    - error
+    - 20
+  complexity:
+    - warn
+    - 8
+  object-curly-spacing:
+    - warn
+    - always
+  no-process-exit: error
+  no-console: warn
+  rest-spread-spacing:
+    - warn
+    - never
+  indent:
+    - warn
+    - 4
+    - SwitchCase: 1
+  comma-dangle:
+    - warn
+    - never
+  no-underscore-dangle: 0
+  space-infix-ops:
+    - warn
+    - int32Hint: false
+  no-only-tests/no-only-tests: warn
+  import/no-cycle: error
+  import/no-unassigned-import: error
+  no-unused-vars: 0
+  "@typescript-eslint/explicit-module-boundary-types": 0
+  "@typescript-eslint/ban-ts-comment": 0
+  "@typescript-eslint/no-explicit-any": 0

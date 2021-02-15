@@ -1,7 +1,7 @@
 import { graphql } from 'graphql';
+import { introspectionQuery } from '../helper';
 import createSchema from './_mocks_/schemas/visitors';
 import createAuthDirective from './_mocks_/createAuthDirective';
-import { introspectionQuery } from '../helper';
 
 const check = (required: string, context: any): boolean => {
     return context.includes(required);

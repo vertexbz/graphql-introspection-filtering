@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-unassigned-import
 import '../toHaveInSchema';
 import { graphql } from 'graphql';
-import createSchema from './_mocks_/schemas/skip-hooks-for-query';
 import { introspectionQuery } from '../helper';
+import createSchema from './_mocks_/schemas/skip-hooks-for-query';
 
 describe('Skip hooks for query',  () => {
     test('empty (default)', async () => {

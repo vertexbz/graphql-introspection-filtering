@@ -1,8 +1,8 @@
 // eslint-disable-next-line import/no-unassigned-import
 import '../toHaveInSchema';
 import { graphql, parse, subscribe } from 'graphql';
-import createSchema from './_mocks_/schemas/common-cases';
 import { introspectionQuery } from '../helper';
+import createSchema from './_mocks_/schemas/common-cases';
 import type { ExecutionResult } from 'graphql';
 
 describe('Common cases',  () => {

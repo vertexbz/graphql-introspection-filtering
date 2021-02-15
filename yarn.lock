@@ -28,6 +28,14 @@
   dependencies:
     tslib "~2.0.1"
 
+"@avaly/eslint-plugin-import-order@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@avaly/eslint-plugin-import-order/-/eslint-plugin-import-order-2.0.0.tgz#7ead3ad7341331f0d86f08a1b2988d7ad318182d"
+  integrity sha512-ToObJsGFdXTT7rZtq1/rup2nz30tlJhEGdbcd8ge8ywa40qyWHk5eCEoO0LuotNf9M+KPvVq6YmTwQVw4O9K4g==
+  dependencies:
+    eslint-module-utils "2.5.0"
+    resolve "1.14.1"
+
 "@babel/code-frame@^7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/code-frame/-/code-frame-7.0.0.tgz#06e2ab19bdb535385559aabb5ba59729482800f8"
@@ -2297,6 +2305,14 @@ eslint-import-resolver-typescript@^2.3.0:
     is-glob "^4.0.1"
     resolve "^1.17.0"
     tsconfig-paths "^3.9.0"
+
+eslint-module-utils@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-module-utils/-/eslint-module-utils-2.5.0.tgz#cdf0b40d623032274ccd2abd7e64c4e524d6e19c"
+  integrity sha512-kCo8pZaNz2dsAW7nCUjuVoI11EBXXpIzfNxmaoLhXoRDOnqXLC4iSGVRdZPhOitfbdEfMEfKOiENaK6wDPZEGw==
+  dependencies:
+    debug "^2.6.9"
+    pkg-dir "^2.0.0"
 
 eslint-module-utils@^2.6.0:
   version "2.6.0"
@@ -4594,6 +4610,13 @@ resolve-from@5.0.0, resolve-from@^5.0.0:
 resolve-from@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/resolve-from/-/resolve-from-4.0.0.tgz#4abcd852ad32dd7baabfe9b40e00a36db5f392e6"
+
+resolve@1.14.1:
+  version "1.14.1"
+  resolved "https://registry.yarnpkg.com/resolve/-/resolve-1.14.1.tgz#9e018c540fcf0c427d678b9931cbf45e984bcaff"
+  integrity sha512-fn5Wobh4cxbLzuHaE+nphztHy43/b++4M6SsGFC2gB8uYwf0C8LcarfCz1un7UTW8OFQg9iNjZ4xpcFVGebDPg==
+  dependencies:
+    path-parse "^1.0.6"
 
 resolve@^1.13.1, resolve@^1.17.0, resolve@^1.18.1:
   version "1.19.0"
